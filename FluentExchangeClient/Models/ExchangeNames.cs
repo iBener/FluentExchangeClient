@@ -15,5 +15,14 @@ namespace FluentExchangeClient.Models
         public const string Cobinhood = "Cobinhood";
 
         public const string Poloniex = "Poloniex";
+
+        public static IEnumerable<string> List => new List<string>
+        { 
+            Binance,
+            Bitfinex,
+            Bittrex,
+            Cobinhood,
+            Poloniex
+        };
     }
 }

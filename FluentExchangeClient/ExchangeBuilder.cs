@@ -1,48 +1,55 @@
-﻿using FluentExchangeClient.Models;
+﻿using FluentExchangeClient.Exchange;
+using FluentExchangeClient.Exchange.Binance;
+using FluentExchangeClient.Models;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 
 namespace FluentExchangeClient
 {
     public class ExchangeBuilder
     {
-        ExchangeBuilderWithOptions builder;
-        ExchangeBuilderWithOptions Builder => builder??new ExchangeBuilderWithOptions();
+        readonly ExchangeBuilderWithOptions builder;
+
+        public ExchangeBuilder()
+        {
+            builder = new ExchangeBuilderWithOptions();
+        }
 
         public ExchangeBuilderWithOptions UseBinance()
         {
-            return Builder.UseExchange(ExchangeNames.Binance);
+            return builder.UseExchange(ExchangeNames.Binance);
         }
 
         public ExchangeBuilderWithOptions UseBitfinex()
         {
-            return Builder.UseExchange(ExchangeNames.Bitfinex);
+            return builder.UseExchange(ExchangeNames.Bitfinex);
         }
 
         public ExchangeBuilderWithOptions UseBittrex()
         {
-            return Builder.UseExchange(ExchangeNames.Bittrex);
+            return builder.UseExchange(ExchangeNames.Bittrex);
         }
 
         public ExchangeBuilderWithOptions UsePoloniex()
         {
-            return Builder.UseExchange(ExchangeNames.Poloniex);
+            return builder.UseExchange(ExchangeNames.Poloniex);
         }
 
         public ExchangeBuilderWithOptions UseCobinhood()
         {
-            return Builder.UseExchange(ExchangeNames.Cobinhood);
+            return builder.UseExchange(ExchangeNames.Cobinhood);
         }
 
         public ExchangeBuilderWithOptions UseExchange(string exchange)
         {
-            return Builder.UseExchange(exchange);
+            return builder.UseExchange(exchange);
         }
     }
 
     public class ExchangeBuilderWithOptions
     {
-        ExchangeOptions options;
+        readonly ExchangeOptions options;
 
         internal ExchangeBuilderWithOptions()
         {
@@ -51,7 +58,19 @@ namespace FluentExchangeClient
 
         internal ExchangeBuilderWithOptions UseExchange(string exchange)
         {
-            options.Exchange = exchange;
+            switch (exchange)
+            {
+                case ExchangeNames.Binance:
+                    options.Exchange = exchange;
+                    break;
+                case ExchangeNames.Bitfinex:
+                case ExchangeNames.Bittrex:
+                case ExchangeNames.Cobinhood:
+                case ExchangeNames.Poloniex:
+                    break;
+                default:
+                    throw new ExchangeClientException($"\"{exchange}\" is not supported. Supported exchanges:\n{ String.Join(", \n", ExchangeNames.List) }");
+            }
             return this;
         }
 
@@ -70,9 +89,22 @@ namespace FluentExchangeClient
 
         public IExchange Build()
         {
-            throw new NotImplementedException();
-        }
+            IExchange exchange;
+            switch (options.Exchange)
+            {
+                case ExchangeNames.Binance:
+                    exchange = new BinanceExchange(options);
+                    break;
+                case ExchangeNames.Bitfinex:
+                case ExchangeNames.Bittrex:
+                case ExchangeNames.Cobinhood:
+                case ExchangeNames.Poloniex:
+                default:
+                    throw new NotImplementedException();
+            }
 
+            return exchange;
+        }
     }
 
     public class ExchangeOptions

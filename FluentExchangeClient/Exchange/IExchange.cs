@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FluentExchangeClient
+namespace FluentExchangeClient.Exchange
 {
     public interface IExchange
     {
