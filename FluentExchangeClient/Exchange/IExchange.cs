@@ -8,7 +8,7 @@ namespace FluentExchangeClient.Internal
 {
     public interface IExchange
     {
-        //string Name { get; set; }
+        string Name { get; }
 
         Task<Market> GetMarketAsync(string symbol, string quoteSymbol);
         Task<string> GetRawMarketAsync(string symbol, string quoteSymbol);

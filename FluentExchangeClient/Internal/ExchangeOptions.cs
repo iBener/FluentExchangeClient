@@ -7,6 +7,8 @@ namespace FluentExchangeClient.Internal
 {
     class ExchangeOptions
     {
+        public string ExchangeName { get; set; }
+
         public ApiCredentials Credentials { get; internal set; }
 
         public HttpClient Http { get; internal set; }

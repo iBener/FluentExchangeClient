@@ -13,7 +13,10 @@ namespace FluentExchangeClient.Internal.Binance
 
         public BinanceExchangeBuilder()
         {
-            Options = new ExchangeOptions();
+            Options = new ExchangeOptions
+            {
+                ExchangeName = ExchangeNames.Binance
+            };
         }
 
         public void SetCredentials(string apiKey, string apiSecret)

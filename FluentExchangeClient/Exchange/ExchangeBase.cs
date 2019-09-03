@@ -22,6 +22,8 @@ namespace FluentExchangeClient.Internal
 
         public ExchangeOptions Options { get; }
 
+        public string Name => Options?.ExchangeName;
+
         protected async Task<T> SendAsync<T>(HttpRequestMessage request)
         {
             string json = await SendAsync(request);
