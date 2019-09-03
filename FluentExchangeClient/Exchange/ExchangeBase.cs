@@ -1,4 +1,5 @@
-﻿using FluentExchangeClient.Internal;
+﻿using AutoMapper;
+using FluentExchangeClient.Internal;
 using FluentExchangeClient.Models;
 using Newtonsoft.Json;
 using System;
@@ -13,11 +14,13 @@ namespace FluentExchangeClient.Internal
     abstract class ExchangeBase : IDisposable
     {
         private readonly HttpClient http;
+        private readonly IMapper mapper;
 
         internal ExchangeBase(ExchangeOptions options)
         {
             Options = options;
-            http = Options.Http??new HttpClient();
+            http = Options.Http ?? new HttpClient();
+            mapper = Options.Mapper ?? throw new ArgumentNullException(nameof(Options.Mapper));
         }
 
         public ExchangeOptions Options { get; }
@@ -46,9 +49,14 @@ namespace FluentExchangeClient.Internal
             }
         }
 
+        protected T Map<T>(object source)
+        {
+            return mapper.Map<T>(source);
+        }
+
         public void Dispose()
         {
-            Debug.WriteLine("Exchange is disposing.");
+            Debug.WriteLine($"'{Name}' exchange is disposing.");
             if (Options.Http == null)
             {
                 http.Dispose();

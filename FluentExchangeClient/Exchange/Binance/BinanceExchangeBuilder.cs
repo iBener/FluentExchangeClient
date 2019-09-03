@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
+using AutoMapper;
+using FluentExchangeClient.Mapper;
 using FluentExchangeClient.Models;
 
 namespace FluentExchangeClient.Internal.Binance
@@ -15,7 +17,8 @@ namespace FluentExchangeClient.Internal.Binance
         {
             Options = new ExchangeOptions
             {
-                ExchangeName = ExchangeNames.Binance
+                ExchangeName = ExchangeNames.Binance,
+                Mapper = MappingConfigurations.Binance.CreateMapper(),
             };
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -12,5 +13,7 @@ namespace FluentExchangeClient.Internal
         public ApiCredentials Credentials { get; internal set; }
 
         public HttpClient Http { get; internal set; }
+
+        public IMapper Mapper { get; internal set; }
     }
 }

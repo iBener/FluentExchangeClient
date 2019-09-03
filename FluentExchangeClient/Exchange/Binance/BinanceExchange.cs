@@ -55,9 +55,7 @@ namespace FluentExchangeClient.Internal.Binance
         {
             var response = await GetRawBalancesAsync();
             var account = JsonConvert.DeserializeObject<BinanceAccountResponse>(response);
-            var balances = account.balances;
-
-            throw new NotImplementedException();
+            return Map<IEnumerable<Balance>>(account.balances.Where(x => x.free + x.locked > 0));
         }
 
         public async Task<string> GetRawBalancesAsync()
@@ -84,8 +82,7 @@ namespace FluentExchangeClient.Internal.Binance
         {
             var response = await GetRawMarketsAsync();
             var markets = JsonConvert.DeserializeObject<BinanceExchangeInfoResponse>(response);
-
-            throw new NotImplementedException();
+            return Map<IEnumerable<Market>>(markets.symbols);
         }
 
         public async Task<string> GetRawMarketsAsync()
@@ -111,8 +108,7 @@ namespace FluentExchangeClient.Internal.Binance
         {
             var request = new BinanceRequestTicker(symbol, quoteSymbol);
             var response = await SendAsync<BinanceTickerResponse>(request);
-
-            throw new NotImplementedException();
+            return Map<Ticker>(response);
         }
 
         public async Task<string> GetRawTickerAsync(string symbol, string quoteSymbol)
@@ -125,8 +121,7 @@ namespace FluentExchangeClient.Internal.Binance
         {
             var request = new BinanceRequestTicker();
             var tickers = await SendAsync<List<BinanceTickerResponse>>(request);
-
-            throw new NotImplementedException();
+            return Map<IEnumerable<Ticker>>(tickers);
         }
 
         public async Task<string> GetRawTickersAsync()
@@ -139,8 +134,7 @@ namespace FluentExchangeClient.Internal.Binance
         {
             var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
             var candles = await SendAsync<IEnumerable<BinanceCandleResponse>>(request);
-
-            throw new NotImplementedException();
+            return Map<IEnumerable<Candle>>(candles);
         }
 
         public async Task<string> GetRawCandleAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
