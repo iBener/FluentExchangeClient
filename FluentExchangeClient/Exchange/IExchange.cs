@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentExchangeClient.Models;
 
-namespace FluentExchangeClient.Internal
+namespace FluentExchangeClient.Exchange
 {
     public interface IExchange
     {
