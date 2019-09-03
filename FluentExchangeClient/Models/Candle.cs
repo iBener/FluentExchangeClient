@@ -12,6 +12,6 @@ namespace FluentExchangeClient.Models
         public decimal Low { get; set; }
         public decimal Close { get; set; }
         public decimal Volume { get; set; }
-        public decimal BaseVolume { get; set; }
+        public decimal QuoteVolume { get; set; }
     }
 }

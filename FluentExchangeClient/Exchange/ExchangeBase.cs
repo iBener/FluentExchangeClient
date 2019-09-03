@@ -3,6 +3,7 @@ using FluentExchangeClient.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,29 +30,23 @@ namespace FluentExchangeClient.Internal
 
         protected async Task<string> SendAsync(HttpRequestMessage request)
         {
-            try
+            using (request)
             {
-                using (request)
+                using (var response = await http.SendAsync(request))
                 {
-                    using (var response = await http.SendAsync(request))
+                    string json = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
                     {
-                        string json = await response.Content.ReadAsStringAsync();
-                        if (response.IsSuccessStatusCode)
-                        {
-                            return json;
-                        }
-                        throw new ExchangeClientException(json);
+                        return json;
                     }
+                    throw new ExchangeClientException(json);
                 }
-            }
-            catch (Exception ex)
-            {
-                throw;
             }
         }
 
         public void Dispose()
         {
+            Debug.WriteLine("Exchange is disposing.");
             if (Options.Http == null)
             {
                 http.Dispose();

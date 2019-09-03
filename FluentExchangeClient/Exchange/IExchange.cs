@@ -8,14 +8,16 @@ namespace FluentExchangeClient.Internal
 {
     public interface IExchange
     {
-        Task<Market> GetMarketAsync(string symbol, string baseSymbol);
-        Task<string> GetRawMarketAsync(string symbol, string baseSymbol);
+        //string Name { get; set; }
+
+        Task<Market> GetMarketAsync(string symbol, string quoteSymbol);
+        Task<string> GetRawMarketAsync(string symbol, string quoteSymbol);
 
         Task<IEnumerable<Market>> GetMarketsAsync();
         Task<string> GetRawMarketsAsync();
 
-        Task<Ticker> GetTickerAsync(string pair);
-        Task<string> GetRawTickerAsync(string pair);
+        Task<Ticker> GetTickerAsync(string symbol, string quoteSymbol);
+        Task<string> GetRawTickerAsync(string symbol, string quoteSymbol);
 
         Task<IEnumerable<Ticker>> GetTickersAsync();
         Task<string> GetRawTickersAsync();
@@ -29,10 +31,10 @@ namespace FluentExchangeClient.Internal
         Task<DateTimeOffset> GetServerTime();
         Task<string> GetRawServerTime();
 
-        Task<Candle> GetCandleAsync(string pair);
-        Task<string> GetRawCandleAsync(string pair);
+        Task<IEnumerable<Candle>> GetCandleAsync(string symbol, string quoteSymbol, string interval, int limit = 0);
+        Task<string> GetRawCandleAsync(string symbol, string quoteSymbol, string interval, int limit = 0);
 
-        Task<IEnumerable<Candle>> GetCandlesAsync();
-        Task<string> GetRawCandlesAsync();
+        Task<IDictionary<string, IEnumerable<Candle>>> GetCandlesAsync(string quoteSymbol, string interval, int limit = 0);
+        Task<IDictionary<string, string>> GetRawCandlesAsync(string quoteSymbol, string interval, int limit = 0);
     }
 }

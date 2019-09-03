@@ -67,14 +67,17 @@ namespace FluentExchangeClient.Internal.Binance
             return await SendAsync(request);
         }
 
-        public async Task<Market> GetMarketAsync(string symbol, string baseSymbol)
+        public async Task<Market> GetMarketAsync(string symbol, string quoteSymbol)
         {
-            throw new NotImplementedException();
+            var markets = await GetMarketsAsync();
+            return markets.FirstOrDefault(x => x.Base == symbol && x.Quote == quoteSymbol);
         }
 
-        public async Task<string> GetRawMarketAsync(string symbol, string baseSymbol)
+        public async Task<string> GetRawMarketAsync(string symbol, string quoteSymbol)
         {
-            throw new NotImplementedException();
+            var response = await GetRawMarketsAsync();
+            var market = JObject.Parse(response).SelectToken($"$.symbols[?(@.symbol == '{symbol + quoteSymbol}')]");
+            return JsonConvert.SerializeObject(market);
         }
 
         public async Task<IEnumerable<Market>> GetMarketsAsync()
@@ -104,14 +107,18 @@ namespace FluentExchangeClient.Internal.Binance
             return await SendAsync(request);
         }
 
-        public async Task<Ticker> GetTickerAsync(string pair)
+        public async Task<Ticker> GetTickerAsync(string symbol, string quoteSymbol)
         {
+            var request = new BinanceRequestTicker(symbol, quoteSymbol);
+            var response = await SendAsync<BinanceTickerResponse>(request);
+
             throw new NotImplementedException();
         }
 
-        public async Task<string> GetRawTickerAsync(string pair)
+        public async Task<string> GetRawTickerAsync(string symbol, string quoteSymbol)
         {
-            throw new NotImplementedException();
+            var request = new BinanceRequestTicker(symbol, quoteSymbol);
+            return await SendAsync(request);
         }
 
         public async Task<IEnumerable<Ticker>> GetTickersAsync()
@@ -128,24 +135,47 @@ namespace FluentExchangeClient.Internal.Binance
             return await SendAsync(request);
         }
 
-        public async Task<Candle> GetCandleAsync(string pair)
+        public async Task<IEnumerable<Candle>> GetCandleAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
         {
+            var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
+            var candles = await SendAsync<IEnumerable<BinanceCandleResponse>>(request);
+
             throw new NotImplementedException();
         }
 
-        public async Task<string> GetRawCandleAsync(string pair)
+        public async Task<string> GetRawCandleAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
         {
-            throw new NotImplementedException();
+            var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
+            return await SendAsync(request);
         }
 
-        public async Task<IEnumerable<Candle>> GetCandlesAsync()
+        public async Task<IDictionary<string, IEnumerable<Candle>>> GetCandlesAsync(string quoteSymbol, string interval, int limit = 500)
         {
-            throw new NotImplementedException();
+            var marketsJson = await GetRawMarketsAsync();
+            var markets = JObject.Parse(marketsJson).SelectTokens($"$.symbols[?(@.quoteAsset == '{quoteSymbol}')]");
+            var result = new Dictionary<string, IEnumerable<Candle>>();
+            foreach (var market in markets)
+            {
+                var symbol = market["baseAsset"].Value<string>();
+                var candles = await GetCandleAsync(symbol, quoteSymbol, interval, limit);
+                result[symbol + quoteSymbol] = candles;
+            }
+            return result;
         }
 
-        public async Task<string> GetRawCandlesAsync()
+        public async Task<IDictionary<string, string>> GetRawCandlesAsync(string quoteSymbol, string interval, int limit = 500)
         {
-            throw new NotImplementedException();
+            var marketsJson = await GetRawMarketsAsync();
+            var markets = JObject.Parse(marketsJson).SelectTokens($"$.symbols[?(@.quoteAsset == '{quoteSymbol}')]");
+            var result = new Dictionary<string, string>();
+            foreach (var market in markets)
+            {
+                var symbol = market["baseAsset"].Value<string>();
+                var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
+                var candles = await SendAsync(request);
+                result[symbol + quoteSymbol] = candles;
+            }
+            return result;
         }
 
         #endregion
