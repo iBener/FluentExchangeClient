@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FluentExchangeClient.Models
+namespace FluentExchangeClient.Internal
 {
     public static class ExchangeNames
     {

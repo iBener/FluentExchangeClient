@@ -1,5 +1,5 @@
-﻿using FluentExchangeClient.Exchange;
-using FluentExchangeClient.Exchange.Binance;
+﻿using FluentExchangeClient.Internal;
+using FluentExchangeClient.Internal.Binance;
 using FluentExchangeClient.Models;
 using System;
 using System.Collections.Generic;
@@ -9,59 +9,58 @@ namespace FluentExchangeClient
 {
     public class ExchangeBuilder
     {
-        readonly ExchangeBuilderWithOptions builder;
+        readonly ExchangeBuilderWithName builder;
 
         public ExchangeBuilder()
         {
-            builder = new ExchangeBuilderWithOptions();
+            builder = new ExchangeBuilderWithName();
         }
 
-        public ExchangeBuilderWithOptions UseBinance()
+        public ExchangeBuilderWithName UseBinance()
         {
             return builder.UseExchange(ExchangeNames.Binance);
         }
 
-        public ExchangeBuilderWithOptions UseBitfinex()
+        public ExchangeBuilderWithName UseBitfinex()
         {
             return builder.UseExchange(ExchangeNames.Bitfinex);
         }
 
-        public ExchangeBuilderWithOptions UseBittrex()
+        public ExchangeBuilderWithName UseBittrex()
         {
             return builder.UseExchange(ExchangeNames.Bittrex);
         }
 
-        public ExchangeBuilderWithOptions UsePoloniex()
+        public ExchangeBuilderWithName UsePoloniex()
         {
             return builder.UseExchange(ExchangeNames.Poloniex);
         }
 
-        public ExchangeBuilderWithOptions UseCobinhood()
+        public ExchangeBuilderWithName UseCobinhood()
         {
             return builder.UseExchange(ExchangeNames.Cobinhood);
         }
 
-        public ExchangeBuilderWithOptions UseExchange(string exchange)
+        public ExchangeBuilderWithName UseExchange(string exchange)
         {
             return builder.UseExchange(exchange);
         }
     }
 
-    public class ExchangeBuilderWithOptions
+    public class ExchangeBuilderWithName
     {
-        readonly ExchangeOptions options;
+        IExchangeBuilder builder;
 
-        internal ExchangeBuilderWithOptions()
+        internal ExchangeBuilderWithName()
         {
-            options = new ExchangeOptions();
         }
 
-        internal ExchangeBuilderWithOptions UseExchange(string exchange)
+        internal ExchangeBuilderWithName UseExchange(string exchange)
         {
             switch (exchange)
             {
                 case ExchangeNames.Binance:
-                    options.Exchange = exchange;
+                    builder = new BinanceExchangeBuilder();
                     break;
                 case ExchangeNames.Bitfinex:
                 case ExchangeNames.Bittrex:
@@ -74,44 +73,21 @@ namespace FluentExchangeClient
             return this;
         }
 
-        public ExchangeBuilderWithOptions UseHttp(HttpClient httpClient)
+        public ExchangeBuilderWithName UseHttp(HttpClient httpClient)
         {
-            options.Http = httpClient;
+            builder.Options.Http = httpClient;
             return this;
         }
 
-        public ExchangeBuilderWithOptions SetCredentials(string apiKey, string apiSecret)
+        public ExchangeBuilderWithName SetCredentials(string apiKey, string apiSecret)
         {
-            options.ApiKey = apiKey;
-            options.ApiSecret = apiSecret;
+            builder.SetCredentials(apiKey, apiSecret);
             return this;
         }
 
         public IExchange Build()
         {
-            IExchange exchange;
-            switch (options.Exchange)
-            {
-                case ExchangeNames.Binance:
-                    exchange = new BinanceExchange(options);
-                    break;
-                case ExchangeNames.Bitfinex:
-                case ExchangeNames.Bittrex:
-                case ExchangeNames.Cobinhood:
-                case ExchangeNames.Poloniex:
-                default:
-                    throw new NotImplementedException();
-            }
-
-            return exchange;
+            return builder.Build();
         }
-    }
-
-    public class ExchangeOptions
-    {
-        public string Exchange { get; set; }
-        public string ApiKey { get; set; }
-        public string ApiSecret { get; set; }
-        public HttpClient Http { get; set; }
     }
 }
