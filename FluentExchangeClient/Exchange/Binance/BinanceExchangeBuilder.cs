@@ -4,10 +4,11 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
+using FluentExchangeClient.Internal;
 using FluentExchangeClient.Mapper;
 using FluentExchangeClient.Models;
 
-namespace FluentExchangeClient.Internal.Binance
+namespace FluentExchangeClient.Exchange.Binance
 {
     class BinanceExchangeBuilder : IExchangeBuilder
     {

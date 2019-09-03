@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FluentExchangeClient.Internal
+namespace FluentExchangeClient.Exchange
 {
     public class ExchangeClientException : Exception
     {

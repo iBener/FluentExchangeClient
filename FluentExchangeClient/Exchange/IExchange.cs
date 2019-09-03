@@ -31,10 +31,10 @@ namespace FluentExchangeClient.Internal
         Task<DateTimeOffset> GetServerTime();
         Task<string> GetRawServerTime();
 
-        Task<IEnumerable<Candle>> GetCandleAsync(string symbol, string quoteSymbol, string interval, int limit = 0);
-        Task<string> GetRawCandleAsync(string symbol, string quoteSymbol, string interval, int limit = 0);
+        Task<IEnumerable<Candle>> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0);
+        Task<string> GetRawCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0);
 
-        Task<IDictionary<string, IEnumerable<Candle>>> GetCandlesAsync(string quoteSymbol, string interval, int limit = 0);
-        Task<IDictionary<string, string>> GetRawCandlesAsync(string quoteSymbol, string interval, int limit = 0);
+        Task<IDictionary<string, IEnumerable<Candle>>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0);
+        Task<IDictionary<string, string>> GetRawAllCandlesAsync(string quoteSymbol, string interval, int limit = 0);
     }
 }

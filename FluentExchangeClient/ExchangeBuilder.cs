@@ -1,9 +1,10 @@
 ﻿using FluentExchangeClient.Internal;
-using FluentExchangeClient.Internal.Binance;
+using FluentExchangeClient.Exchange;
 using FluentExchangeClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using FluentExchangeClient.Exchange.Binance;
 
 namespace FluentExchangeClient
 {

@@ -1,4 +1,5 @@
-﻿using FluentExchangeClient.Internal;
+﻿using FluentExchangeClient.Exchange;
+using FluentExchangeClient.Internal;
 
 namespace FluentExchangeClient
 {

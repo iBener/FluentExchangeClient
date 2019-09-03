@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluentExchangeClient.Internal
+namespace FluentExchangeClient.Exchange
 {
     abstract class ExchangeBase : IDisposable
     {

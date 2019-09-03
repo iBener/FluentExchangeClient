@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using FluentExchangeClient.Exchange.Binance.Requests;
+﻿using FluentExchangeClient.Exchange.Binance.Requests;
 using FluentExchangeClient.Exchange.Binance.Responses;
+using FluentExchangeClient.Internal;
 using FluentExchangeClient.Models;
-using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace FluentExchangeClient.Internal.Binance
+namespace FluentExchangeClient.Exchange.Binance
 {
     class BinanceExchange : ExchangeBase, IExchange
     {
@@ -130,20 +130,20 @@ namespace FluentExchangeClient.Internal.Binance
             return await SendAsync(request);
         }
 
-        public async Task<IEnumerable<Candle>> GetCandleAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
+        public async Task<IEnumerable<Candle>> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
         {
             var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
             var candles = await SendAsync<IEnumerable<BinanceCandleResponse>>(request);
             return Map<IEnumerable<Candle>>(candles);
         }
 
-        public async Task<string> GetRawCandleAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
+        public async Task<string> GetRawCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
         {
             var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
             return await SendAsync(request);
         }
 
-        public async Task<IDictionary<string, IEnumerable<Candle>>> GetCandlesAsync(string quoteSymbol, string interval, int limit = 500)
+        public async Task<IDictionary<string, IEnumerable<Candle>>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 500)
         {
             var marketsJson = await GetRawMarketsAsync();
             var markets = JObject.Parse(marketsJson).SelectTokens($"$.symbols[?(@.quoteAsset == '{quoteSymbol}')]");
@@ -151,13 +151,13 @@ namespace FluentExchangeClient.Internal.Binance
             foreach (var market in markets)
             {
                 var symbol = market["baseAsset"].Value<string>();
-                var candles = await GetCandleAsync(symbol, quoteSymbol, interval, limit);
+                var candles = await GetCandlesAsync(symbol, quoteSymbol, interval, limit);
                 result[symbol + quoteSymbol] = candles;
             }
             return result;
         }
 
-        public async Task<IDictionary<string, string>> GetRawCandlesAsync(string quoteSymbol, string interval, int limit = 500)
+        public async Task<IDictionary<string, string>> GetRawAllCandlesAsync(string quoteSymbol, string interval, int limit = 500)
         {
             var marketsJson = await GetRawMarketsAsync();
             var markets = JObject.Parse(marketsJson).SelectTokens($"$.symbols[?(@.quoteAsset == '{quoteSymbol}')]");
