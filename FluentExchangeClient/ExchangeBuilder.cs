@@ -1,94 +1,44 @@
-﻿using FluentExchangeClient.Internal;
+﻿using FluentExchangeClient.Builder;
 using FluentExchangeClient.Exchange;
 using FluentExchangeClient.Models;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using FluentExchangeClient.Exchange.Binance;
 
 namespace FluentExchangeClient
 {
     public class ExchangeBuilder
     {
-        readonly ExchangeBuilderWithName builder;
-
-        public ExchangeBuilder()
-        {
-            builder = new ExchangeBuilderWithName();
-        }
-
         public ExchangeBuilderWithName UseBinance()
         {
-            return builder.UseExchange(ExchangeNames.Binance);
+            return new ExchangeBuilderWithName(ExchangeNames.Binance);
         }
 
         public ExchangeBuilderWithName UseBitfinex()
         {
-            return builder.UseExchange(ExchangeNames.Bitfinex);
+            return new ExchangeBuilderWithName(ExchangeNames.Bitfinex);
         }
 
         public ExchangeBuilderWithName UseBittrex()
         {
-            return builder.UseExchange(ExchangeNames.Bittrex);
+            return new ExchangeBuilderWithName(ExchangeNames.Bittrex);
         }
 
         public ExchangeBuilderWithName UsePoloniex()
         {
-            return builder.UseExchange(ExchangeNames.Poloniex);
+            return new ExchangeBuilderWithName(ExchangeNames.Poloniex);
         }
 
         public ExchangeBuilderWithName UseCobinhood()
         {
-            return builder.UseExchange(ExchangeNames.Cobinhood);
+            return new ExchangeBuilderWithName(ExchangeNames.Cobinhood);
         }
 
         public ExchangeBuilderWithName UseExchange(string exchange)
         {
-            return builder.UseExchange(exchange);
-        }
-    }
-
-    public class ExchangeBuilderWithName
-    {
-        IExchangeBuilder builder;
-
-        internal ExchangeBuilderWithName()
-        {
+            return new ExchangeBuilderWithName(exchange);
         }
 
-        internal ExchangeBuilderWithName UseExchange(string exchange)
+        public ExchangeBuilderWithName UseAccount(Account account)
         {
-            switch (exchange)
-            {
-                case ExchangeNames.Binance:
-                    builder = new BinanceExchangeBuilder();
-                    break;
-                case ExchangeNames.Bitfinex:
-                case ExchangeNames.Bittrex:
-                case ExchangeNames.Cobinhood:
-                case ExchangeNames.Poloniex:
-                    break;
-                default:
-                    throw new ExchangeClientException($"\"{exchange}\" is not supported. Supported exchanges:\n{ String.Join(", \n", ExchangeNames.List) }");
-            }
-            return this;
-        }
-
-        public ExchangeBuilderWithName UseHttp(HttpClient httpClient)
-        {
-            builder.Options.Http = httpClient;
-            return this;
-        }
-
-        public ExchangeBuilderWithName SetCredentials(string apiKey, string apiSecret)
-        {
-            builder.SetCredentials(apiKey, apiSecret);
-            return this;
-        }
-
-        public IExchange Build()
-        {
-            return builder.Build();
+            return new ExchangeBuilderWithName(account);
         }
     }
 }

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
-using AutoMapper;
+﻿using FluentExchangeClient.Exchange;
+using FluentExchangeClient.Exchange.Binance;
 using FluentExchangeClient.Internal;
 using FluentExchangeClient.Mapper;
-using FluentExchangeClient.Models;
+using System.Security.Cryptography;
+using System.Text;
 
-namespace FluentExchangeClient.Exchange.Binance
+namespace FluentExchangeClient.Builder
 {
     class BinanceExchangeBuilder : IExchangeBuilder
     {

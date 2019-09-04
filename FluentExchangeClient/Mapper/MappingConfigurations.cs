@@ -7,13 +7,58 @@ namespace FluentExchangeClient.Mapper
 {
     static class MappingConfigurations
     {
-        private static readonly Lazy<MapperConfiguration> binanceLazy =
+        /// Binance mapper configuration singleton object
+        public static MapperConfiguration Binance { get { return binanceLazyInstance.Value; } }
+
+        private static readonly Lazy<MapperConfiguration> binanceLazyInstance =
             new Lazy<MapperConfiguration>(() => new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new BinanceMappingProfile());
             }));
 
-        public static MapperConfiguration Binance { get { return binanceLazy.Value; } }
+
+
+        /// Bitfinex mapper configuration singleton object
+        public static MapperConfiguration Bitfinex { get { return bitfinexLazyInstance.Value; } }
+
+        private static readonly Lazy<MapperConfiguration> bitfinexLazyInstance =
+            new Lazy<MapperConfiguration>(() => new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new BitfinexMappingProfile());
+            }));
+
+
+
+        /// Bittrex mapper configuration singleton object
+        public static MapperConfiguration Bittrex { get { return bittrexLazyInstance.Value; } }
+
+        private static readonly Lazy<MapperConfiguration> bittrexLazyInstance =
+            new Lazy<MapperConfiguration>(() => new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new BittrexMappingProfile());
+            }));
+
+
+
+        /// Cobinhood mapper configuration singleton object
+        public static MapperConfiguration Cobinhood { get { return cobinhoodLazyInstance.Value; } }
+
+        private static readonly Lazy<MapperConfiguration> cobinhoodLazyInstance =
+            new Lazy<MapperConfiguration>(() => new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new CobinhoodMappingProfile());
+            }));
+
+
+
+        /// Poloniex mapper configuration singleton object
+        public static MapperConfiguration Poloniex { get { return poloniexLazyInstance.Value; } }
+
+        private static readonly Lazy<MapperConfiguration> poloniexLazyInstance =
+            new Lazy<MapperConfiguration>(() => new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new PoloniexMappingProfile());
+            }));
 
     }
 }

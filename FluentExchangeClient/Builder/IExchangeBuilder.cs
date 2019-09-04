@@ -1,7 +1,7 @@
 ﻿using FluentExchangeClient.Exchange;
 using FluentExchangeClient.Internal;
 
-namespace FluentExchangeClient
+namespace FluentExchangeClient.Builder
 {
     internal interface IExchangeBuilder
     {
