@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FluentExchangeClient.Internal;
+using FluentExchangeClient.Builder;
 using FluentExchangeClient.Models;
 using Newtonsoft.Json;
 using System;
@@ -11,10 +11,14 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange
 {
-    abstract class ExchangeBase : IDisposable
+    public abstract class ExchangeBase : IDisposable
     {
         private readonly HttpClient http;
         private readonly IMapper mapper;
+
+        public ExchangeBase()
+        {
+        }
 
         internal ExchangeBase(ExchangeOptions options)
         {
@@ -49,7 +53,7 @@ namespace FluentExchangeClient.Exchange
             }
         }
 
-        protected T Map<T>(object source)
+        internal T Map<T>(object source)
         {
             return mapper.Map<T>(source);
         }

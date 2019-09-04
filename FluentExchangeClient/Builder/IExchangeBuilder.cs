@@ -1,9 +1,8 @@
 ﻿using FluentExchangeClient.Exchange;
-using FluentExchangeClient.Internal;
 
 namespace FluentExchangeClient.Builder
 {
-    internal interface IExchangeBuilder
+    public interface IExchangeBuilder
     {
         ExchangeOptions Options { get; }
         void SetCredentials(string apiKey, string apiSecret);

@@ -6,39 +6,34 @@ namespace FluentExchangeClient
 {
     public class ExchangeBuilder
     {
-        public ExchangeBuilderWithName UseBinance()
+        public ExchangeBuilderWithOptions UseBinance()
         {
-            return new ExchangeBuilderWithName(ExchangeNames.Binance);
+            return new ExchangeBuilderWithOptions(ExchangeNames.Binance);
         }
 
-        public ExchangeBuilderWithName UseBitfinex()
+        public ExchangeBuilderWithOptions UseBitfinex()
         {
-            return new ExchangeBuilderWithName(ExchangeNames.Bitfinex);
+            return new ExchangeBuilderWithOptions(ExchangeNames.Bitfinex);
         }
 
-        public ExchangeBuilderWithName UseBittrex()
+        public ExchangeBuilderWithOptions UseBittrex()
         {
-            return new ExchangeBuilderWithName(ExchangeNames.Bittrex);
+            return new ExchangeBuilderWithOptions(ExchangeNames.Bittrex);
         }
 
-        public ExchangeBuilderWithName UsePoloniex()
+        public ExchangeBuilderWithOptions UsePoloniex()
         {
-            return new ExchangeBuilderWithName(ExchangeNames.Poloniex);
+            return new ExchangeBuilderWithOptions(ExchangeNames.Poloniex);
         }
 
-        public ExchangeBuilderWithName UseCobinhood()
+        public ExchangeBuilderWithOptions UseCobinhood()
         {
-            return new ExchangeBuilderWithName(ExchangeNames.Cobinhood);
+            return new ExchangeBuilderWithOptions(ExchangeNames.Cobinhood);
         }
 
-        public ExchangeBuilderWithName UseExchange(string exchange)
+        public ExchangeBuilderWithOptions UseExchange(string exchange)
         {
-            return new ExchangeBuilderWithName(exchange);
-        }
-
-        public ExchangeBuilderWithName UseAccount(Account account)
-        {
-            return new ExchangeBuilderWithName(account);
+            return new ExchangeBuilderWithOptions(exchange);
         }
     }
 }

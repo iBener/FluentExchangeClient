@@ -1,6 +1,5 @@
 ﻿using FluentExchangeClient.Exchange;
 using FluentExchangeClient.Exchange.Bitfinex;
-using FluentExchangeClient.Internal;
 using FluentExchangeClient.Mapper;
 using System;
 

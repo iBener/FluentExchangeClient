@@ -1,6 +1,6 @@
-﻿using FluentExchangeClient.Exchange.Binance.Requests;
+﻿using FluentExchangeClient.Builder;
+using FluentExchangeClient.Exchange.Binance.Requests;
 using FluentExchangeClient.Exchange.Binance.Responses;
-using FluentExchangeClient.Internal;
 using FluentExchangeClient.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

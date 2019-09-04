@@ -1,4 +1,4 @@
-﻿using FluentExchangeClient.Internal;
+﻿using FluentExchangeClient.Builder;
 using System;
 
 namespace FluentExchangeClient.Exchange.Binance.Requests

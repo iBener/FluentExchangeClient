@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 
-namespace FluentExchangeClient.Internal
+namespace FluentExchangeClient.Builder
 {
-    class ExchangeOptions
+    public class ExchangeOptions
     {
         public string ExchangeName { get; internal set; }
 

@@ -1,6 +1,5 @@
 ﻿using FluentExchangeClient.Exchange;
 using FluentExchangeClient.Exchange.Binance;
-using FluentExchangeClient.Internal;
 using FluentExchangeClient.Mapper;
 using System.Security.Cryptography;
 using System.Text;

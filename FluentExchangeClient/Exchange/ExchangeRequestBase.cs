@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace FluentExchangeClient.Internal
+namespace FluentExchangeClient.Exchange
 {
     abstract class ExchangeRequestBase : HttpRequestMessage
     {

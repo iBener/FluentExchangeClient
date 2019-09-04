@@ -1,4 +1,4 @@
-﻿using FluentExchangeClient.Internal;
+﻿using FluentExchangeClient.Builder;
 using System;
 using System.Net.Http;
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace FluentExchangeClient.Internal
+namespace FluentExchangeClient.Builder
 {
-    class ApiCredentials
+    public class ApiCredentials
     {
         public string ApiKey { get; internal set; }
 

@@ -1,6 +1,5 @@
 ﻿using FluentExchangeClient.Exchange;
 using FluentExchangeClient.Exchange.Bittrex;
-using FluentExchangeClient.Internal;
 using FluentExchangeClient.Mapper;
 using System;
 

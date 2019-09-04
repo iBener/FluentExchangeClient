@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using FluentExchangeClient.Internal;
 
 namespace FluentExchangeClient.Exchange.Binance.Requests
 {

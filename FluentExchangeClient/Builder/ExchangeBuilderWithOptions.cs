@@ -7,22 +7,35 @@ using System.Text;
 
 namespace FluentExchangeClient.Builder
 {
-    public class ExchangeBuilderWithName
+    public class ExchangeBuilderWithOptions
     {
         IExchangeBuilder builder;
 
-        public ExchangeBuilderWithName(string exchangeName)
+        public ExchangeBuilderWithOptions(string exchangeName)
         {
             UseExchange(exchangeName);
         }
 
-        public ExchangeBuilderWithName(Account account)
+        public ExchangeBuilderWithOptions(string exchangeName, HttpClient http)
         {
-            UseExchange(account.Exchange);
-            SetCredentials(account.ApiKey, account.ApiSecret);
+            UseExchange(exchangeName);
+            UseHttp(http);
         }
 
-        internal ExchangeBuilderWithName UseExchange(string exchange)
+        public ExchangeBuilderWithOptions(string exchangeName, string apiKey, string apiSecret)
+        {
+            UseExchange(exchangeName);
+            SetCredentials(apiKey, apiSecret);
+        }
+
+        public ExchangeBuilderWithOptions(string exchangeName, string apiKey, string apiSecret, HttpClient http)
+        {
+            UseExchange(exchangeName);
+            SetCredentials(apiKey, apiSecret);
+            UseHttp(http);
+        }
+
+        internal ExchangeBuilderWithOptions UseExchange(string exchange)
         {
             switch (exchange)
             {
@@ -47,13 +60,13 @@ namespace FluentExchangeClient.Builder
             return this;
         }
 
-        public ExchangeBuilderWithName UseHttp(HttpClient httpClient)
+        public ExchangeBuilderWithOptions UseHttp(HttpClient httpClient)
         {
             builder.Options.Http = httpClient;
             return this;
         }
 
-        public ExchangeBuilderWithName SetCredentials(string apiKey, string apiSecret)
+        public ExchangeBuilderWithOptions SetCredentials(string apiKey, string apiSecret)
         {
             builder.SetCredentials(apiKey, apiSecret);
             return this;
