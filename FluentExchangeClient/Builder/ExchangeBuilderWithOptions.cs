@@ -72,6 +72,16 @@ namespace FluentExchangeClient.Builder
             return this;
         }
 
+        public ExchangeBuilderWithOptions UseNormalizedSymbols()
+        {
+            throw new NotImplementedException("Normalized symbol option doesn't implemented yet");
+        }
+
+        public ExchangeBuilderWithOptions UseExchangeSymbols()
+        {
+            throw new NotImplementedException("Exchange symbol option doesn't implemented yet");
+        }
+
         public IExchange Build()
         {
             return builder.Build();
