@@ -3,6 +3,8 @@ using FluentExchangeClient.Exchange.Binance.Responses;
 using FluentExchangeClient.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace FluentExchangeClient.Mapper
@@ -18,10 +20,62 @@ namespace FluentExchangeClient.Mapper
                 .ForMember(target => target.Symbol, m => m.MapFrom(source => source.asset))
                 .ForMember(target => target.Amount, m => m.MapFrom(source => source.free + source.locked));
             CreateMap<BinanceSymbolInfo, Market>()
-                .ForMember(target => target.Base, m => m.MapFrom(source => source.baseAsset))
-                .ForMember(target => target.Quote, m => m.MapFrom(source => source.quoteAsset));
-            //.ForMember(target => target.Precision, m => m.MapFrom(source => source.filters));
+                .ConvertUsing<BinanceSymbolInfoResolver>();
             CreateMap<BinanceCandleResponse, Candle>();
+        }
+    }
+
+    class BinanceSymbolInfoResolver : ITypeConverter<BinanceSymbolInfo, Market>
+    {
+        public Market Convert(BinanceSymbolInfo source, Market destination, ResolutionContext context)
+        {
+            var priceFilter = GetFilterValue(source, "PRICE_FILTER", x => x.tickSize);
+            var lotSizeFilter = GetFilterValue(source, "LOT_SIZE", x => x.stepSize);
+
+            return new Market
+            {
+                Base = source.baseAsset,
+                Quote = source.quoteAsset,
+                PriceTick = priceFilter.value,
+                OrderTick = lotSizeFilter.value,
+                PricePrecision = priceFilter.precision,
+                OrderPrecision = lotSizeFilter.precision
+            };
+        }
+
+        (decimal value, int precision) GetFilterValue(BinanceSymbolInfo source, string filterType, Func<BinanceFilterInfo, decimal> func)
+        {
+            var filterInfo = source.filters.FirstOrDefault(f => f.filterType == filterType);
+            var value = func(filterInfo);
+            if (value >= 1)
+            {
+                return (value, 0);
+            }
+            string[] parts = value.ToString(CultureInfo.InvariantCulture).Split('.');
+            int pointIndex = parts[1].IndexOf('1');
+            var precision = parts[1].Substring(0, pointIndex < 0 ? 0 : pointIndex).Length + 1;
+            return (value, precision);
+        }
+    }
+
+    class BinanceSymbolInfoPrecisionResolver : IValueResolver<BinanceSymbolInfo, Market, int>
+    {
+        public int Resolve(BinanceSymbolInfo source, Market destination, int destMember, ResolutionContext context)
+        {
+            var tickSize = source.filters.FirstOrDefault(f => f.filterType == "PRICE_FILTER").tickSize;
+            var parts = tickSize.ToString(CultureInfo.InvariantCulture).Split('.');
+            var result = parts[1].Substring(0, parts[1].IndexOf('1')).Length + 1;
+
+            return result;
+        }
+    }
+
+    class BinanceSymbolInfoStepResolver : IValueResolver<BinanceSymbolInfo, Market, decimal>
+    {
+        public decimal Resolve(BinanceSymbolInfo source, Market destination, decimal destMember, ResolutionContext context)
+        {
+            var lotSize = source.filters.FirstOrDefault(f => f.filterType == "LOT_SIZE").stepSize;
+            return lotSize;
         }
     }
 }

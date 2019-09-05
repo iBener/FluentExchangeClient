@@ -17,13 +17,23 @@ namespace FluentExchangeClient.Models
         public string Quote { get; set; }
 
         /// <summary>
-        /// Min. price precision
+        /// Price tick minimum step size
         /// </summary>
-        public int Precision { get; set; }
+        public decimal PriceTick { get; set; }
 
         /// <summary>
-        /// Min. order step size
+        /// Price tick decimal precision
         /// </summary>
-        public decimal Step { get; set; }
+        public int PricePrecision { get; set; }
+
+        /// <summary>
+        /// Order amount minimum step size
+        /// </summary>
+        public decimal OrderTick { get; set; }
+
+        /// <summary>
+        /// Order tick decimal precision
+        /// </summary>
+        public int OrderPrecision { get; set; }
     }
 }
