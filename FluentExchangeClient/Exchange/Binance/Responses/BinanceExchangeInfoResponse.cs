@@ -15,6 +15,7 @@ namespace FluentExchangeClient.Exchange.Binance.Responses
         public string baseAsset;
         public string quoteAsset;
         public List<BinanceFilterInfo> filters;
+        public string status;
     }
 
     class BinanceFilterInfo

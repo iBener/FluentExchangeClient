@@ -39,7 +39,8 @@ namespace FluentExchangeClient.Mapper
                 PriceTick = priceFilter.value,
                 OrderTick = lotSizeFilter.value,
                 PricePrecision = priceFilter.precision,
-                OrderPrecision = lotSizeFilter.precision
+                OrderPrecision = lotSizeFilter.precision,
+                Status = source.status
             };
         }
 

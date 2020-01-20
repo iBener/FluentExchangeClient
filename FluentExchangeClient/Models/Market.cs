@@ -35,5 +35,10 @@ namespace FluentExchangeClient.Models
         /// Order tick decimal precision
         /// </summary>
         public int OrderPrecision { get; set; }
+
+        /// <summary>
+        /// Status of market symbol
+        /// </summary>
+        public string Status { get; set; }
     }
 }
