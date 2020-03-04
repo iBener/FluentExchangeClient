@@ -25,7 +25,14 @@ namespace FluentExchangeClient.Builder
 
         public IExchange Build()
         {
-            return new PoloniexExchange(Options);
+            //return new PoloniexExchange(Options);
+            throw new NotImplementedException();
+        }
+
+        public IExchangeRaw BuildRaw()
+        {
+            //return new PoloniexExchange(Options);
+            throw new NotImplementedException();
         }
     }
 }

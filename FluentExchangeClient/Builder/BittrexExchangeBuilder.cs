@@ -25,7 +25,14 @@ namespace FluentExchangeClient.Builder
 
         public IExchange Build()
         {
-            return new BittrexExchange(Options);
+            //return new BittrexExchange(Options);
+            throw new NotImplementedException();
+        }
+
+        public IExchangeRaw BuildRaw()
+        {
+            //return new BittrexExchange(Options);
+            throw new NotImplementedException();
         }
     }
 }

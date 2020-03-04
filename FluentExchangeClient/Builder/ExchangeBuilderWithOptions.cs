@@ -86,5 +86,10 @@ namespace FluentExchangeClient.Builder
         {
             return builder.Build();
         }
+
+        public IExchangeRaw BuildRaw()
+        {
+            return builder.BuildRaw();
+        }
     }
 }

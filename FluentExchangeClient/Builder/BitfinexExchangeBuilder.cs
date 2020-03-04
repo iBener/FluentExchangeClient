@@ -25,7 +25,14 @@ namespace FluentExchangeClient.Builder
 
         public IExchange Build()
         {
-            return new BitfinexExchange(Options);
+            //return new BitfinexExchange(Options);
+            throw new NotImplementedException();
+        }
+
+        public IExchangeRaw BuildRaw()
+        {
+            //return new BitfinexExchange(Options);
+            throw new NotImplementedException();
         }
     }
 }

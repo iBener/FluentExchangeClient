@@ -7,5 +7,6 @@ namespace FluentExchangeClient.Builder
         ExchangeOptions Options { get; }
         void SetCredentials(string apiKey, string apiSecret);
         IExchange Build();
+        IExchangeRaw BuildRaw();
     }
 }

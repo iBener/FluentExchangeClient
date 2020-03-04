@@ -25,7 +25,14 @@ namespace FluentExchangeClient.Builder
 
         public IExchange Build()
         {
-            return new CobinhoodExchange(Options);
+            //return new CobinhoodExchange(Options);
+            throw new NotImplementedException();
+        }
+
+        public IExchangeRaw BuildRaw()
+        {
+            //return new CobinhoodExchange(Options);
+            throw new NotImplementedException();
         }
     }
 }
