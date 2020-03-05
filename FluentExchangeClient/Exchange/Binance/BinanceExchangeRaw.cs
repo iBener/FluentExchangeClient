@@ -10,17 +10,66 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance
 {
-    class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
+    public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
     {
-        protected IExchangeRaw RawExchange => this;
-
-        internal BinanceExchangeRaw(ExchangeOptions options) : base(options)
+        public BinanceExchangeRaw(ExchangeOptions options) : base(options)
         {
         }
 
-        async Task<IDictionary<string, string>> IExchangeRaw.GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0)
+        public async Task<string> GetMarketAsync(string symbol, string quoteSymbol)
         {
-            var marketsJson = await RawExchange.GetMarketsAsync();
+            var response = await GetMarketsAsync();
+            var market = JObject.Parse(response).SelectToken($"$.symbols[?(@.symbol == '{symbol + quoteSymbol}')]");
+            return JsonConvert.SerializeObject(market);
+        }
+
+        public async Task<string> GetMarketsAsync()
+        {
+            var request = new BinanceRequestExchangeInfo();
+            return await SendAsync(request);
+        }
+
+        public async Task<string> GetTickerAsync(string symbol, string quoteSymbol)
+        {
+            var request = new BinanceRequestTicker(symbol, quoteSymbol);
+            return await SendAsync(request);
+        }
+
+        public async Task<string> GetTickersAsync()
+        {
+            var request = new BinanceRequestTicker();
+            return await SendAsync(request);
+        }
+
+        public async Task<string> GetBalanceAsync(string symbol)
+        {
+            var json = await GetBalancesAsync();
+            var balance = JObject.Parse(json).SelectToken($"$.balances[?(@.asset == '{symbol}')]");
+            return JsonConvert.SerializeObject(balance);
+        }
+
+        public async Task<string> GetBalancesAsync()
+        {
+            var parameters = new { timestamp = Timestamp };
+            var request = new BinanceRequestBalance(parameters, Options.Credentials);
+            return await SendAsync(request);
+        }
+
+        public override async Task<string> GetServerTime()
+        {
+            var request = new BinanceRequestServerTime();
+            return await SendAsync(request);
+        }
+
+        public async Task<string> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0)
+        {
+            var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
+            return await SendAsync(request);
+        }
+
+        public async Task<IDictionary<string, string>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0)
+        {
+            var marketsJson = await GetMarketsAsync();
             var markets = JObject.Parse(marketsJson).SelectTokens($"$.symbols[?(@.quoteAsset == '{quoteSymbol}')]");
             var result = new Dictionary<string, string>();
             foreach (var market in markets)
@@ -31,62 +80,6 @@ namespace FluentExchangeClient.Exchange.Binance
                 result[symbol + quoteSymbol] = candles;
             }
             return result;
-        }
-
-        async Task<string> IExchangeRaw.GetBalanceAsync(string symbol)
-        {
-            var json = await RawExchange.GetBalancesAsync();
-            var balance = JObject.Parse(json).SelectToken($"$.balances[?(@.asset == '{symbol}')]");
-            return JsonConvert.SerializeObject(balance);
-        }
-
-        async Task<string> IExchangeRaw.GetBalancesAsync()
-        {
-            var parameters = new { timestamp = Timestamp };
-            var request = new BinanceRequestBalance(parameters, Options.Credentials);
-            return await SendAsync(request);
-        }
-
-        async Task<string> IExchangeRaw.GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0)
-        {
-            var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
-            return await SendAsync(request);
-        }
-
-        async Task<string> IExchangeRaw.GetMarketAsync(string symbol, string quoteSymbol)
-        {
-            var response = await RawExchange.GetMarketsAsync();
-            var market = JObject.Parse(response).SelectToken($"$.symbols[?(@.symbol == '{symbol + quoteSymbol}')]");
-            return JsonConvert.SerializeObject(market);
-        }
-
-        async Task<string> IExchangeRaw.GetMarketsAsync()
-        {
-            var request = new BinanceRequestExchangeInfo();
-            return await SendAsync(request);
-        }
-
-        Task<string> IExchangeRaw.GetServerTime()
-        {
-            return GetServerTime();
-        }
-
-        async Task<string> IExchangeRaw.GetTickerAsync(string symbol, string quoteSymbol)
-        {
-            var request = new BinanceRequestTicker(symbol, quoteSymbol);
-            return await SendAsync(request);
-        }
-
-        async Task<string> IExchangeRaw.GetTickersAsync()
-        {
-            var request = new BinanceRequestTicker();
-            return await SendAsync(request);
-        }
-
-        public override async Task<string> GetServerTime()
-        {
-            var request = new BinanceRequestServerTime();
-            return await SendAsync(request);
         }
     }
 }

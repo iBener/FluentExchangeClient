@@ -1,4 +1,6 @@
 ﻿using FluentExchangeClient.Builder;
+using FluentExchangeClient.Exchange.Binance.Responses;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,30 +9,26 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance
 {
-    abstract class BinanceExchangeBase : ExchangeBase
+    public abstract class BinanceExchangeBase : ExchangeBase
     {
         internal BinanceExchangeBase(ExchangeOptions options) : base(options)
         {
         }
 
-        private DateTimeOffset serverTime;
-
         private static double? serverTimeDiff = null;
 
-        protected long Timestamp
+        public long Timestamp
         {
             get
             {
-                double diff = 0;
+                double diff;
                 if (serverTimeDiff == null)
                 {
-                    var result = GetServerTime().Result;
-                    if (Int64.TryParse(result, out long unixTime))
-                    {
-                        serverTime = DateTimeOffset.FromUnixTimeMilliseconds(unixTime);
-                        serverTimeDiff = (serverTime - DateTimeOffset.UtcNow).TotalMilliseconds;
-                        diff = serverTimeDiff.Value;
-                    }
+                    var result = GetServerTime().GetAwaiter().GetResult();
+                    var time = JsonConvert.DeserializeObject<BinanceServerTimeResponse>(result);
+                    var serverTime = DateTimeOffset.FromUnixTimeMilliseconds(time.serverTime);
+                    serverTimeDiff = (serverTime - DateTimeOffset.UtcNow).TotalMilliseconds;
+                    diff = serverTimeDiff.Value;
                 }
                 else
                 {

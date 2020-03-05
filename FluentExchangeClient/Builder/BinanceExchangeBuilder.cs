@@ -36,7 +36,7 @@ namespace FluentExchangeClient.Builder
 
         public IExchangeRaw BuildRaw()
         {
-            return new BinanceExchange(Options);
+            return new BinanceExchangeRaw(Options);
         }
     }
 }
