@@ -73,5 +73,19 @@ namespace FluentExchangeClient.Test
             var candles = await exchange.GetAllCandlesAsync("BTC", "1d", 1);
             Assert.IsNotNull(candles);
         }
+
+        [Test]
+        public async Task GetOrdersTest()
+        {
+            var orders = await exchange.GetOrders("BTC", "USDT",  10);
+            Assert.IsNotNull(orders);
+        }
+
+        [Test]
+        public async Task GetOpenOrdersTest()
+        {
+            var orders = await exchange.GetOpenOrders();
+            Assert.IsNotNull(orders);
+        }
     }
 }

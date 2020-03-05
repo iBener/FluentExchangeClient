@@ -1,5 +1,6 @@
 ﻿using FluentExchangeClient.Builder;
 using FluentExchangeClient.Exchange.Binance.Requests;
+using FluentExchangeClient.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -50,8 +51,7 @@ namespace FluentExchangeClient.Exchange.Binance
 
         public async Task<string> GetBalancesAsync()
         {
-            var parameters = new { timestamp = Timestamp };
-            var request = new BinanceRequestBalance(parameters, Options.Credentials);
+            var request = new BinanceRequestBalance(Timestamp, Options.Credentials);
             return await SendAsync(request);
         }
 
@@ -80,6 +80,54 @@ namespace FluentExchangeClient.Exchange.Binance
                 result[symbol + quoteSymbol] = candles;
             }
             return result;
+        }
+
+        public Task<string> GetOrders(string symbol, string quoteSymbol, int limit = 500)
+        {
+            return GetOrders(symbol, quoteSymbol, default, default, limit);
+        }
+
+        public async Task<string> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 500)
+        {
+            limit = Math.Clamp(limit, 1, 1000);
+            var request = new BinanceRequestOrders(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
+            return await SendAsync(request);
+        }
+
+        public Task<string> GetOpenOrders()
+        {
+            return GetOpenOrders(null, null);
+        }
+
+        public async Task<string> GetOpenOrders(string symbol, string quoteSymbol)
+        {
+            var request = new BinanceRequestOpenOrders(symbol, quoteSymbol, Timestamp, Options.Credentials);
+            return await SendAsync(request);
+        }
+
+        public Task<string> TestOrderNew(Order order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> OrderNew(Order order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> OrderQuery(Order order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> OrderCancel(Order order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
+        {
+            throw new NotImplementedException();
         }
     }
 }

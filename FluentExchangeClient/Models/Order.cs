@@ -22,11 +22,11 @@ namespace FluentExchangeClient.Models
 
         public decimal Quantity { get; set; }
 
+        public decimal FilledQuantity { get; set; }
+
         public string Type { get; set; }
 
         public string Status { get; set; }
-
-        public decimal FilledQuantity { get; set; }
 
         public DateTime TransactionTime { get; set; }
     }

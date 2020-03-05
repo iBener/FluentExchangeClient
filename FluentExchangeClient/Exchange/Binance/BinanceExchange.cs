@@ -61,7 +61,7 @@ namespace FluentExchangeClient.Exchange.Binance
         {
             var request = new BinanceRequestServerTime();
             var response = await SendAsync<BinanceServerTimeResponse>(request);
-            return DateTimeOffset.FromUnixTimeMilliseconds(response.serverTime);
+            return response.serverTime; //DateTimeOffset.FromUnixTimeMilliseconds(response.serverTime);
         }
 
         public new async Task<IEnumerable<Candle>> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
@@ -83,6 +83,30 @@ namespace FluentExchangeClient.Exchange.Binance
                 result[symbol + quoteSymbol] = candles;
             }
             return result;
+        }
+
+        public new Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, int limit)
+        {
+            return GetOrders(symbol, quoteSymbol, default, default, limit);
+        }
+
+        public new async Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit)
+        {
+            var ordersRaw = await base.GetOrders(symbol, quoteSymbol, start, end, limit);
+            var orders = JsonConvert.DeserializeObject<IEnumerable<BinanceOrderResponse>>(ordersRaw);
+            return Map<IEnumerable<Order>>(orders);
+        }
+
+        public new Task<IEnumerable<Order>> GetOpenOrders()
+        {
+            return GetOpenOrders(null, null);
+        }
+
+        public new async Task<IEnumerable<Order>> GetOpenOrders(string symbol, string quoteSymbol)
+        {
+            var ordersRaw = await base.GetOpenOrders(symbol, quoteSymbol);
+            var orders = JsonConvert.DeserializeObject<IEnumerable<BinanceOrderResponse>>(ordersRaw);
+            return Map<IEnumerable<Order>>(orders);
         }
     }
 }

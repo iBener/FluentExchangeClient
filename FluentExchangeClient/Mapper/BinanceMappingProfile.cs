@@ -22,6 +22,10 @@ namespace FluentExchangeClient.Mapper
             CreateMap<BinanceSymbolInfo, Market>()
                 .ConvertUsing<BinanceSymbolInfoResolver>();
             CreateMap<BinanceCandleResponse, Candle>();
+            CreateMap<BinanceOrderResponse, Order>()
+                .ForMember(target => target.Quantity, m => m.MapFrom(source => source.origQty))
+                .ForMember(target => target.FilledQuantity, m => m.MapFrom(source => source.executedQty))
+                .ForMember(target => target.TransactionTime, m => m.MapFrom(source => source.time.DateTime));
         }
     }
 

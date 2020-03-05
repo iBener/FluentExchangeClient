@@ -26,5 +26,13 @@ namespace FluentExchangeClient
         Task<IEnumerable<Candle>> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0);
 
         Task<IDictionary<string, IEnumerable<Candle>>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0);
+
+        Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, int limit = 0);
+
+        Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0);
+
+        Task<IEnumerable<Order>> GetOpenOrders();
+
+        Task<IEnumerable<Order>> GetOpenOrders(string symbol, string quoteSymbol);
     }
 }
