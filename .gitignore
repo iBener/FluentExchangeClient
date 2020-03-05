@@ -341,3 +341,4 @@ healthchecksdb
 
 # Test project
 Test/
+/FluentExchangeClient.Test/binance_settings.Development.json
