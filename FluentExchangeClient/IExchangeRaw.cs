@@ -35,13 +35,15 @@ namespace FluentExchangeClient
 
         Task<string> GetOpenOrders(string symbol, string quoteSymbol);
 
-        Task<string> TestOrderNew(Order order);
+        Task<string> PostTestOrder(Order order);
 
-        Task<string> OrderNew(Order order);
+        Task<string> PostOrder(Order order);
 
-        Task<string> OrderQuery(Order order);
+        Task<string> GetOrder(Order order);
 
-        Task<string> OrderCancel(Order order);
+        Task<string> DeleteOrder(Order order);
+
+        Task<string> GetTrades(string symbol, string quoteSymbol, int limit = 0);
 
         Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0);
     }

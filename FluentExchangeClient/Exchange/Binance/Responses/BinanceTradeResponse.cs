@@ -6,18 +6,20 @@ using System;
 
 namespace FluentExchangeClient.Exchange.Binance.Responses
 {
-    class BinanceOrderResponse
+    class BinanceTradeResponse
     {
+        public int id;
         public int orderId;
-        public string clientOrderId;
         public string symbol;
-        public string side;
         public decimal price;
-        public decimal origQty;
-        public decimal executedQty;
-        public string type;
-        public string status;
+        public decimal qty;
+        public decimal quoteQty;
+        public decimal commission;
+        public string commissionAsset;
         [JsonConverter(typeof(UnixMillisecondsTimeConverter))]
         public DateTimeOffset time;
+        public bool isBuyer;
+        public bool isMaker;
+        public bool isBestMatch;
     }
 }

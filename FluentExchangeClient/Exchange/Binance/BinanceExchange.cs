@@ -108,5 +108,48 @@ namespace FluentExchangeClient.Exchange.Binance
             var orders = JsonConvert.DeserializeObject<IEnumerable<BinanceOrderResponse>>(ordersRaw);
             return Map<IEnumerable<Order>>(orders);
         }
+
+        public new Task<IEnumerable<Trade>> GetTrades(string symbol, string quoteSymbol, int limit = 500)
+        {
+            return GetTrades(symbol, quoteSymbol, default, default, limit);
+        }
+
+        public new async Task<IEnumerable<Trade>> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 500)
+        {
+            var tradesRaw = await base.GetTrades(symbol, quoteSymbol, start, end, limit);
+            var trades = JsonConvert.DeserializeObject<IEnumerable<BinanceTradeResponse>>(tradesRaw);
+            var result = new List<Trade>();
+            var orders = new Dictionary<int, Trade>();
+            foreach (var tradeResponse in trades)
+            {
+                var trade = Map<Trade>(tradeResponse);
+                if (!orders.ContainsKey(trade.OrderId))
+                {
+                    trade.Commissions.Add(tradeResponse.commissionAsset, tradeResponse.commission);
+                    ((List<TradeTransaction>)trade.Transactions)
+                        .Add(new TradeTransaction { Quantity = trade.Quantity, QuoteQuantity = trade.QuoteQuantity, Time = trade.Time });
+                    result.Add(trade);
+                    orders.Add(trade.OrderId, trade);
+                }
+                else
+                {
+                    var mainTrade = orders[trade.OrderId];
+                    if (!mainTrade.Commissions.ContainsKey(tradeResponse.commissionAsset))
+                    {
+                        mainTrade.Commissions.Add(tradeResponse.commissionAsset, tradeResponse.commission);
+                    }
+                    else
+                    {
+                        mainTrade.Time = trade.Time;
+                        mainTrade.Quantity += trade.Quantity;
+                        mainTrade.QuoteQuantity += trade.QuoteQuantity;
+                        mainTrade.Commissions[tradeResponse.commissionAsset] += tradeResponse.commission;
+                        ((List<TradeTransaction>)mainTrade.Transactions)
+                            .Add(new TradeTransaction { Quantity = trade.Quantity, QuoteQuantity = trade.QuoteQuantity, Time = trade.Time });
+                    }
+                }
+            }
+            return result;
+        }
     }
 }

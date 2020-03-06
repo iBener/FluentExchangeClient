@@ -12,9 +12,7 @@ namespace FluentExchangeClient.Models
 
         public string ClientOrderId { get; set; }
 
-        public string Base { get; set; }
-
-        public string Quote { get; set; }
+        public string Symbol { get; set; }
 
         public string Side { get; set; }
 
