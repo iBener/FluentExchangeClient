@@ -105,6 +105,22 @@ namespace FluentExchangeClient.Exchange.Binance
             return await SendAsync(request);
         }
 
+        public Task<string> GetTrades(string symbol, string quoteSymbol, int limit = 500)
+        {
+            return GetTrades(symbol, quoteSymbol, default, default, limit);
+        }
+
+        public async Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 500)
+        {
+            var request = new BinanceRequestTrades(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
+            return await SendAsync(request);
+        }
+
+        public Task<string> GetOrder(Order order)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<string> PostTestOrder(Order order)
         {
             throw new NotImplementedException();
@@ -115,25 +131,9 @@ namespace FluentExchangeClient.Exchange.Binance
             throw new NotImplementedException();
         }
 
-        public Task<string> GetOrder(Order order)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<string> DeleteOrder(Order order)
         {
             throw new NotImplementedException();
-        }
-
-        public Task<string> GetTrades(string symbol, string quoteSymbol, int limit = 500)
-        {
-            return GetTrades(symbol, quoteSymbol, default, default, limit);
-        }
-
-        public async Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 500)
-        {
-            var request = new BinanceRequestTrades(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
-            return await SendAsync(request);
         }
     }
 }
