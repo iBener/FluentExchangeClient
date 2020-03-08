@@ -1,4 +1,5 @@
 using FluentExchangeClient.Builder;
+using FluentExchangeClient.Models;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
@@ -86,6 +87,27 @@ namespace FluentExchangeClient.Test
         {
             var trades = await exchange.GetTrades("RVN", "USDT", 10);
             Assert.IsNotNull(trades);
+        }
+
+        [Test]
+        public async Task PostOrderTest()
+        {
+            var newId = Guid.NewGuid().ToString();
+            var order = new Order
+            {
+                ClientOrderId = newId,
+                Symbol = "BTCUSDT",
+                Side = "BUY",
+                Type = "LIMIT",
+                Price = 5000,
+                QuoteQuantity = 1000,
+            };
+            var newOrder = await exchange.PostTestOrder(order);
+            Assert.IsNotNull(newOrder);
+            if (newOrder != null)
+            {
+                Assert.Equals(order.ClientOrderId, newOrder.ClientOrderId);
+            }
         }
     }
 }

@@ -151,5 +151,12 @@ namespace FluentExchangeClient.Exchange.Binance
             }
             return result;
         }
+
+        public new async Task<Order> PostTestOrder(Order order)
+        {
+            var newOrderJson = await base.PostTestOrder(order);
+
+            throw new NotImplementedException();
+        }
     }
 }

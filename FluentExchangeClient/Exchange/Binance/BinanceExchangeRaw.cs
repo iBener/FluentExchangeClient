@@ -121,9 +121,20 @@ namespace FluentExchangeClient.Exchange.Binance
             throw new NotImplementedException();
         }
 
-        public Task<string> PostTestOrder(Order order)
+        public async Task<string> PostTestOrder(Order order)
         {
-            throw new NotImplementedException();
+            var param = new
+            {
+                symbol = order.Symbol,
+                side = order.Side,
+                type = order.Type,
+                quantity = order.Quantity,
+                quoteOrderQty = order.QuoteQuantity,
+                price = order.Price,
+                newClientOrderId = order.ClientOrderId
+            };
+            var request = new BinanceRequestPostOrder(param, Options.Credentials, test: true);
+            return await SendAsync(request);
         }
 
         public Task<string> PostOrder(Order order)

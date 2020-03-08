@@ -22,6 +22,8 @@ namespace FluentExchangeClient.Models
 
         public decimal FilledQuantity { get; set; }
 
+        public decimal QuoteQuantity { get; set; }
+
         public string Type { get; set; }
 
         public string Status { get; set; }

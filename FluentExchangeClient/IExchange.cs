@@ -38,5 +38,7 @@ namespace FluentExchangeClient
         Task<IEnumerable<Trade>> GetTrades(string symbol, string quoteSymbol, int limit = 0);
 
         Task<IEnumerable<Trade>> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0);
+
+        Task<Order> PostTestOrder(Order order);
     }
 }
