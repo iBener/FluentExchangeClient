@@ -100,7 +100,8 @@ namespace FluentExchangeClient.Test
                 Side = "BUY",
                 Type = "LIMIT",
                 Price = 5000,
-                QuoteQuantity = 1000,
+                Quantity = 1000,
+                TimeInForce = "GTC"
             };
             var newOrder = await exchange.PostTestOrder(order);
             Assert.IsNotNull(newOrder);

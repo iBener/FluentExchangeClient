@@ -131,7 +131,9 @@ namespace FluentExchangeClient.Exchange.Binance
                 quantity = order.Quantity,
                 quoteOrderQty = order.QuoteQuantity,
                 price = order.Price,
-                newClientOrderId = order.ClientOrderId
+                timeInForce = order.TimeInForce,
+                newClientOrderId = order.ClientOrderId,
+                timestamp = Timestamp,
             };
             var request = new BinanceRequestPostOrder(param, Options.Credentials, test: true);
             return await SendAsync(request);

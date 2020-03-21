@@ -29,5 +29,7 @@ namespace FluentExchangeClient.Models
         public string Status { get; set; }
 
         public DateTime TransactionTime { get; set; }
+
+        public string TimeInForce { get; set; }
     }
 }
