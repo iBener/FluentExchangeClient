@@ -24,22 +24,22 @@ namespace FluentExchangeClient.Exchange.Binance
             return JsonConvert.SerializeObject(market);
         }
 
-        public async Task<string> GetMarketsAsync()
+        public Task<string> GetMarketsAsync()
         {
             var request = new BinanceRequestExchangeInfo();
-            return await SendAsync(request);
+            return SendAsync(request);
         }
 
-        public async Task<string> GetTickerAsync(string symbol, string quoteSymbol)
+        public Task<string> GetTickerAsync(string symbol, string quoteSymbol)
         {
             var request = new BinanceRequestTicker(symbol, quoteSymbol);
-            return await SendAsync(request);
+            return SendAsync(request);
         }
 
-        public async Task<string> GetTickersAsync()
+        public Task<string> GetTickersAsync()
         {
             var request = new BinanceRequestTicker();
-            return await SendAsync(request);
+            return SendAsync(request);
         }
 
         public async Task<string> GetBalanceAsync(string symbol)
@@ -49,22 +49,22 @@ namespace FluentExchangeClient.Exchange.Binance
             return JsonConvert.SerializeObject(balance);
         }
 
-        public async Task<string> GetBalancesAsync()
+        public Task<string> GetBalancesAsync()
         {
             var request = new BinanceRequestBalance(Timestamp, Options.Credentials);
-            return await SendAsync(request);
+            return SendAsync(request);
         }
 
-        public override async Task<string> GetServerTime()
+        public override Task<string> GetServerTime()
         {
             var request = new BinanceRequestServerTime();
-            return await SendAsync(request);
+            return SendAsync(request);
         }
 
-        public async Task<string> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0)
+        public Task<string> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0)
         {
             var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
-            return await SendAsync(request);
+            return SendAsync(request);
         }
 
         public async Task<IDictionary<string, string>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0)
@@ -87,11 +87,11 @@ namespace FluentExchangeClient.Exchange.Binance
             return GetOrders(symbol, quoteSymbol, default, default, limit);
         }
 
-        public async Task<string> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 500)
+        public Task<string> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 500)
         {
             limit = Math.Clamp(limit, 1, 1000);
             var request = new BinanceRequestOrders(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
-            return await SendAsync(request);
+            return SendAsync(request);
         }
 
         public Task<string> GetOpenOrders()
@@ -99,10 +99,10 @@ namespace FluentExchangeClient.Exchange.Binance
             return GetOpenOrders(null, null);
         }
 
-        public async Task<string> GetOpenOrders(string symbol, string quoteSymbol)
+        public Task<string> GetOpenOrders(string symbol, string quoteSymbol)
         {
             var request = new BinanceRequestOpenOrders(symbol, quoteSymbol, Timestamp, Options.Credentials);
-            return await SendAsync(request);
+            return SendAsync(request);
         }
 
         public Task<string> GetTrades(string symbol, string quoteSymbol, int limit = 500)
@@ -110,10 +110,10 @@ namespace FluentExchangeClient.Exchange.Binance
             return GetTrades(symbol, quoteSymbol, default, default, limit);
         }
 
-        public async Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 500)
+        public Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 500)
         {
             var request = new BinanceRequestTrades(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
-            return await SendAsync(request);
+            return SendAsync(request);
         }
 
         public Task<string> GetOrder(Order order)
@@ -121,9 +121,16 @@ namespace FluentExchangeClient.Exchange.Binance
             throw new NotImplementedException();
         }
 
-        public async Task<string> PostTestOrder(Order order)
+        public Task<string> PostOrder(Order order, bool test = false)
         {
-            var param = new
+            var param = CreateObjectParamObject(order);
+            var request = new BinanceRequestPostOrder(param, Options.Credentials, test: test);
+            return SendAsync(request);
+        }
+
+        private object CreateObjectParamObject(Order order)
+        {
+            return new
             {
                 symbol = order.Symbol,
                 side = order.Side,
@@ -135,13 +142,6 @@ namespace FluentExchangeClient.Exchange.Binance
                 newClientOrderId = order.ClientOrderId,
                 timestamp = Timestamp,
             };
-            var request = new BinanceRequestPostOrder(param, Options.Credentials, test: true);
-            return await SendAsync(request);
-        }
-
-        public Task<string> PostOrder(Order order)
-        {
-            throw new NotImplementedException();
         }
 
         public Task<string> DeleteOrder(Order order)

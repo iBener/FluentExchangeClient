@@ -41,9 +41,7 @@ namespace FluentExchangeClient
 
         Task<string> GetOrder(Order order);
 
-        Task<string> PostTestOrder(Order order);
-
-        Task<string> PostOrder(Order order);
+        Task<string> PostOrder(Order order, bool test = false);
 
         Task<string> DeleteOrder(Order order);
     }

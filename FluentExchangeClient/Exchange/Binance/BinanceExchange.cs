@@ -152,10 +152,15 @@ namespace FluentExchangeClient.Exchange.Binance
             return result;
         }
 
-        public new async Task<Order> PostTestOrder(Order order)
+        public new async Task<Order> PostOrder(Order order, bool test = false)
         {
-            var newOrderJson = await base.PostTestOrder(order);
+            var newOrderJson = await base.PostOrder(order, test);
             return JsonConvert.DeserializeObject<Order>(newOrderJson);
+        }
+
+        public new async Task<Order> DeleteOrder(Order order)
+        {
+            throw new NotImplementedException();
         }
     }
 }

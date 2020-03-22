@@ -83,7 +83,7 @@ namespace FluentExchangeClient.Test
         }
 
         [Test]
-        public async Task GetTrades()
+        public async Task GetTradesTest()
         {
             var trades = await exchange.GetTrades("RVN", "USDT", 10);
             Assert.IsNotNull(trades);
@@ -99,11 +99,11 @@ namespace FluentExchangeClient.Test
                 Symbol = "BTCUSDT",
                 Side = "BUY",
                 Type = "LIMIT",
-                Price = 5000,
+                Price = 2500,
                 Quantity = 1000,
                 TimeInForce = "GTC"
             };
-            var newOrder = await exchange.PostTestOrder(order);
+            var newOrder = await exchange.PostOrder(order, test: true);
             Assert.IsNotNull(newOrder);
             if (newOrder != null)
             {

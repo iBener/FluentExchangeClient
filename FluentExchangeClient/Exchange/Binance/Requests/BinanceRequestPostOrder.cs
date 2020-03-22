@@ -14,7 +14,7 @@ namespace FluentExchangeClient.Exchange.Binance.Requests
         {
             string testOrder = test ? "/test" : "";
             Method = HttpMethod.Post;
-            RequestUri = new Uri(BaseAddress, "/api/v3/order" + testOrder + QueryString);
+            RequestUri = new Uri(BaseAddress, $"/api/v3/order{ testOrder }{ QueryString }");
         }
     }
 }
