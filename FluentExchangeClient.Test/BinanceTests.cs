@@ -107,7 +107,7 @@ namespace FluentExchangeClient.Test
             Assert.IsNotNull(newOrder);
             if (newOrder != null)
             {
-                Assert.Equals(order.ClientOrderId, newOrder.ClientOrderId);
+                Assert.AreEqual(order.ClientOrderId, newOrder.ClientOrderId);
             }
         }
     }

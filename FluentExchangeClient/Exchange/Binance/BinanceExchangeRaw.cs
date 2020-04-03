@@ -118,13 +118,25 @@ namespace FluentExchangeClient.Exchange.Binance
 
         public Task<string> GetOrder(Order order)
         {
-            throw new NotImplementedException();
+            var param = new
+            {
+                symbol = order.Symbol,
+                orderId = order.OrderId,
+                origClientOrderId = order.ClientOrderId,
+                timestamp = Timestamp
+            };
+            return SendAsync(new BinanceRequestGetOrder(param, Options.Credentials));
         }
 
         public Task<string> PostOrder(Order order, bool test = false)
         {
             var param = CreateObjectParamObject(order);
             var request = new BinanceRequestPostOrder(param, Options.Credentials, test: test);
+            if (!String.IsNullOrEmpty(order.ClientOrderId))
+            {
+                Task.WaitAll(SendAsync(request));
+                return GetOrder(order);
+            }
             return SendAsync(request);
         }
 
