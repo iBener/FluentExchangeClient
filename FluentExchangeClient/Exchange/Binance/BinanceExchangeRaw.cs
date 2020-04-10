@@ -132,7 +132,7 @@ namespace FluentExchangeClient.Exchange.Binance
         {
             var param = CreateObjectParamObject(order);
             var request = new BinanceRequestPostOrder(param, Options.Credentials, test: test);
-            if (!String.IsNullOrEmpty(order.ClientOrderId))
+            if (!test && !String.IsNullOrEmpty(order.ClientOrderId))
             {
                 Task.WaitAll(SendAsync(request));
                 return GetOrder(order);

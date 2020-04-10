@@ -29,12 +29,12 @@ namespace FluentExchangeClient.Exchange.Binance.Requests
 
         public bool IsNotDefault(object value)
         {
-            Type type = value.GetType();
+            Type type = value?.GetType();
             if (type == typeof(string))
             {
                 return !String.IsNullOrEmpty(value?.ToString());
             }
-            if (type.IsValueType)
+            if (type != null && type.IsValueType)
             {
                 var defaultValue = Activator.CreateInstance(type);
                 return !value.Equals(defaultValue);

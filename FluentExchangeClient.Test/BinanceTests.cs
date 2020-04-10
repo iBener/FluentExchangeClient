@@ -103,7 +103,7 @@ namespace FluentExchangeClient.Test
                 Quantity = 1000,
                 TimeInForce = "GTC"
             };
-            var newOrder = await exchange.PostOrder(order, test: true);
+            var newOrder = await exchange.PostOrder(order);
             Assert.IsNotNull(newOrder);
             if (newOrder != null)
             {
