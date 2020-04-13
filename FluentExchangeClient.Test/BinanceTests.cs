@@ -100,7 +100,7 @@ namespace FluentExchangeClient.Test
                 Side = "BUY",
                 Type = "LIMIT",
                 Price = 2500,
-                Quantity = 1000,
+                Quantity = 0.004M,
                 TimeInForce = "GTC"
             };
             var newOrder = await exchange.PostOrder(order);
