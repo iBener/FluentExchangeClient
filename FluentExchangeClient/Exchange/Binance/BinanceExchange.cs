@@ -155,7 +155,8 @@ namespace FluentExchangeClient.Exchange.Binance
         public new async Task<Order> PostOrder(Order order, bool test = false)
         {
             var newOrderJson = await base.PostOrder(order, test);
-            return JsonConvert.DeserializeObject<Order>(newOrderJson);
+            var newOrder = JsonConvert.DeserializeObject<BinanceOrderResponse>(newOrderJson);
+            return Map<Order>(newOrder);
         }
 
         public new async Task<Order> DeleteOrder(Order order)

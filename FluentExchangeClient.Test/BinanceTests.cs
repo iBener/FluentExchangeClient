@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Test
@@ -43,7 +44,9 @@ namespace FluentExchangeClient.Test
         public async Task GetMarketsTest()
         {
             var markets = await exchange.GetMarketsAsync();
-            Assert.IsNotNull(markets);
+            var market = markets.FirstOrDefault(x => x.Base == "BTC" && x.Quote == "USDT");
+            var btcMarkets = markets.Where(x => x.Base == "BTC" && x.Quote == "USDT");
+            Assert.IsNotNull(market);
         }
 
         [Test]

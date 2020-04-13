@@ -24,6 +24,7 @@ namespace FluentExchangeClient.Mapper
             CreateMap<BinanceCandleResponse, Candle>();
             CreateMap<BinanceOrderResponse, Order>()
                 .ForMember(target => target.Quantity, m => m.MapFrom(source => source.origQty))
+                .ForMember(target => target.QuoteQuantity, m => m.MapFrom(source => source.price * source.origQty))
                 .ForMember(target => target.FilledQuantity, m => m.MapFrom(source => source.executedQty))
                 .ForMember(target => target.TransactionTime, m => m.MapFrom(source => source.time.DateTime));
             CreateMap<BinanceTradeResponse, Trade>()
