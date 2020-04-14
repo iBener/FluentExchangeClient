@@ -45,7 +45,6 @@ namespace FluentExchangeClient.Test
         {
             var markets = await exchange.GetMarketsAsync();
             var market = markets.FirstOrDefault(x => x.Base == "BTC" && x.Quote == "USDT");
-            var btcMarkets = markets.Where(x => x.Base == "BTC" && x.Quote == "USDT");
             Assert.IsNotNull(market);
         }
 
@@ -111,6 +110,17 @@ namespace FluentExchangeClient.Test
             if (newOrder != null)
             {
                 Assert.AreEqual(order.ClientOrderId, newOrder.ClientOrderId);
+            }
+        }
+
+        [Test]
+        public async Task DeleteOrder()
+        {
+            var orders = await exchange.GetOpenOrders();
+            foreach (var order in orders)
+            {
+                await exchange.DeleteOrder(order);
+                Assert.AreEqual(order.Status, "CANCELED");
             }
         }
     }

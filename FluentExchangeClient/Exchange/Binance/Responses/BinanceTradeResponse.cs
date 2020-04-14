@@ -8,8 +8,8 @@ namespace FluentExchangeClient.Exchange.Binance.Responses
 {
     class BinanceTradeResponse
     {
-        public int id;
-        public int orderId;
+        public long id;
+        public long orderId;
         public string symbol;
         public decimal price;
         public decimal qty;

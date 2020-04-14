@@ -159,9 +159,12 @@ namespace FluentExchangeClient.Exchange.Binance
             return Map<Order>(newOrder);
         }
 
-        public new async Task<Order> DeleteOrder(Order order)
+        public new async Task DeleteOrder(Order order)
         {
-            throw new NotImplementedException();
+            var canceledOrderJson = await base.DeleteOrder(order);
+            var canceledOrder = JsonConvert.DeserializeObject<BinanceDeleteOrderResponse>(canceledOrderJson);
+            order.Status = canceledOrder.status;
+            order.FilledQuantity = canceledOrder.executedQty;
         }
     }
 }

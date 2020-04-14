@@ -32,6 +32,11 @@ namespace FluentExchangeClient.Mapper
                 .ForMember(target => target.QuoteQuantity, m => m.MapFrom(source => source.quoteQty))
                 .ForMember(target => target.Time, m => m.MapFrom(source => source.time.DateTime))
                 .ForMember(target => target.Side, m => m.MapFrom(source => source.isBuyer ? "BUY" : "SELL"));
+            CreateMap<BinanceDeleteOrderResponse, Order>()
+                .ForMember(target => target.FilledQuantity, m => m.MapFrom(source => source.executedQty))
+                .ForMember(target => target.Quantity, m => m.MapFrom(source => source.origQty))
+                .ForMember(target => target.QuoteQuantity, m => m.MapFrom(source => source.cummulativeQuoteQty))
+                .ForMember(target => target.ClientOrderId, m => m.MapFrom(source => source.origClientOrderId));
         }
     }
 

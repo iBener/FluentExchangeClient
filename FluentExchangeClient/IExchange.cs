@@ -41,6 +41,6 @@ namespace FluentExchangeClient
 
         Task<Order> PostOrder(Order order, bool test = false);
 
-        Task<Order> DeleteOrder(Order order);
+        Task DeleteOrder(Order order);
     }
 }

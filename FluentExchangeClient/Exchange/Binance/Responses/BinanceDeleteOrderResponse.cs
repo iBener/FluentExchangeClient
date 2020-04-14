@@ -6,19 +6,19 @@ using System;
 
 namespace FluentExchangeClient.Exchange.Binance.Responses
 {
-    class BinanceOrderResponse
+    class BinanceDeleteOrderResponse
     {
+        public string symbol;
         public long orderId;
         public string clientOrderId;
-        public string symbol;
-        public string side;
+        public string origClientOrderId;
         public decimal price;
         public decimal origQty;
         public decimal executedQty;
-        public string type;
+        public decimal cummulativeQuoteQty;
         public string status;
+        public string side;
         public string timeInForce;
-        [JsonConverter(typeof(UnixMillisecondsTimeConverter))]
-        public DateTimeOffset time;
+        public string type;
     }
 }

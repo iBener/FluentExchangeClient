@@ -158,7 +158,14 @@ namespace FluentExchangeClient.Exchange.Binance
 
         public Task<string> DeleteOrder(Order order)
         {
-            throw new NotImplementedException();
+            var request = new BinanceRequestDeleteOrder(new 
+            {
+                symbol = order.Symbol,
+                orderId = order.OrderId,
+                origClientOrderId = order.ClientOrderId,
+                timestamp = Timestamp
+            }, Options.Credentials);
+            return SendAsync(request);
         }
     }
 }
