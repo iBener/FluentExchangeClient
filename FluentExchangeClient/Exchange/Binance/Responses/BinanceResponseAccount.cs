@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace FluentExchangeClient.Exchange.Binance.Responses
 {
-    class BinanceAccountResponse
+    class BinanceResponseAccount
     {
-        public List<BinanceBalanceInfo> balances;
+        public List<BinanceResponseAccountBalanceInfo> balances;
     }
 
-    class BinanceBalanceInfo
+    class BinanceResponseAccountBalanceInfo
     {
         public string asset;
         public decimal free;

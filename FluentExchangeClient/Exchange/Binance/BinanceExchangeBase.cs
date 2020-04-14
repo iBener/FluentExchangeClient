@@ -25,7 +25,7 @@ namespace FluentExchangeClient.Exchange.Binance
                 if (serverTimeDiff == null)
                 {
                     var result = GetServerTime().GetAwaiter().GetResult();
-                    var response = JsonConvert.DeserializeObject<BinanceServerTimeResponse>(result);
+                    var response = JsonConvert.DeserializeObject<BinanceResponseServerTime>(result);
                     serverTimeDiff = (response.serverTime - DateTimeOffset.UtcNow).TotalMilliseconds;
                     diff = serverTimeDiff.Value;
                 }

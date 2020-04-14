@@ -6,7 +6,7 @@ using System;
 
 namespace FluentExchangeClient.Exchange.Binance.Responses
 {
-    class BinanceServerTimeResponse
+    class BinanceResponseServerTime
     {
         [JsonConverter(typeof(UnixMillisecondsTimeConverter))]
         public DateTimeOffset serverTime;

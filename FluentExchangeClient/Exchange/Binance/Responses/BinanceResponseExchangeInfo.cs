@@ -4,21 +4,21 @@ using System.Collections.Generic;
 
 namespace FluentExchangeClient.Exchange.Binance.Responses
 {
-    class BinanceExchangeInfoResponse
+    class BinanceResponseExchangeInfo
     {
-        public List<BinanceSymbolInfo> symbols;
+        public List<BinanceResponseExchangeInfoSymbolInfo> symbols;
     }
 
-    class BinanceSymbolInfo
+    class BinanceResponseExchangeInfoSymbolInfo
     {
         public string symbol;
         public string baseAsset;
         public string quoteAsset;
-        public List<BinanceFilterInfo> filters;
+        public List<BinanceResponseExchangeInfoSymbolInfoFilterInfo> filters;
         public string status;
     }
 
-    class BinanceFilterInfo
+    class BinanceResponseExchangeInfoSymbolInfoFilterInfo
     {
         public string filterType;
         public decimal stepSize;

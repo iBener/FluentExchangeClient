@@ -6,7 +6,7 @@ using System;
 
 namespace FluentExchangeClient.Exchange.Binance.Responses
 {
-    class BinanceOrderResponse
+    class BinanceResponseOrder
     {
         public long orderId;
         public string clientOrderId;

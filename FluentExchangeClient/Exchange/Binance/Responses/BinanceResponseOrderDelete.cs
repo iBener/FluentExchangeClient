@@ -6,7 +6,7 @@ using System;
 
 namespace FluentExchangeClient.Exchange.Binance.Responses
 {
-    class BinanceDeleteOrderResponse
+    class BinanceResponseOrderDelete
     {
         public string symbol;
         public long orderId;

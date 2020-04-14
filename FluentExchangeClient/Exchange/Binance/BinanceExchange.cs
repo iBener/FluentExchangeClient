@@ -26,21 +26,21 @@ namespace FluentExchangeClient.Exchange.Binance
         public new async Task<IEnumerable<Market>> GetMarketsAsync()
         {
             var response = await base.GetMarketsAsync();
-            var markets = JsonConvert.DeserializeObject<BinanceExchangeInfoResponse>(response);
+            var markets = JsonConvert.DeserializeObject<BinanceResponseExchangeInfo>(response);
             return Map<IEnumerable<Market>>(markets.symbols);
         }
 
         public new async Task<Ticker> GetTickerAsync(string symbol, string quoteSymbol)
         {
             var request = new BinanceRequestTicker(symbol, quoteSymbol);
-            var response = await SendAsync<BinanceTickerResponse>(request);
+            var response = await SendAsync<BinanceResponseTicker>(request);
             return Map<Ticker>(response);
         }
 
         public new async Task<IEnumerable<Ticker>> GetTickersAsync()
         {
             var request = new BinanceRequestTicker();
-            var tickers = await SendAsync<List<BinanceTickerResponse>>(request);
+            var tickers = await SendAsync<List<BinanceResponseTicker>>(request);
             return Map<IEnumerable<Ticker>>(tickers);
         }
 
@@ -53,14 +53,14 @@ namespace FluentExchangeClient.Exchange.Binance
         public new async Task<IEnumerable<Balance>> GetBalancesAsync()
         {
             var response = await base.GetBalancesAsync();
-            var account = JsonConvert.DeserializeObject<BinanceAccountResponse>(response);
+            var account = JsonConvert.DeserializeObject<BinanceResponseAccount>(response);
             return Map<IEnumerable<Balance>>(account.balances.Where(x => x.free + x.locked > 0));
         }
 
         public new async Task<DateTimeOffset> GetServerTime()
         {
             var request = new BinanceRequestServerTime();
-            var response = await SendAsync<BinanceServerTimeResponse>(request);
+            var response = await SendAsync<BinanceResponseServerTime>(request);
             return response.serverTime; //DateTimeOffset.FromUnixTimeMilliseconds(response.serverTime);
         }
 
@@ -93,7 +93,7 @@ namespace FluentExchangeClient.Exchange.Binance
         public new async Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit)
         {
             var ordersRaw = await base.GetOrders(symbol, quoteSymbol, start, end, limit);
-            var orders = JsonConvert.DeserializeObject<IEnumerable<BinanceOrderResponse>>(ordersRaw);
+            var orders = JsonConvert.DeserializeObject<IEnumerable<BinanceResponseOrder>>(ordersRaw);
             return Map<IEnumerable<Order>>(orders);
         }
 
@@ -105,7 +105,7 @@ namespace FluentExchangeClient.Exchange.Binance
         public new async Task<IEnumerable<Order>> GetOpenOrders(string symbol, string quoteSymbol)
         {
             var ordersRaw = await base.GetOpenOrders(symbol, quoteSymbol);
-            var orders = JsonConvert.DeserializeObject<IEnumerable<BinanceOrderResponse>>(ordersRaw);
+            var orders = JsonConvert.DeserializeObject<IEnumerable<BinanceResponseOrder>>(ordersRaw);
             return Map<IEnumerable<Order>>(orders);
         }
 
@@ -117,7 +117,7 @@ namespace FluentExchangeClient.Exchange.Binance
         public new async Task<IEnumerable<Trade>> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 500)
         {
             var tradesRaw = await base.GetTrades(symbol, quoteSymbol, start, end, limit);
-            var trades = JsonConvert.DeserializeObject<IEnumerable<BinanceTradeResponse>>(tradesRaw);
+            var trades = JsonConvert.DeserializeObject<IEnumerable<BinanceResponseTrade>>(tradesRaw);
             var result = new List<Trade>();
             var orders = new Dictionary<int, Trade>();
             foreach (var tradeResponse in trades)
@@ -155,14 +155,14 @@ namespace FluentExchangeClient.Exchange.Binance
         public new async Task<Order> PostOrder(Order order, bool test = false)
         {
             var newOrderJson = await base.PostOrder(order, test);
-            var newOrder = JsonConvert.DeserializeObject<BinanceOrderResponse>(newOrderJson);
+            var newOrder = JsonConvert.DeserializeObject<BinanceResponseOrder>(newOrderJson);
             return Map<Order>(newOrder);
         }
 
         public new async Task DeleteOrder(Order order)
         {
             var canceledOrderJson = await base.DeleteOrder(order);
-            var canceledOrder = JsonConvert.DeserializeObject<BinanceDeleteOrderResponse>(canceledOrderJson);
+            var canceledOrder = JsonConvert.DeserializeObject<BinanceResponseOrderDelete>(canceledOrderJson);
             order.Status = canceledOrder.status;
             order.FilledQuantity = canceledOrder.executedQty;
         }

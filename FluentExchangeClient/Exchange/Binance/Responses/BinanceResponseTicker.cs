@@ -2,7 +2,7 @@
 
 namespace FluentExchangeClient.Exchange.Binance.Responses
 {
-    class BinanceTickerResponse
+    class BinanceResponseTicker
     {
         public string symbol;
         public decimal price;
