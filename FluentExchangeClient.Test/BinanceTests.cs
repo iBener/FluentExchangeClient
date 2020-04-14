@@ -116,6 +116,7 @@ namespace FluentExchangeClient.Test
         [Test]
         public async Task DeleteOrder()
         {
+            await PostOrderTest();
             var orders = await exchange.GetOpenOrders();
             foreach (var order in orders)
             {
