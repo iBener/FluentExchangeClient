@@ -8,5 +8,6 @@ namespace FluentExchangeClient.Models
     {
         public string Pair { get; set; }
         public decimal Price { get; set; }
+        public decimal Volume { get; set; }
     }
 }

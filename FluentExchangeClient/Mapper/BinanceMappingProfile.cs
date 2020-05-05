@@ -15,7 +15,8 @@ namespace FluentExchangeClient.Mapper
         {
             CreateMap<BinanceResponseTicker, Ticker>()
                 .ForMember(target => target.Pair, m => m.MapFrom(source => source.symbol))
-                .ForMember(target => target.Price, m => m.MapFrom(source => source.price));
+                .ForMember(target => target.Price, m => m.MapFrom(source => source.lastPrice))
+                .ForMember(target => target.Volume, m => m.MapFrom(source => source.quoteVolume));
             CreateMap<BinanceResponseAccountBalanceInfo, Balance>()
                 .ForMember(target => target.Symbol, m => m.MapFrom(source => source.asset))
                 .ForMember(target => target.Amount, m => m.MapFrom(source => source.free + source.locked));
