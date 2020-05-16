@@ -10,6 +10,7 @@ namespace FluentExchangeClient.Exchange.Binance.Responses
     [JsonConverter(typeof(BinanceCandleResponeJsonConverter))]
     class BinanceCandleResponse
     {
+        public long unixTime;
         public DateTimeOffset start { get; set; }
         public decimal open;
         public decimal high;
@@ -26,6 +27,7 @@ namespace FluentExchangeClient.Exchange.Binance.Responses
             JArray array = JArray.Load(reader);
             return new BinanceCandleResponse
             {
+                unixTime = array[0].ToObject<long>(),
                 start = DateTimeOffset.FromUnixTimeMilliseconds(array[0].ToObject<long>()),
                 open = array[1].ToObject<decimal>(),
                 high = array[2].ToObject<decimal>(),
