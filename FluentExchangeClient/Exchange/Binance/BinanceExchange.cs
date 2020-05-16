@@ -68,7 +68,13 @@ namespace FluentExchangeClient.Exchange.Binance
         {
             var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
             var candles = await SendAsync<IEnumerable<BinanceCandleResponse>>(request);
-            return Map<IEnumerable<Candle>>(candles);
+            var result = Map<IEnumerable<Candle>>(candles);
+            foreach (var candle in result)
+            {
+                candle.Base = symbol;
+                candle.Quote = quoteSymbol;
+            }
+            return result;
         }
 
         public new async Task<IDictionary<string, IEnumerable<Candle>>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 500)

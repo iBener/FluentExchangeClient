@@ -6,6 +6,8 @@ namespace FluentExchangeClient.Models
 {
     public class Candle
     {
+        public string Base { get; set; }
+        public string Quote { get; set; }
         public DateTimeOffset Start { get; set; }
         public decimal Open { get; set; }
         public decimal High { get; set; }
