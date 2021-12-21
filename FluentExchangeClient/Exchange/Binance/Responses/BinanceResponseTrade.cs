@@ -4,22 +4,21 @@ using FluentExchangeClient.Mapper;
 using Newtonsoft.Json;
 using System;
 
-namespace FluentExchangeClient.Exchange.Binance.Responses
+namespace FluentExchangeClient.Exchange.Binance.Responses;
+
+class BinanceResponseTrade
 {
-    class BinanceResponseTrade
-    {
-        public long id;
-        public long orderId;
-        public string symbol;
-        public decimal price;
-        public decimal qty;
-        public decimal quoteQty;
-        public decimal commission;
-        public string commissionAsset;
-        [JsonConverter(typeof(UnixMillisecondsTimeConverter))]
-        public DateTimeOffset time;
-        public bool isBuyer;
-        public bool isMaker;
-        public bool isBestMatch;
-    }
+    public long id;
+    public long orderId;
+    public string symbol;
+    public decimal price;
+    public decimal qty;
+    public decimal quoteQty;
+    public decimal commission;
+    public string commissionAsset;
+    [JsonConverter(typeof(UnixMillisecondsTimeConverter))]
+    public DateTimeOffset time;
+    public bool isBuyer;
+    public bool isMaker;
+    public bool isBestMatch;
 }

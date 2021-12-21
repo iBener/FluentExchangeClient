@@ -3,9 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FluentExchangeClient.Mapper
+namespace FluentExchangeClient.Mapper;
+
+class BittrexMappingProfile : Profile
 {
-    class BittrexMappingProfile : Profile
-    {
-    }
 }

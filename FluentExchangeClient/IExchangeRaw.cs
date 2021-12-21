@@ -3,46 +3,45 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FluentExchangeClient
+namespace FluentExchangeClient;
+
+public interface IExchangeRaw
 {
-    public interface IExchangeRaw
-    {
-        string Name { get; }
+    string Name { get; }
 
-        Task<string> GetMarketAsync(string symbol, string quoteSymbol);
+    Task<string> GetMarketAsync(string symbol, string quoteSymbol);
 
-        Task<string> GetMarketsAsync();
+    Task<string> GetMarketsAsync();
 
-        Task<string> GetTickerAsync(string symbol, string quoteSymbol);
+    Task<string> GetTickerAsync(string symbol, string quoteSymbol);
 
-        Task<string> GetTickersAsync();
+    Task<string> GetTickersAsync();
 
-        Task<string> GetBalanceAsync(string symbol);
+    Task<string> GetBalanceAsync(string symbol);
 
-        Task<string> GetBalancesAsync();
+    Task<string> GetBalancesAsync();
 
-        Task<string> GetServerTime();
+    Task<string> GetServerTime();
 
-        Task<string> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0);
+    Task<string> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0);
 
-        Task<IDictionary<string, string>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0);
+    Task<IDictionary<string, string>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0);
 
-        Task<string> GetOrders(string symbol, string quoteSymbol, int limit = 0);
+    Task<string> GetOrders(string symbol, string quoteSymbol, int limit = 0);
 
-        Task<string> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0);
+    Task<string> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0);
 
-        Task<string> GetOpenOrders();
+    Task<string> GetOpenOrders();
 
-        Task<string> GetOpenOrders(string symbol, string quoteSymbol);
+    Task<string> GetOpenOrders(string symbol, string quoteSymbol);
 
-        Task<string> GetTrades(string symbol, string quoteSymbol, int limit = 0);
+    Task<string> GetTrades(string symbol, string quoteSymbol, int limit = 0);
 
-        Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0);
+    Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0);
 
-        Task<string> GetOrder(Order order);
+    Task<string> GetOrder(Order order);
 
-        Task<string> PostOrder(Order order, bool test = false);
+    Task<string> PostOrder(Order order, bool test = false);
 
-        Task<string> DeleteOrder(Order order);
-    }
+    Task<string> DeleteOrder(Order order);
 }

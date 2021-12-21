@@ -3,9 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FluentExchangeClient.Mapper
+namespace FluentExchangeClient.Mapper;
+
+class CobinhoodMappingProfile : Profile
 {
-    class CobinhoodMappingProfile : Profile
-    {
-    }
 }

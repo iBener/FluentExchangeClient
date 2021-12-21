@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using FluentExchangeClient.Builder;
 using FluentExchangeClient.Models;
 
-namespace FluentExchangeClient.Exchange.Poloniex
+namespace FluentExchangeClient.Exchange.Poloniex;
+
+class PoloniexExchange : ExchangeBase //, IExchange
 {
-    class PoloniexExchange : ExchangeBase //, IExchange
+    public PoloniexExchange(ExchangeOptions options) : base(options)
     {
-        public PoloniexExchange(ExchangeOptions options) : base(options)
-        {
-        }
     }
 }

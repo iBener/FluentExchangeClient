@@ -6,26 +6,25 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace FluentExchangeClient.Exchange
+namespace FluentExchangeClient.Exchange;
+
+abstract class ExchangeRequestBase : HttpRequestMessage
 {
-    abstract class ExchangeRequestBase : HttpRequestMessage
+    public abstract Uri BaseAddress { get; }
+
+    public NameValueCollection Query { get; }
+
+    public string QueryString => Query.Count > 0 ? "?" + Query.ToString() : "";
+
+    public ExchangeRequestBase()
     {
-        public abstract Uri BaseAddress { get; }
+        Query = HttpUtility.ParseQueryString(String.Empty);
+    }
 
-        public NameValueCollection Query { get; }
-
-        public string QueryString => Query.Count > 0 ? "?" + Query.ToString() : "";
-
-        public ExchangeRequestBase()
-        {
-            Query = HttpUtility.ParseQueryString(String.Empty);
-        }
-
-        public string Sign(HMAC hmac)
-        {
-            var messageBytes = Encoding.UTF8.GetBytes(Query.ToString());
-            var computedHash = hmac.ComputeHash(messageBytes);
-            return BitConverter.ToString(computedHash).Replace("-", "").ToLower();
-        }
+    public string Sign(HMAC hmac)
+    {
+        var messageBytes = Encoding.UTF8.GetBytes(Query.ToString());
+        var computedHash = hmac.ComputeHash(messageBytes);
+        return BitConverter.ToString(computedHash).Replace("-", "").ToLower();
     }
 }

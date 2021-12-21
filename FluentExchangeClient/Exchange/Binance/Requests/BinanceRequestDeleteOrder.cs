@@ -6,14 +6,13 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluentExchangeClient.Exchange.Binance.Requests
+namespace FluentExchangeClient.Exchange.Binance.Requests;
+
+class BinanceRequestDeleteOrder : BinanceBaseRequest
 {
-    class BinanceRequestDeleteOrder : BinanceBaseRequest
+    public BinanceRequestDeleteOrder(object param, ApiCredentials credentials) : base(param, credentials)
     {
-        public BinanceRequestDeleteOrder(object param, ApiCredentials credentials) : base(param, credentials)
-        {
-            Method = HttpMethod.Delete;
-            RequestUri = new Uri(BaseAddress, $"/api/v3/order{ QueryString }");
-        }
+        Method = HttpMethod.Delete;
+        RequestUri = new Uri(BaseAddress, $"/api/v3/order{ QueryString }");
     }
 }

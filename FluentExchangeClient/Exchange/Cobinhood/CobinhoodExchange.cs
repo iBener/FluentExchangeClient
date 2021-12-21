@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using FluentExchangeClient.Builder;
 using FluentExchangeClient.Models;
 
-namespace FluentExchangeClient.Exchange.Cobinhood
+namespace FluentExchangeClient.Exchange.Cobinhood;
+
+class CobinhoodExchange : ExchangeBase //, IExchange
 {
-    class CobinhoodExchange : ExchangeBase //, IExchange
+    public CobinhoodExchange(ExchangeOptions options) : base(options)
     {
-        public CobinhoodExchange(ExchangeOptions options) : base(options)
-        {
-        }
     }
 }

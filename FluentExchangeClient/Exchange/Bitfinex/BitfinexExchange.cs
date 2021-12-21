@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using FluentExchangeClient.Builder;
 using FluentExchangeClient.Models;
 
-namespace FluentExchangeClient.Exchange.Bitfinex
+namespace FluentExchangeClient.Exchange.Bitfinex;
+
+class BitfinexExchange : ExchangeBase //, IExchange
 {
-    class BitfinexExchange : ExchangeBase //, IExchange
+    public BitfinexExchange(ExchangeOptions options) : base(options)
     {
-        public BitfinexExchange(ExchangeOptions options) : base(options)
-        {
-        }
     }
 }

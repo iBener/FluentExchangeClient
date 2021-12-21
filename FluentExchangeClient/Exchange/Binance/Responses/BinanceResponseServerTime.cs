@@ -4,11 +4,10 @@ using FluentExchangeClient.Mapper;
 using Newtonsoft.Json;
 using System;
 
-namespace FluentExchangeClient.Exchange.Binance.Responses
+namespace FluentExchangeClient.Exchange.Binance.Responses;
+
+class BinanceResponseServerTime
 {
-    class BinanceResponseServerTime
-    {
-        [JsonConverter(typeof(UnixMillisecondsTimeConverter))]
-        public DateTimeOffset serverTime;
-    }
+    [JsonConverter(typeof(UnixMillisecondsTimeConverter))]
+    public DateTimeOffset serverTime;
 }

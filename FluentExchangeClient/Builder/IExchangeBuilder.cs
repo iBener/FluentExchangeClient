@@ -1,12 +1,11 @@
 ﻿using FluentExchangeClient.Exchange;
 
-namespace FluentExchangeClient.Builder
+namespace FluentExchangeClient.Builder;
+
+public interface IExchangeBuilder
 {
-    public interface IExchangeBuilder
-    {
-        ExchangeOptions Options { get; }
-        void SetCredentials(string apiKey, string apiSecret);
-        IExchange Build();
-        IExchangeRaw BuildRaw();
-    }
+    ExchangeOptions Options { get; }
+    void SetCredentials(string apiKey, string apiSecret);
+    IExchange Build();
+    IExchangeRaw BuildRaw();
 }

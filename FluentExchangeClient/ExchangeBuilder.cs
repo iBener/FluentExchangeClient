@@ -1,39 +1,37 @@
 ﻿using FluentExchangeClient.Builder;
 using FluentExchangeClient.Exchange;
-using FluentExchangeClient.Models;
 
-namespace FluentExchangeClient
+namespace FluentExchangeClient;
+
+public class ExchangeBuilder
 {
-    public class ExchangeBuilder
+    public static ExchangeBuilderWithOptions UseBinance()
     {
-        public ExchangeBuilderWithOptions UseBinance()
-        {
-            return new ExchangeBuilderWithOptions(ExchangeNames.Binance);
-        }
+        return new ExchangeBuilderWithOptions(ExchangeNames.Binance);
+    }
 
-        public ExchangeBuilderWithOptions UseBitfinex()
-        {
-            return new ExchangeBuilderWithOptions(ExchangeNames.Bitfinex);
-        }
+    public static ExchangeBuilderWithOptions UseBitfinex()
+    {
+        return new ExchangeBuilderWithOptions(ExchangeNames.Bitfinex);
+    }
 
-        public ExchangeBuilderWithOptions UseBittrex()
-        {
-            return new ExchangeBuilderWithOptions(ExchangeNames.Bittrex);
-        }
+    public static ExchangeBuilderWithOptions UseBittrex()
+    {
+        return new ExchangeBuilderWithOptions(ExchangeNames.Bittrex);
+    }
 
-        public ExchangeBuilderWithOptions UsePoloniex()
-        {
-            return new ExchangeBuilderWithOptions(ExchangeNames.Poloniex);
-        }
+    public static ExchangeBuilderWithOptions UsePoloniex()
+    {
+        return new ExchangeBuilderWithOptions(ExchangeNames.Poloniex);
+    }
 
-        public ExchangeBuilderWithOptions UseCobinhood()
-        {
-            return new ExchangeBuilderWithOptions(ExchangeNames.Cobinhood);
-        }
+    public static ExchangeBuilderWithOptions UseCobinhood()
+    {
+        return new ExchangeBuilderWithOptions(ExchangeNames.Cobinhood);
+    }
 
-        public ExchangeBuilderWithOptions UseExchange(string exchange)
-        {
-            return new ExchangeBuilderWithOptions(exchange);
-        }
+    public static ExchangeBuilderWithOptions UseExchange(string exchange)
+    {
+        return new ExchangeBuilderWithOptions(exchange);
     }
 }

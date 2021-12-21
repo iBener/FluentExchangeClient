@@ -6,15 +6,14 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluentExchangeClient.Exchange.Binance.Requests
+namespace FluentExchangeClient.Exchange.Binance.Requests;
+
+class BinanceRequestOpenOrders : BinanceBaseRequest
 {
-    class BinanceRequestOpenOrders : BinanceBaseRequest
+    public BinanceRequestOpenOrders(string symbol, string quoteSymbol, long timestamp, ApiCredentials credentials) :
+        base(new { symbol = symbol + quoteSymbol, timestamp }, credentials)
     {
-        public BinanceRequestOpenOrders(string symbol, string quoteSymbol, long timestamp, ApiCredentials credentials) :
-            base(new { symbol = symbol + quoteSymbol, timestamp }, credentials)
-        {
-            Method = HttpMethod.Get;
-            RequestUri = new Uri(BaseAddress, "/api/v3/openOrders" + QueryString);
-        }
+        Method = HttpMethod.Get;
+        RequestUri = new Uri(BaseAddress, "/api/v3/openOrders" + QueryString);
     }
 }

@@ -3,36 +3,35 @@ using FluentExchangeClient.Exchange.Cobinhood;
 using FluentExchangeClient.Mapper;
 using System;
 
-namespace FluentExchangeClient.Builder
+namespace FluentExchangeClient.Builder;
+
+class CobinhoodExchangeBuilder : IExchangeBuilder
 {
-    class CobinhoodExchangeBuilder : IExchangeBuilder
+    public ExchangeOptions Options { get; }
+
+    public CobinhoodExchangeBuilder()
     {
-        public ExchangeOptions Options { get; }
-
-        public CobinhoodExchangeBuilder()
+        Options = new ExchangeOptions
         {
-            Options = new ExchangeOptions
-            {
-                ExchangeName = ExchangeNames.Cobinhood,
-                Mapper = MappingConfigurations.Cobinhood.CreateMapper()
-            };
-        }
+            ExchangeName = ExchangeNames.Cobinhood,
+            Mapper = MappingConfigurations.Cobinhood.CreateMapper()
+        };
+    }
 
-        public void SetCredentials(string apiKey, string apiSecret)
-        {
-            throw new NotImplementedException();
-        }
+    public void SetCredentials(string apiKey, string apiSecret)
+    {
+        throw new NotImplementedException();
+    }
 
-        public IExchange Build()
-        {
-            //return new CobinhoodExchange(Options);
-            throw new NotImplementedException();
-        }
+    public IExchange Build()
+    {
+        //return new CobinhoodExchange(Options);
+        throw new NotImplementedException();
+    }
 
-        public IExchangeRaw BuildRaw()
-        {
-            //return new CobinhoodExchange(Options);
-            throw new NotImplementedException();
-        }
+    public IExchangeRaw BuildRaw()
+    {
+        //return new CobinhoodExchange(Options);
+        throw new NotImplementedException();
     }
 }

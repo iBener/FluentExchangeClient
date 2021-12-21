@@ -9,62 +9,60 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluentExchangeClient.Exchange
+namespace FluentExchangeClient.Exchange;
+
+public abstract class ExchangeBase : IDisposable
 {
-    public abstract class ExchangeBase : IDisposable
+    private readonly HttpClient http;
+    private readonly IMapper mapper;
+
+    public ExchangeBase()
     {
-        private readonly HttpClient http;
-        private readonly IMapper mapper;
+    }
 
-        public ExchangeBase()
+    internal ExchangeBase(ExchangeOptions options)
+    {
+        Options = options;
+        http = Options.Http ?? new HttpClient();
+        mapper = Options.Mapper ?? throw new ArgumentNullException(nameof(Options.Mapper), "Mapper cannot be null");
+    }
+
+    public ExchangeOptions Options { get; }
+
+    public string Name => Options?.ExchangeName;
+
+    protected async Task<T> SendAsync<T>(HttpRequestMessage request)
+    {
+        string json = await SendAsync(request);
+        return JsonConvert.DeserializeObject<T>(json);
+    }
+
+    protected async Task<string> SendAsync(HttpRequestMessage request)
+    {
+        using (request)
         {
-        }
-
-        internal ExchangeBase(ExchangeOptions options)
-        {
-            Options = options;
-            http = Options.Http ?? new HttpClient();
-            mapper = Options.Mapper ?? throw new ArgumentNullException(nameof(Options.Mapper));
-        }
-
-        public ExchangeOptions Options { get; }
-
-        public string Name => Options?.ExchangeName;
-
-        protected async Task<T> SendAsync<T>(HttpRequestMessage request)
-        {
-            string json = await SendAsync(request);
-            return JsonConvert.DeserializeObject<T>(json);
-        }
-
-        protected async Task<string> SendAsync(HttpRequestMessage request)
-        {
-            using (request)
+            using var response = await http.SendAsync(request);
+            string json = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
             {
-                using (var response = await http.SendAsync(request))
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return json;
-                    }
-                    throw new ExchangeClientException(json);
-                }
+                return json;
             }
+            throw new ExchangeClientException(json);
         }
+    }
 
-        internal T Map<T>(object source)
-        {
-            return mapper.Map<T>(source);
-        }
+    internal T Map<T>(object source)
+    {
+        return mapper.Map<T>(source);
+    }
 
-        public void Dispose()
+    public void Dispose()
+    {
+        Debug.WriteLine($"'{Name}' exchange is disposing.");
+        if (http != null)
         {
-            Debug.WriteLine($"'{Name}' exchange is disposing.");
-            if (Options.Http == null)
-            {
-                http.Dispose();
-            }
+            http.Dispose();
         }
+        GC.SuppressFinalize(this);
     }
 }

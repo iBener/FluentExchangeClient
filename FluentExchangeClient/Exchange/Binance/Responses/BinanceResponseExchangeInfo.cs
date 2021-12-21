@@ -2,26 +2,25 @@
 
 using System.Collections.Generic;
 
-namespace FluentExchangeClient.Exchange.Binance.Responses
+namespace FluentExchangeClient.Exchange.Binance.Responses;
+
+class BinanceResponseExchangeInfo
 {
-    class BinanceResponseExchangeInfo
-    {
-        public List<BinanceResponseExchangeInfoSymbolInfo> symbols;
-    }
+    public List<BinanceResponseExchangeInfoSymbolInfo> symbols;
+}
 
-    class BinanceResponseExchangeInfoSymbolInfo
-    {
-        public string symbol;
-        public string baseAsset;
-        public string quoteAsset;
-        public List<BinanceResponseExchangeInfoSymbolInfoFilterInfo> filters;
-        public string status;
-    }
+class BinanceResponseExchangeInfoSymbolInfo
+{
+    public string symbol;
+    public string baseAsset;
+    public string quoteAsset;
+    public List<BinanceResponseExchangeInfoSymbolInfoFilterInfo> filters;
+    public string status;
+}
 
-    class BinanceResponseExchangeInfoSymbolInfoFilterInfo
-    {
-        public string filterType;
-        public decimal stepSize;
-        public decimal tickSize;
-    }
+class BinanceResponseExchangeInfoSymbolInfoFilterInfo
+{
+    public string filterType;
+    public decimal stepSize;
+    public decimal tickSize;
 }

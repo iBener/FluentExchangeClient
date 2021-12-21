@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using FluentExchangeClient.Builder;
 using FluentExchangeClient.Models;
 
-namespace FluentExchangeClient.Exchange.Bittrex
+namespace FluentExchangeClient.Exchange.Bittrex;
+
+class BittrexExchange : ExchangeBase //, IExchange
 {
-    class BittrexExchange : ExchangeBase //, IExchange
+    public BittrexExchange(ExchangeOptions options) : base(options)
     {
-        public BittrexExchange(ExchangeOptions options) : base(options)
-        {
-        }
     }
 }

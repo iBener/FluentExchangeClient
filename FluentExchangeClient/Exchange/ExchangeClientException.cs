@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FluentExchangeClient.Exchange
+namespace FluentExchangeClient.Exchange;
+
+public class ExchangeClientException : Exception
 {
-    public class ExchangeClientException : Exception
+    public ExchangeClientException(string message) : base(message)
     {
-        public ExchangeClientException(string message) : base(message)
-        {
-        }
     }
 }

@@ -7,37 +7,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluentExchangeClient.Exchange.Binance
+namespace FluentExchangeClient.Exchange.Binance;
+
+public abstract class BinanceExchangeBase : ExchangeBase
 {
-    public abstract class BinanceExchangeBase : ExchangeBase
+    internal BinanceExchangeBase(ExchangeOptions options) : base(options)
     {
-        internal BinanceExchangeBase(ExchangeOptions options) : base(options)
-        {
-        }
-
-        private static double? serverTimeDiff = null;
-
-        public long Timestamp
-        {
-            get
-            {
-                double diff;
-                if (serverTimeDiff == null)
-                {
-                    var result = GetServerTime().GetAwaiter().GetResult();
-                    var response = JsonConvert.DeserializeObject<BinanceResponseServerTime>(result);
-                    serverTimeDiff = (response.serverTime - DateTimeOffset.UtcNow).TotalMilliseconds;
-                    diff = serverTimeDiff.Value;
-                }
-                else
-                {
-                    diff = serverTimeDiff.Value;
-                }
-                var now = DateTimeOffset.UtcNow.AddMilliseconds(diff);
-                return now.ToUnixTimeMilliseconds();
-            }
-        }
-
-        public abstract Task<string> GetServerTime();
     }
+
+    private static double? serverTimeDiff = null;
+
+    public long Timestamp
+    {
+        get
+        {
+            double diff;
+            if (serverTimeDiff == null)
+            {
+                var result = GetServerTime().GetAwaiter().GetResult();
+                var response = JsonConvert.DeserializeObject<BinanceResponseServerTime>(result);
+                serverTimeDiff = (response.serverTime - DateTimeOffset.UtcNow).TotalMilliseconds;
+                diff = serverTimeDiff.Value;
+            }
+            else
+            {
+                diff = serverTimeDiff.Value;
+            }
+            var now = DateTimeOffset.UtcNow.AddMilliseconds(diff);
+            return now.ToUnixTimeMilliseconds();
+        }
+    }
+
+    public abstract Task<string> GetServerTime();
 }
