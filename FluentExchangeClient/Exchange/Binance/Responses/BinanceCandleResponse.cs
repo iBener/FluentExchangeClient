@@ -11,7 +11,7 @@ namespace FluentExchangeClient.Exchange.Binance.Responses;
 class BinanceCandleResponse
 {
     public long unixTime;
-    public DateTimeOffset start { get; set; }
+    public DateTimeOffset start;
     public decimal open;
     public decimal high;
     public decimal low;

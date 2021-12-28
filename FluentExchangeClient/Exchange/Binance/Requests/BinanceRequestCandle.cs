@@ -9,6 +9,6 @@ class BinanceRequestCandle : BinanceBaseRequest
         : base(new { symbol = symbol + quoteSymbol, interval, limit }, null)
     {
         Method = HttpMethod.Get;
-        RequestUri = new Uri(BaseAddress, "/api/v1/klines" + QueryString);
+        RequestUri = new Uri(BaseAddress, "/api/v3/klines" + QueryString);
     }
 }

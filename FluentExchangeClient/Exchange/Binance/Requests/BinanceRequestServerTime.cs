@@ -8,6 +8,6 @@ class BinanceRequestServerTime : BinanceBaseRequest
     public BinanceRequestServerTime() : base(null, null)
     {
         Method = HttpMethod.Get;
-        RequestUri = new Uri(BaseAddress, "/api/v1/time");
+        RequestUri = new Uri(BaseAddress, "/api/v3/time");
     }
 }

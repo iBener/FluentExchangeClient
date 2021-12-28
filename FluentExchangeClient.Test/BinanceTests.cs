@@ -33,29 +33,7 @@ public class BinanceTests
             .Build();
     }
 
-    [Test]
-    public async Task GetBalanceTest()
-    {
-        var balances = await exchange.GetBalancesAsync();
-        Assert.IsNotNull(balances);
-    }
-
-    [Test]
-    public async Task GetMarketsTest()
-    {
-        var markets = await exchange.GetMarketsAsync();
-        var market = markets.FirstOrDefault(x => x.Base == "BTC" && x.Quote == "USDT");
-        Assert.IsNotNull(market);
-    }
-
-    [Test]
-    public async Task GetTickerTest()
-    {
-        var ticker = await exchange.GetTickerAsync("BTC", "USDT");
-        Assert.IsNotNull(ticker);
-    }
-
-    [Test]
+    [Test, Order(0)]
     public async Task GetServerTimeTest()
     {
         var dateTime = await exchange.GetServerTime();
@@ -63,35 +41,57 @@ public class BinanceTests
         Assert.AreNotEqual(dateTime, def);
     }
 
-    [Test]
+    [Test, Order(1)]
+    public async Task GetBalanceTest()
+    {
+        var balances = await exchange.GetBalancesAsync();
+        Assert.IsNotNull(balances);
+    }
+
+    [Test, Order(2)]
+    public async Task GetMarketsTest()
+    {
+        var markets = await exchange.GetMarketsAsync();
+        var market = markets.FirstOrDefault(x => x.Base == "BTC" && x.Quote == "USDT");
+        Assert.IsNotNull(market);
+    }
+
+    [Test, Order(3)]
+    public async Task GetTickerTest()
+    {
+        var ticker = await exchange.GetTickerAsync("BTC", "USDT");
+        Assert.IsNotNull(ticker);
+    }
+
+    [Test, Order(4)]
     public async Task GetCandlesTest()
     {
         var candles = await exchange.GetCandlesAsync("BTC", "USDT", "1d", 7);
         Assert.IsNotNull(candles);
     }
 
-    [Test]
+    [Test, Order(5)]
     public async Task GetOrdersTest()
     {
         var orders = await exchange.GetOrders("BTC", "USDT", 10);
         Assert.IsNotNull(orders);
     }
 
-    [Test]
+    [Test, Order(6)]
     public async Task GetOpenOrdersTest()
     {
         var orders = await exchange.GetOpenOrders();
         Assert.IsNotNull(orders);
     }
 
-    [Test]
+    [Test, Order(7)]
     public async Task GetTradesTest()
     {
         var trades = await exchange.GetTrades("RVN", "USDT", 10);
         Assert.IsNotNull(trades);
     }
 
-    [Test]
+    [Test, Order(8)]
     public async Task PostOrderTest()
     {
         var newId = Guid.NewGuid().ToString();
@@ -101,9 +101,9 @@ public class BinanceTests
             Symbol = "BTCUSDT",
             Side = "BUY",
             Type = "LIMIT",
-            Price = 2500,
+            Price = 45000,
             Quantity = 0.004M,
-            TimeInForce = "GTC"
+            TimeInForce = "GTC",
         };
         var newOrder = await exchange.PostOrder(order);
         Assert.IsNotNull(newOrder);
@@ -113,7 +113,7 @@ public class BinanceTests
         }
     }
 
-    [Test]
+    [Test, Order(9)]
     public async Task DeleteOrder()
     {
         await PostOrderTest();

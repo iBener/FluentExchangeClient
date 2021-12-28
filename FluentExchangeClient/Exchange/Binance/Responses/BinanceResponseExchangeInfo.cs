@@ -21,6 +21,18 @@ class BinanceResponseExchangeInfoSymbolInfo
 class BinanceResponseExchangeInfoSymbolInfoFilterInfo
 {
     public string filterType;
-    public decimal stepSize;
-    public decimal tickSize;
+    public decimal? minPrice;
+    public decimal? maxPrice;
+    public decimal? tickSize;
+    public decimal? multiplierUp;
+    public decimal? multiplierDown;
+    public decimal? avgPriceMins;
+    public decimal? minQty;
+    public decimal? maxQty;
+    public decimal? stepSize;
+    public decimal? minNotional;
+    public bool? applyToMarket;
+    public int? limit;
+    public int? maxNumOrders;
+    public int? maxNumAlgoOrders;
 }

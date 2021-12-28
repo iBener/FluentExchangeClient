@@ -10,6 +10,6 @@ class BinanceRequestExchangeInfo : BinanceBaseRequest
     public BinanceRequestExchangeInfo() : base(null, null)
     {
         Method = HttpMethod.Get;
-        RequestUri = new Uri(BaseAddress, "/api/v1/exchangeInfo");
+        RequestUri = new Uri(BaseAddress, "/api/v3/exchangeInfo");
     }
 }
