@@ -26,3 +26,12 @@ class BinanceBaseRequest : ExchangeRequestBase
         }
     }
 }
+
+class BinanceBasePerpetualRequest : BinanceBaseRequest
+{
+    public override Uri BaseAddress => new("https://fapi.binance.com");
+
+    public BinanceBasePerpetualRequest(object param, ApiCredentials credentials) : base(param, credentials)
+    {
+    }
+}

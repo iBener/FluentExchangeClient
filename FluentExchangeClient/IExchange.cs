@@ -25,6 +25,8 @@ public interface IExchange
 
     Task<IEnumerable<Candle>> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0);
 
+    Task<IEnumerable<Candle>> GetPerpetualCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0);
+
     Task<IDictionary<string, IEnumerable<Candle>>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0);
 
     Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, int limit = 0);

@@ -71,27 +71,34 @@ public class BinanceTests
     }
 
     [Test, Order(5)]
+    public async Task GetPerpetualCandlesAsync()
+    {
+        var candles = await exchange.GetPerpetualCandlesAsync("BTC", "USDT", "1d", 7);
+        Assert.IsNotNull(candles);
+    }
+
+    [Test, Order(6)]
     public async Task GetOrdersTest()
     {
         var orders = await exchange.GetOrders("BTC", "USDT", 10);
         Assert.IsNotNull(orders);
     }
 
-    [Test, Order(6)]
+    [Test, Order(7)]
     public async Task GetOpenOrdersTest()
     {
         var orders = await exchange.GetOpenOrders();
         Assert.IsNotNull(orders);
     }
 
-    [Test, Order(7)]
+    [Test, Order(8)]
     public async Task GetTradesTest()
     {
         var trades = await exchange.GetTrades("RVN", "USDT", 10);
         Assert.IsNotNull(trades);
     }
 
-    [Test, Order(8)]
+    [Test, Order(9)]
     public async Task PostOrderTest()
     {
         var newId = Guid.NewGuid().ToString();
@@ -113,7 +120,7 @@ public class BinanceTests
         }
     }
 
-    [Test, Order(9)]
+    [Test, Order(10)]
     public async Task DeleteOrder()
     {
         await PostOrderTest();

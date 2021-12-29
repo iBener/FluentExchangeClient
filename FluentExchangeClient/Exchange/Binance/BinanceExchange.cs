@@ -67,6 +67,17 @@ public class BinanceExchange : BinanceExchangeRaw, IExchange
     public new async Task<IEnumerable<Candle>> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
     {
         var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
+        return await GetCandlesAsyncInternal(symbol, quoteSymbol, request);
+    }
+
+    public new async Task<IEnumerable<Candle>> GetPerpetualCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
+    {
+        var request = new BinanceRequestPerpetualCandle(symbol, quoteSymbol, interval, limit);
+        return await GetCandlesAsyncInternal(symbol, quoteSymbol, request);
+    }
+
+    private async Task<IEnumerable<Candle>> GetCandlesAsyncInternal(string symbol, string quoteSymbol, BinanceBaseRequest request)
+    {
         var candles = await SendAsync<IEnumerable<BinanceCandleResponse>>(request);
         var result = Map<IEnumerable<Candle>>(candles);
         foreach (var candle in result)

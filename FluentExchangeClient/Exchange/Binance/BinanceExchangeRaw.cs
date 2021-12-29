@@ -67,6 +67,12 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
         return SendAsync(request);
     }
 
+    public Task<string> GetPerpetualCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0)
+    {
+        var request = new BinanceRequestPerpetualCandle(symbol, quoteSymbol, interval, limit);
+        return SendAsync(request);
+    }
+
     public async Task<IDictionary<string, string>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0)
     {
         var marketsJson = await GetMarketsAsync();
