@@ -2,16 +2,13 @@
 using FluentExchangeClient.Exchange.Binance.Responses;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance;
 
-public abstract class BinanceExchangeBase : ExchangeBase
+public abstract class BinancePerpetualExchangeBase : ExchangeBase
 {
-    internal BinanceExchangeBase(ExchangeOptions options) : base(options)
+    internal BinancePerpetualExchangeBase(ExchangeOptions options) : base(options)
     {
     }
 
@@ -37,4 +34,8 @@ public abstract class BinanceExchangeBase : ExchangeBase
             return now.ToUnixTimeMilliseconds();
         }
     }
+
+    public override Task<string> GetServerTime()
+        => throw new NotImplementedException();
+
 }

@@ -12,4 +12,9 @@ class PoloniexExchange : ExchangeBase //, IExchange
     public PoloniexExchange(ExchangeOptions options) : base(options)
     {
     }
+
+    public override Task<string> GetServerTime()
+    {
+        throw new NotImplementedException();
+    }
 }

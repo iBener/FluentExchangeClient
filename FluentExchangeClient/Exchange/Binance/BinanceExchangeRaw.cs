@@ -42,17 +42,17 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
         return SendAsync(request);
     }
 
+    public Task<string> GetBalancesAsync()
+    {
+        var request = new BinanceRequestBalance(Timestamp, Options.Credentials);
+        return SendAsync(request);
+    }
+
     public async Task<string> GetBalanceAsync(string symbol)
     {
         var json = await GetBalancesAsync();
         var balance = JObject.Parse(json).SelectToken($"$.balances[?(@.asset == '{symbol}')]");
         return JsonConvert.SerializeObject(balance);
-    }
-
-    public Task<string> GetBalancesAsync()
-    {
-        var request = new BinanceRequestBalance(Timestamp, Options.Credentials);
-        return SendAsync(request);
     }
 
     public override Task<string> GetServerTime()
@@ -64,12 +64,6 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
     public Task<string> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0)
     {
         var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
-        return SendAsync(request);
-    }
-
-    public Task<string> GetPerpetualCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0)
-    {
-        var request = new BinanceRequestPerpetualCandle(symbol, quoteSymbol, interval, limit);
         return SendAsync(request);
     }
 

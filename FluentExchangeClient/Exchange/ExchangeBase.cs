@@ -31,6 +31,8 @@ public abstract class ExchangeBase : IDisposable
 
     public string Name => Options?.ExchangeName;
 
+    public virtual long Timestamp { get; set; }
+
     protected async Task<T> SendAsync<T>(HttpRequestMessage request)
     {
         string json = await SendAsync(request);
@@ -50,6 +52,8 @@ public abstract class ExchangeBase : IDisposable
             throw new ExchangeClientException(json);
         }
     }
+
+    public abstract Task<string> GetServerTime();
 
     internal T Map<T>(object source)
     {

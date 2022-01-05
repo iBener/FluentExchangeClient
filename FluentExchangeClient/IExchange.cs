@@ -17,15 +17,13 @@ public interface IExchange
 
     Task<IEnumerable<Ticker>> GetTickersAsync();
 
-    Task<Balance> GetBalanceAsync(string symbol);
-
     Task<IEnumerable<Balance>> GetBalancesAsync();
+
+    Task<Balance> GetBalanceAsync(string symbol);
 
     Task<DateTimeOffset> GetServerTime();
 
     Task<IEnumerable<Candle>> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0);
-
-    Task<IEnumerable<Candle>> GetPerpetualCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0);
 
     Task<IDictionary<string, IEnumerable<Candle>>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0);
 

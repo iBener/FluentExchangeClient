@@ -12,4 +12,9 @@ class CobinhoodExchange : ExchangeBase //, IExchange
     public CobinhoodExchange(ExchangeOptions options) : base(options)
     {
     }
+
+    public override Task<string> GetServerTime()
+    {
+        throw new NotImplementedException();
+    }
 }

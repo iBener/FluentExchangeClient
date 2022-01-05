@@ -12,4 +12,9 @@ class BittrexExchange : ExchangeBase //, IExchange
     public BittrexExchange(ExchangeOptions options) : base(options)
     {
     }
+
+    public override Task<string> GetServerTime()
+    {
+        throw new NotImplementedException();
+    }
 }

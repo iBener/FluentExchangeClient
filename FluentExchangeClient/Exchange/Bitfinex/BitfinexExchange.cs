@@ -12,4 +12,9 @@ class BitfinexExchange : ExchangeBase //, IExchange
     public BitfinexExchange(ExchangeOptions options) : base(options)
     {
     }
+
+    public override Task<string> GetServerTime()
+    {
+        throw new NotImplementedException();
+    }
 }

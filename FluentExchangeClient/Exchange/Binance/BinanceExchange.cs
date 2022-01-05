@@ -44,17 +44,17 @@ public class BinanceExchange : BinanceExchangeRaw, IExchange
         return Map<IEnumerable<Ticker>>(tickers);
     }
 
-    public new async Task<Balance> GetBalanceAsync(string symbol)
-    {
-        var balances = await GetBalancesAsync();
-        return balances.FirstOrDefault(x => x.Symbol == symbol);
-    }
-
     public new async Task<IEnumerable<Balance>> GetBalancesAsync()
     {
         var response = await base.GetBalancesAsync();
         var account = JsonConvert.DeserializeObject<BinanceResponseAccount>(response);
         return Map<IEnumerable<Balance>>(account.balances.Where(x => x.free + x.locked > 0));
+    }
+
+    public new async Task<Balance> GetBalanceAsync(string symbol)
+    {
+        var balances = await GetBalancesAsync();
+        return balances.FirstOrDefault(x => x.Symbol == symbol);
     }
 
     public new async Task<DateTimeOffset> GetServerTime()
@@ -67,12 +67,6 @@ public class BinanceExchange : BinanceExchangeRaw, IExchange
     public new async Task<IEnumerable<Candle>> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
     {
         var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
-        return await GetCandlesAsyncInternal(symbol, quoteSymbol, request);
-    }
-
-    public new async Task<IEnumerable<Candle>> GetPerpetualCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
-    {
-        var request = new BinanceRequestPerpetualCandle(symbol, quoteSymbol, interval, limit);
         return await GetCandlesAsyncInternal(symbol, quoteSymbol, request);
     }
 

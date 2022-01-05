@@ -8,15 +8,18 @@ namespace FluentExchangeClient.Builder;
 
 class BinanceExchangeBuilder : IExchangeBuilder
 {
+    private readonly bool _usePerpetual;
+
     public ExchangeOptions Options { get; }
 
-    public BinanceExchangeBuilder()
+    public BinanceExchangeBuilder(bool usePerpetual = false)
     {
         Options = new ExchangeOptions
         {
             ExchangeName = ExchangeNames.Binance,
             Mapper = MappingConfigurations.Binance.CreateMapper(),
         };
+        _usePerpetual = usePerpetual;
     }
 
     public void SetCredentials(string apiKey, string apiSecret)
@@ -31,6 +34,10 @@ class BinanceExchangeBuilder : IExchangeBuilder
 
     public IExchange Build()
     {
+        if (_usePerpetual)
+        {
+            return new BinancePerpetualExchange(Options);
+        }
         return new BinanceExchange(Options);
     }
 

@@ -10,6 +10,11 @@ public class ExchangeBuilder
         return new ExchangeBuilderWithOptions(ExchangeNames.Binance);
     }
 
+    public static ExchangeBuilderWithOptions UseBinancePerpetual()
+    {
+        return new ExchangeBuilderWithOptions(ExchangeNames.BinancePerpetual);
+    }
+
     public static ExchangeBuilderWithOptions UseBitfinex()
     {
         return new ExchangeBuilderWithOptions(ExchangeNames.Bitfinex);

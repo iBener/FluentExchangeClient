@@ -40,6 +40,7 @@ public class ExchangeBuilderWithOptions
         builder = exchange switch
         {
             ExchangeNames.Binance => new BinanceExchangeBuilder(),
+            ExchangeNames.BinancePerpetual => new BinanceExchangeBuilder(usePerpetual: true),
             ExchangeNames.Bitfinex => new BitfinexExchangeBuilder(),
             ExchangeNames.Bittrex => new BittrexExchangeBuilder(),
             ExchangeNames.Cobinhood => new CobinhoodExchangeBuilder(),
