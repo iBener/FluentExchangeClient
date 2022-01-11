@@ -83,7 +83,8 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public override Task<string> GetServerTime()
     {
-        throw new NotImplementedException();
+        var request = new BinanceRequestServerTime();
+        return SendAsync(request);
     }
 
     public Task<string> GetTickerAsync(string symbol, string quoteSymbol)

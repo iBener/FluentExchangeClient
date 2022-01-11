@@ -8,7 +8,7 @@ namespace FluentExchangeClient.Mapper;
 static class MappingConfigurations
 {
     /// Binance mapper configuration singleton object
-    public static MapperConfiguration Binance { get { return binanceLazyInstance.Value; } }
+    public static MapperConfiguration Binance => binanceLazyInstance.Value;
 
     private static readonly Lazy<MapperConfiguration> binanceLazyInstance =
         new(() => new MapperConfiguration(cfg =>
@@ -19,7 +19,7 @@ static class MappingConfigurations
 
 
     /// Bitfinex mapper configuration singleton object
-    public static MapperConfiguration Bitfinex { get { return bitfinexLazyInstance.Value; } }
+    public static MapperConfiguration Bitfinex => bitfinexLazyInstance.Value;
 
     private static readonly Lazy<MapperConfiguration> bitfinexLazyInstance =
         new(() => new MapperConfiguration(cfg =>
@@ -30,7 +30,7 @@ static class MappingConfigurations
 
 
     /// Bittrex mapper configuration singleton object
-    public static MapperConfiguration Bittrex { get { return bittrexLazyInstance.Value; } }
+    public static MapperConfiguration Bittrex => bittrexLazyInstance.Value;
 
     private static readonly Lazy<MapperConfiguration> bittrexLazyInstance =
         new(() => new MapperConfiguration(cfg =>
@@ -41,7 +41,7 @@ static class MappingConfigurations
 
 
     /// Cobinhood mapper configuration singleton object
-    public static MapperConfiguration Cobinhood { get { return cobinhoodLazyInstance.Value; } }
+    public static MapperConfiguration Cobinhood => cobinhoodLazyInstance.Value;
 
     private static readonly Lazy<MapperConfiguration> cobinhoodLazyInstance =
         new(() => new MapperConfiguration(cfg =>
@@ -52,7 +52,7 @@ static class MappingConfigurations
 
 
     /// Poloniex mapper configuration singleton object
-    public static MapperConfiguration Poloniex { get { return poloniexLazyInstance.Value; } }
+    public static MapperConfiguration Poloniex => poloniexLazyInstance.Value;
 
     private static readonly Lazy<MapperConfiguration> poloniexLazyInstance =
         new(() => new MapperConfiguration(cfg =>

@@ -40,7 +40,6 @@ public class ExchangeBuilderWithOptions
         builder = exchange switch
         {
             ExchangeNames.Binance => new BinanceExchangeBuilder(),
-            ExchangeNames.BinancePerpetual => new BinanceExchangeBuilder(usePerpetual: true),
             ExchangeNames.Bitfinex => new BitfinexExchangeBuilder(),
             ExchangeNames.Bittrex => new BittrexExchangeBuilder(),
             ExchangeNames.Cobinhood => new CobinhoodExchangeBuilder(),
@@ -72,13 +71,18 @@ public class ExchangeBuilderWithOptions
         throw new NotImplementedException("Exchange symbol option doesn't implemented yet");
     }
 
-    public IExchange Build()
+    public IExchange BuildExchange()
     {
-        return builder.Build();
+        return builder.BuildExchange();
     }
 
-    public IExchangeRaw BuildRaw()
+    public IExchange BuildPerpetualExchange()
     {
-        return builder.BuildRaw();
+        return builder.BuildPerpetualExchange();
+    }
+
+    public IExchangeRaw BuildRawExchange()
+    {
+        return builder.BuildRawExchange();
     }
 }

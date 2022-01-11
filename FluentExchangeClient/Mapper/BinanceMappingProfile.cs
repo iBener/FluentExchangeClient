@@ -13,26 +13,46 @@ class BinanceMappingProfile : Profile
 {
     public BinanceMappingProfile()
     {
+        // BinanceResponseTicker -> Ticker
         CreateMap<BinanceResponseTicker, Ticker>()
             .ForMember(target => target.Pair, m => m.MapFrom(source => source.symbol))
             .ForMember(target => target.Price, m => m.MapFrom(source => source.lastPrice))
             .ForMember(target => target.Volume, m => m.MapFrom(source => source.quoteVolume));
+
+        // BinanceResponseAccountBalanceInfo -> Balance
         CreateMap<BinanceResponseAccountBalanceInfo, Balance>()
             .ForMember(target => target.Symbol, m => m.MapFrom(source => source.asset))
             .ForMember(target => target.Amount, m => m.MapFrom(source => source.free + source.locked));
+
+        // BinancePerpetualResponseAccountAssets -> Balance
+        CreateMap<BinancePerpetualResponseAccountAssets, Balance>()
+            .ForMember(target => target.Symbol, m => m.MapFrom(source => source.asset))
+            .ForMember(target => target.Amount, m => m.MapFrom(source => source.walletBalance))
+            .ForMember(target => target.Locked, m => m.MapFrom(source => source.walletBalance - source.availableBalance))
+            .ForMember(target => target.Free, m => m.MapFrom(source => source.availableBalance));
+
+        // BinanceResponseExchangeInfoSymbolInfo -> Market
         CreateMap<BinanceResponseExchangeInfoSymbolInfo, Market>()
             .ConvertUsing<BinanceSymbolInfoResolver>();
+
+        // BinanceCandleResponse -> Candle
         CreateMap<BinanceCandleResponse, Candle>();
+
+        // BinanceResponseOrder -> Order
         CreateMap<BinanceResponseOrder, Order>()
             .ForMember(target => target.Quantity, m => m.MapFrom(source => source.origQty))
             .ForMember(target => target.QuoteQuantity, m => m.MapFrom(source => source.price * source.origQty))
             .ForMember(target => target.FilledQuantity, m => m.MapFrom(source => source.executedQty))
             .ForMember(target => target.TransactionTime, m => m.MapFrom(source => source.time.DateTime));
+
+        // BinanceResponseTrade -> Trade
         CreateMap<BinanceResponseTrade, Trade>()
             .ForMember(target => target.Quantity, m => m.MapFrom(source => source.qty))
             .ForMember(target => target.QuoteQuantity, m => m.MapFrom(source => source.quoteQty))
             .ForMember(target => target.Time, m => m.MapFrom(source => source.time.DateTime))
             .ForMember(target => target.Side, m => m.MapFrom(source => source.isBuyer ? "BUY" : "SELL"));
+
+        // BinanceResponseOrderDelete -> Order
         CreateMap<BinanceResponseOrderDelete, Order>()
             .ForMember(target => target.FilledQuantity, m => m.MapFrom(source => source.executedQty))
             .ForMember(target => target.Quantity, m => m.MapFrom(source => source.origQty))

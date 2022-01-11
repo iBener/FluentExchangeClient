@@ -23,13 +23,18 @@ class BittrexExchangeBuilder : IExchangeBuilder
         throw new NotImplementedException();
     }
 
-    public IExchange Build()
+    public IExchange BuildExchange()
     {
         //return new BittrexExchange(Options);
         throw new NotImplementedException();
     }
 
-    public IExchangeRaw BuildRaw()
+    public IExchange BuildPerpetualExchange()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IExchangeRaw BuildRawExchange()
     {
         //return new BittrexExchange(Options);
         throw new NotImplementedException();

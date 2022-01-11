@@ -17,12 +17,12 @@ public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IExchange
     {
     }
 
-    public Task DeleteOrder(Order order)
+    public new Task DeleteOrder(Order order)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IDictionary<string, IEnumerable<Candle>>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0)
+    public new Task<IDictionary<string, IEnumerable<Candle>>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0)
     {
         throw new NotImplementedException();
     }
@@ -36,8 +36,8 @@ public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IExchange
     public new async Task<IEnumerable<Balance>> GetBalancesAsync()
     {
         var response = await base.GetBalancesAsync();
-        var account = JsonConvert.DeserializeObject<BinanceResponseAccount>(response);
-        return Map<IEnumerable<Balance>>(account.balances.Where(x => x.free + x.locked > 0));
+        var account = JsonConvert.DeserializeObject<BinancePerpetualResponseAccount>(response);
+        return Map<IEnumerable<Balance>>(account.assets.Where(x => x.marginBalance > 0));
     }
 
     public new async Task<IEnumerable<Candle>> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
@@ -58,32 +58,32 @@ public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IExchange
         return result;
     }
 
-    public Task<Market> GetMarketAsync(string symbol, string quoteSymbol)
+    public new Task<Market> GetMarketAsync(string symbol, string quoteSymbol)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Market>> GetMarketsAsync()
+    public new Task<IEnumerable<Market>> GetMarketsAsync()
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Order>> GetOpenOrders()
+    public new Task<IEnumerable<Order>> GetOpenOrders()
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Order>> GetOpenOrders(string symbol, string quoteSymbol)
+    public new Task<IEnumerable<Order>> GetOpenOrders(string symbol, string quoteSymbol)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, int limit = 0)
+    public new Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, int limit = 0)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
+    public new Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
     {
         throw new NotImplementedException();
     }
@@ -100,32 +100,32 @@ public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IExchange
 
     public new async Task<DateTimeOffset> GetServerTime()
     {
-        var request = new BinanceRequestServerTime();
+        var request = new BinancePerpetualRequestServerTime();
         var response = await SendAsync<BinanceResponseServerTime>(request);
         return response.serverTime;
     }
 
-    public Task<Ticker> GetTickerAsync(string symbol, string quoteSymbol)
+    public new Task<Ticker> GetTickerAsync(string symbol, string quoteSymbol)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Ticker>> GetTickersAsync()
+    public new Task<IEnumerable<Ticker>> GetTickersAsync()
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Trade>> GetTrades(string symbol, string quoteSymbol, int limit = 0)
+    public new Task<IEnumerable<Trade>> GetTrades(string symbol, string quoteSymbol, int limit = 0)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Trade>> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
+    public new Task<IEnumerable<Trade>> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Order> PostOrder(Order order, bool test = false)
+    public new Task<Order> PostOrder(Order order, bool test = false)
     {
         throw new NotImplementedException();
     }

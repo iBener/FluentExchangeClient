@@ -23,13 +23,18 @@ class CobinhoodExchangeBuilder : IExchangeBuilder
         throw new NotImplementedException();
     }
 
-    public IExchange Build()
+    public IExchange BuildExchange()
     {
         //return new CobinhoodExchange(Options);
         throw new NotImplementedException();
     }
 
-    public IExchangeRaw BuildRaw()
+    public IExchange BuildPerpetualExchange()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IExchangeRaw BuildRawExchange()
     {
         //return new CobinhoodExchange(Options);
         throw new NotImplementedException();
