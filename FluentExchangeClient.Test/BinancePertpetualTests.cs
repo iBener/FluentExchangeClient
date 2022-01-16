@@ -12,7 +12,7 @@ namespace FluentExchangeClient.Test;
 
 public class BinancePertpetualTests
 {
-    IExchange exchange;
+    IExchange binancePerpetual;
 
     [SetUp]
     public void Setup()
@@ -28,64 +28,42 @@ public class BinancePertpetualTests
         var apiKey = obj["Key"].ToString();
         var apiSecret = obj["Secret"].ToString();
 
-        exchange = ExchangeBuilder
+        binancePerpetual = ExchangeBuilder
             .UseBinance()
             .SetCredentials(apiKey, apiSecret)
             .BuildPerpetualExchange();
     }
 
-    [Test, Order(1)]
-    public async Task GetPerpetualBalanceTest()
+    [Test]
+    public async Task Test1_GetPerpetualMarkets()
     {
-        var balances = await exchange.GetBalancesAsync();
-        Assert.IsNotNull(balances);
-    }
-
-    [Test, Order(2)]
-    public async Task GetPerpetualMarketsTest()
-    {
-        var markets = await exchange.GetMarketsAsync();
-        var market = markets.FirstOrDefault(x => x.Base == "BTC" && x.Quote == "USDT");
+        var market = await binancePerpetual.GetMarketAsync("BTC", "USDT");
         Assert.IsNotNull(market);
     }
 
-    [Test, Order(3)]
-    public async Task GetPerpetualTickerTest()
+    [Test]
+    public async Task Test2_GetPerpetualCandles()
     {
-        var ticker = await exchange.GetTickerAsync("BTC", "USDT");
-        Assert.IsNotNull(ticker);
-    }
-
-    [Test, Order(4)]
-    public async Task GetPerpetualCandlesAsync()
-    {
-        var candles = await exchange.GetCandlesAsync("BTC", "USDT", "1d", 7);
+        var candles = await binancePerpetual.GetCandlesAsync("BTC", "USDT", "1d", 7);
         Assert.IsNotNull(candles);
     }
 
-    [Test, Order(6)]
-    public async Task GetPerpetualOrdersTest()
+    [Test]
+    public async Task Test3_GetPerpetualTicker()
     {
-        var orders = await exchange.GetOrders("BTC", "USDT", 10);
-        Assert.IsNotNull(orders);
+        var ticker = await binancePerpetual.GetTickerAsync("BTC", "USDT");
+        Assert.IsNotNull(ticker);
     }
 
-    [Test, Order(7)]
-    public async Task GetPerpetualOpenOrdersTest()
+    [Test]
+    public async Task Test4_GetPerpetualBalances()
     {
-        var orders = await exchange.GetOpenOrders();
-        Assert.IsNotNull(orders);
+        var balances = await binancePerpetual.GetBalancesAsync();
+        Assert.IsNotNull(balances);
     }
 
-    [Test, Order(8)]
-    public async Task GetPerpetualTradesTest()
-    {
-        var trades = await exchange.GetTrades("RVN", "USDT", 10);
-        Assert.IsNotNull(trades);
-    }
-
-    [Test, Order(9)]
-    public async Task PostOrderTest()
+    [Test]
+    public async Task Test5_PostOrder()
     {
         var newId = Guid.NewGuid().ToString();
         var order = new Order
@@ -98,7 +76,7 @@ public class BinancePertpetualTests
             Quantity = 0.004M,
             TimeInForce = "GTC",
         };
-        var newOrder = await exchange.PostOrder(order);
+        var newOrder = await binancePerpetual.PostOrder(order);
         Assert.IsNotNull(newOrder);
         if (newOrder != null)
         {
@@ -106,16 +84,36 @@ public class BinancePertpetualTests
         }
     }
 
-    [Test, Order(10)]
-    public async Task DeleteOrder()
+    [Test]
+    public async Task Test6_GetPerpetualOpenOrders()
     {
-        await PostOrderTest();
-        var orders = await exchange.GetOpenOrders();
+        var orders = await binancePerpetual.GetOpenOrders();
+        Assert.IsNotNull(orders);
+    }
+
+    [Test]
+    public async Task Test7_DeleteOrder()
+    {
+        await Test5_PostOrder();
+        var orders = await binancePerpetual.GetOpenOrders();
         foreach (var order in orders)
         {
-            await exchange.DeleteOrder(order);
+            await binancePerpetual.DeleteOrder(order);
             Assert.AreEqual(order.Status, "CANCELED");
         }
     }
 
+    [Test]
+    public async Task Test8_GetPerpetualOrders()
+    {
+        var orders = await binancePerpetual.GetOrders("BTC", "USDT", 10);
+        Assert.IsNotNull(orders);
+    }
+
+    [Test]
+    public async Task Test9_GetPerpetualTrades()
+    {
+        var trades = await binancePerpetual.GetTrades("BTC", "USDT", 10);
+        Assert.IsNotNull(trades);
+    }
 }

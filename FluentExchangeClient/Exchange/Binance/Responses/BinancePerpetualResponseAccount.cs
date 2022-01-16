@@ -1,10 +1,9 @@
-﻿using FluentExchangeClient.Mapper;
+﻿#pragma warning disable CS0649
+
+using FluentExchangeClient.Mapper;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance.Responses;
 

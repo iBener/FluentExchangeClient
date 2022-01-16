@@ -53,7 +53,8 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> GetMarketsAsync()
     {
-        throw new NotImplementedException();
+        var request = new BinancePerpetualRequestExchangeInfo();
+        return SendAsync(request);
     }
 
     public Task<string> GetOpenOrders()
@@ -89,7 +90,8 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> GetTickerAsync(string symbol, string quoteSymbol)
     {
-        throw new NotImplementedException();
+        var request = new BinancePerpetualRequestTicker(symbol, quoteSymbol);
+        return SendAsync(request);
     }
 
     public Task<string> GetTickersAsync()

@@ -58,14 +58,17 @@ public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IExchange
         return result;
     }
 
-    public new Task<Market> GetMarketAsync(string symbol, string quoteSymbol)
+    public new async Task<Market> GetMarketAsync(string symbol, string quoteSymbol)
     {
-        throw new NotImplementedException();
+        var markets = await GetMarketsAsync();
+        return markets.FirstOrDefault(x => x.Base == symbol && x.Quote == quoteSymbol);
     }
 
-    public new Task<IEnumerable<Market>> GetMarketsAsync()
+    public new async Task<IEnumerable<Market>> GetMarketsAsync()
     {
-        throw new NotImplementedException();
+        var response = await base.GetMarketsAsync();
+        var markets = JsonConvert.DeserializeObject<BinanceResponseExchangeInfo>(response);
+        return Map<IEnumerable<Market>>(markets.symbols);
     }
 
     public new Task<IEnumerable<Order>> GetOpenOrders()
@@ -105,9 +108,11 @@ public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IExchange
         return response.serverTime;
     }
 
-    public new Task<Ticker> GetTickerAsync(string symbol, string quoteSymbol)
+    public new async Task<Ticker> GetTickerAsync(string symbol, string quoteSymbol)
     {
-        throw new NotImplementedException();
+        var response = await base.GetTickerAsync(symbol, quoteSymbol);
+        var ticker = JsonConvert.DeserializeObject<BinanceResponseTicker>(response);
+        return Map<Ticker>(ticker);
     }
 
     public new Task<IEnumerable<Ticker>> GetTickersAsync()
