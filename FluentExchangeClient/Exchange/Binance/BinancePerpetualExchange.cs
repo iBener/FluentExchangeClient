@@ -81,6 +81,13 @@ public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IExchange
         throw new NotImplementedException();
     }
 
+    public new async Task<Order> GetOrder(string symbol, string orderId = null, string clientOrderId = null)
+    {
+        var orderRaw = await base.GetOrder(symbol, orderId, clientOrderId);
+        var order = JsonConvert.DeserializeObject<BinanceResponseOrder>(orderRaw);
+        return Map<Order>(order);
+    }
+
     public new Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, int limit = 0)
     {
         throw new NotImplementedException();
@@ -130,8 +137,10 @@ public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IExchange
         throw new NotImplementedException();
     }
 
-    public new Task<Order> PostOrder(Order order, bool test = false)
+    public new async Task<Order> PostOrder(Order order, bool test = false)
     {
-        throw new NotImplementedException();
+        var newOrderJson = await base.PostOrder(order, test);
+        var newOrder = JsonConvert.DeserializeObject<BinanceResponseOrder>(newOrderJson);
+        return Map<Order>(newOrder);
     }
 }

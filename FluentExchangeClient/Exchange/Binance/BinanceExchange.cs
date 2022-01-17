@@ -96,6 +96,13 @@ public class BinanceExchange : BinanceExchangeRaw, IExchange
         return result;
     }
 
+    public new async Task<Order> GetOrder(string symbol, string orderId = null, string clientOrderId = null)
+    {
+        var orderRaw = await base.GetOrder(symbol, orderId, clientOrderId);
+        var order = JsonConvert.DeserializeObject<BinanceResponseOrder>(orderRaw);
+        return Map<Order>(order);
+    }
+
     public new Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, int limit)
     {
         return GetOrders(symbol, quoteSymbol, default, default, limit);

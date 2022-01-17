@@ -1,5 +1,6 @@
 ﻿using FluentExchangeClient.Builder;
 using FluentExchangeClient.Exchange.Binance.Requests;
+using FluentExchangeClient.Exchange.Binance.Responses;
 using FluentExchangeClient.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -67,9 +68,17 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IExchangeRaw
         throw new NotImplementedException();
     }
 
-    public Task<string> GetOrder(Order order)
+    public Task<string> GetOrder(string symbol, string orderId = null, string clientOrderId = null)
     {
-        throw new NotImplementedException();
+        var param = new
+        {
+            symbol,
+            orderId,
+            clientOrderId,
+            timestamp = Timestamp
+        };
+        var request = new BinancePerpetualRequestGetOrder(param, Options.Credentials);
+        return SendAsync<string>(request);
     }
 
     public Task<string> GetOrders(string symbol, string quoteSymbol, int limit = 0)
@@ -109,8 +118,32 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IExchangeRaw
         throw new NotImplementedException();
     }
 
-    public Task<string> PostOrder(Order order, bool test = false)
+    public async Task<string> PostOrder(Order order, bool test = false)
     {
-        throw new NotImplementedException();
+        var param = CreateParamObject(order);
+        var request = new BinancePerpetualRequestPostOrder(param, Options.Credentials, test: test);
+        if (!test)
+        {
+            var result = await SendAsync(request);
+            var resultOrder = JsonConvert.DeserializeObject<BinanceResponseOrder>(result);
+            order.OrderId = resultOrder.orderId.ToString();
+        }
+        return await GetOrder(order.Symbol, order.OrderId, order.ClientOrderId);
+    }
+
+    private object CreateParamObject(Order order)
+    {
+        return new
+        {
+            symbol = order.Symbol,
+            side = order.Side,
+            type = order.Type,
+            quantity = order.Quantity,
+            quoteOrderQty = order.QuoteQuantity,
+            price = order.Price,
+            timeInForce = order.TimeInForce,
+            newClientOrderId = order.ClientOrderId,
+            timestamp = Timestamp,
+        };
     }
 }

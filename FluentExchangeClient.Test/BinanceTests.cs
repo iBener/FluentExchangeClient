@@ -101,8 +101,8 @@ public class BinanceTests
             Symbol = "BTCUSDT",
             Side = "BUY",
             Type = "LIMIT",
-            Price = 45000,
-            Quantity = 0.004M,
+            Price = 35000,
+            Quantity = 0.001M,
             TimeInForce = "GTC",
         };
         var newOrder = await exchange.PostOrder(order);

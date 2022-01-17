@@ -116,31 +116,30 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
         return SendAsync(request);
     }
 
-    public Task<string> GetOrder(Order order)
+    public Task<string> GetOrder(string symbol, string orderId = null, string clientOrderId = null)
     {
         var param = new
         {
-            symbol = order.Symbol,
-            orderId = order.OrderId,
-            origClientOrderId = order.ClientOrderId,
+            symbol,
+            orderId,
+            clientOrderId,
             timestamp = Timestamp
         };
         return SendAsync(new BinanceRequestGetOrder(param, Options.Credentials));
     }
 
-    public Task<string> PostOrder(Order order, bool test = false)
+    public async Task<string> PostOrder(Order order, bool test = false)
     {
-        var param = CreateObjectParamObject(order);
+        var param = CreateParamObject(order);
         var request = new BinanceRequestPostOrder(param, Options.Credentials, test: test);
-        if (!test && !String.IsNullOrEmpty(order.ClientOrderId))
+        if (!test)
         {
-            SendAsync(request).Wait();
-            return GetOrder(order);
+            await SendAsync(request);
         }
-        return SendAsync(request);
+        return await GetOrder(order.Symbol, order.OrderId, order.ClientOrderId);
     }
 
-    private object CreateObjectParamObject(Order order)
+    private object CreateParamObject(Order order)
     {
         return new
         {

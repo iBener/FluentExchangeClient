@@ -27,6 +27,8 @@ public interface IExchangeRaw
 
     Task<IDictionary<string, string>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0);
 
+    Task<string> GetOrder(string symbol, string orderId = null, string clientOrderId = null);
+
     Task<string> GetOrders(string symbol, string quoteSymbol, int limit = 0);
 
     Task<string> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0);
@@ -38,8 +40,6 @@ public interface IExchangeRaw
     Task<string> GetTrades(string symbol, string quoteSymbol, int limit = 0);
 
     Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0);
-
-    Task<string> GetOrder(Order order);
 
     Task<string> PostOrder(Order order, bool test = false);
 
