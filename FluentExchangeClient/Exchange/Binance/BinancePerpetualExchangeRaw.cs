@@ -20,7 +20,14 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> DeleteOrder(Order order)
     {
-        throw new NotImplementedException();
+        var request = new BinancePerpetualRequestDeleteOrder(new
+        {
+            symbol = order.Symbol,
+            orderId = order.OrderId,
+            origClientOrderId = order.ClientOrderId,
+            timestamp = Timestamp
+        }, Options.Credentials);
+        return SendAsync(request);
     }
 
     public Task<IDictionary<string, string>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0)
@@ -60,12 +67,13 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> GetOpenOrders()
     {
-        throw new NotImplementedException();
+        return GetOpenOrders(null, null);
     }
 
     public Task<string> GetOpenOrders(string symbol, string quoteSymbol)
     {
-        throw new NotImplementedException();
+        var request = new BinancePerpetualRequestOpenOrders(symbol, quoteSymbol, Timestamp, Options.Credentials);
+        return SendAsync(request);
     }
 
     public Task<string> GetOrder(string symbol, string orderId = null, string clientOrderId = null)
@@ -78,17 +86,19 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IExchangeRaw
             timestamp = Timestamp
         };
         var request = new BinancePerpetualRequestGetOrder(param, Options.Credentials);
-        return SendAsync<string>(request);
+        return SendAsync(request);
     }
 
     public Task<string> GetOrders(string symbol, string quoteSymbol, int limit = 0)
     {
-        throw new NotImplementedException();
+        return GetOrders(symbol, quoteSymbol, default, default, limit);
     }
 
     public Task<string> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
     {
-        throw new NotImplementedException();
+        limit = Math.Clamp(limit, 1, 1000);
+        var request = new BinancePerpetualRequestOrders(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
+        return SendAsync(request);
     }
 
     public override Task<string> GetServerTime()

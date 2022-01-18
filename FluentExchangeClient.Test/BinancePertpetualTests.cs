@@ -80,7 +80,7 @@ public class BinancePertpetualTests
         Assert.IsNotNull(newOrder);
         if (newOrder != null)
         {
-            Assert.AreEqual(order.ClientOrderId, newOrder.ClientOrderId);
+            Assert.AreEqual(order.ClientOrderId, newId);
         }
     }
 
@@ -94,12 +94,12 @@ public class BinancePertpetualTests
     [Test]
     public async Task Test7_DeleteOrder()
     {
-        await Test5_PostOrder();
+        //await Test5_PostOrder();
         var orders = await binancePerpetual.GetOpenOrders();
         foreach (var order in orders)
         {
-            await binancePerpetual.DeleteOrder(order);
-            Assert.AreEqual(order.Status, "CANCELED");
+            var deleted = await binancePerpetual.DeleteOrder(order);
+            Assert.AreEqual(deleted.Status, "CANCELED");
         }
     }
 

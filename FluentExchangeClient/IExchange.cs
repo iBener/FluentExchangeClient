@@ -43,5 +43,5 @@ public interface IExchange
 
     Task<Order> PostOrder(Order order, bool test = false);
 
-    Task DeleteOrder(Order order);
+    Task<Order> DeleteOrder(Order order);
 }

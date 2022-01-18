@@ -177,11 +177,10 @@ public class BinanceExchange : BinanceExchangeRaw, IExchange
         return Map<Order>(newOrder);
     }
 
-    public new async Task DeleteOrder(Order order)
+    public new async Task<Order> DeleteOrder(Order order)
     {
         var canceledOrderJson = await base.DeleteOrder(order);
         var canceledOrder = JsonConvert.DeserializeObject<BinanceResponseOrderDelete>(canceledOrderJson);
-        order.Status = canceledOrder.status;
-        order.FilledQuantity = canceledOrder.executedQty;
+        return Map<Order>(canceledOrder);
     }
 }

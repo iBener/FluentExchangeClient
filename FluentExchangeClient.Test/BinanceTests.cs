@@ -120,8 +120,8 @@ public class BinanceTests
         var orders = await exchange.GetOpenOrders();
         foreach (var order in orders)
         {
-            await exchange.DeleteOrder(order);
-            Assert.AreEqual(order.Status, "CANCELED");
+            var deleted = await exchange.DeleteOrder(order);
+            Assert.AreEqual(deleted.Status, "CANCELED");
         }
     }
 }
