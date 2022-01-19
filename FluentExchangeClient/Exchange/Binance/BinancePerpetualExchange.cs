@@ -94,12 +94,14 @@ public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IExchange
 
     public new Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, int limit = 0)
     {
-        throw new NotImplementedException();
+        return GetOrders(symbol, quoteSymbol, default, default, limit);
     }
 
-    public new Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
+    public new async Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
     {
-        throw new NotImplementedException();
+        var ordersRaw = await base.GetOrders(symbol, quoteSymbol, start, end, limit);
+        var orders = JsonConvert.DeserializeObject<IEnumerable<BinanceResponseOrder>>(ordersRaw);
+        return Map<IEnumerable<Order>>(orders);
     }
 
     public Task<IEnumerable<Balance>> GetPerpetualBalancesAsync()
@@ -133,12 +135,14 @@ public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IExchange
 
     public new Task<IEnumerable<Trade>> GetTrades(string symbol, string quoteSymbol, int limit = 0)
     {
-        throw new NotImplementedException();
+        return GetTrades(symbol, quoteSymbol, default, default, limit);
     }
 
-    public new Task<IEnumerable<Trade>> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
+    public new async Task<IEnumerable<Trade>> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
     {
-        throw new NotImplementedException();
+        var tradesRaw = await base.GetTrades(symbol, quoteSymbol, start, end, limit);
+        var trades = JsonConvert.DeserializeObject<IEnumerable<BinanceResponseTrade>>(tradesRaw);
+        return GroupTrades(trades);
     }
 
     public new async Task<Order> PostOrder(Order order, bool test = false)

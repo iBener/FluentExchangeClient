@@ -120,12 +120,13 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> GetTrades(string symbol, string quoteSymbol, int limit = 0)
     {
-        throw new NotImplementedException();
+        return GetTrades(symbol, quoteSymbol, default, default, limit);
     }
 
     public Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
     {
-        throw new NotImplementedException();
+        var request = new BinancePerpetualRequestTrades(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
+        return SendAsync(request);
     }
 
     public async Task<string> PostOrder(Order order, bool test = false)

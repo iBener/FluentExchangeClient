@@ -18,7 +18,9 @@ class BinanceResponseTrade
     public string commissionAsset;
     [JsonConverter(typeof(UnixMillisecondsTimeConverter))]
     public DateTimeOffset time;
-    public bool isBuyer;
-    public bool isMaker;
+    public bool isBuyer; // TODO: buyer for perpetual
+    public bool isMaker; // TODO: maker for perpetual
     public bool isBestMatch;
+    public string side;
+    public decimal realizedPnl;
 }
