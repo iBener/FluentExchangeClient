@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance;
 
-public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IDerivativeExchangeRaw
+public class BinanceDerivativeExchangeRaw : BinanceExchangeBase, IDerivativeExchangeRaw
 {
-    public BinancePerpetualExchangeRaw(ExchangeOptions options) : base(options)
+    public BinanceDerivativeExchangeRaw(ExchangeOptions options) : base(options)
     {
     }
 
@@ -36,7 +36,7 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IDerivativeExcha
 
     public Task<string> DeleteOrder(Order order)
     {
-        var request = new BinancePerpetualRequestDeleteOrder(new
+        var request = new BinanceDerivativeRequestDeleteOrder(new
         {
             symbol = order.Symbol,
             orderId = order.OrderId,
@@ -60,13 +60,13 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IDerivativeExcha
 
     public Task<string> GetBalancesAsync()
     {
-        var request = new BinanceRequestPerpetualBalance(Timestamp, Options.Credentials);
+        var request = new BinanceDerivativeRequestBalance(Timestamp, Options.Credentials);
         return SendAsync(request);
     }
 
     public Task<string> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0)
     {
-        var request = new BinanceRequestPerpetualCandle(symbol, quoteSymbol, interval, limit);
+        var request = new BinanceDerivativeRequestCandle(symbol, quoteSymbol, interval, limit);
         return SendAsync(request);
     }
 
@@ -77,7 +77,7 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IDerivativeExcha
 
     public Task<string> GetMarketsAsync()
     {
-        var request = new BinancePerpetualRequestExchangeInfo();
+        var request = new BinanceDerivativeRequestExchangeInfo();
         return SendAsync(request);
     }
 
@@ -88,7 +88,7 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IDerivativeExcha
 
     public Task<string> GetOpenOrders(string symbol, string quoteSymbol)
     {
-        var request = new BinancePerpetualRequestOpenOrders(symbol, quoteSymbol, Timestamp, Options.Credentials);
+        var request = new BinanceDerivativeRequestOpenOrders(symbol, quoteSymbol, Timestamp, Options.Credentials);
         return SendAsync(request);
     }
 
@@ -101,7 +101,7 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IDerivativeExcha
             clientOrderId,
             timestamp = Timestamp
         };
-        var request = new BinancePerpetualRequestGetOrder(param, Options.Credentials);
+        var request = new BinanceDerivativeRequestGetOrder(param, Options.Credentials);
         return SendAsync(request);
     }
 
@@ -113,7 +113,7 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IDerivativeExcha
     public Task<string> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
     {
         limit = Math.Clamp(limit, 1, 1000);
-        var request = new BinancePerpetualRequestOrders(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
+        var request = new BinanceDerivativeRequestOrders(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
         return SendAsync(request);
     }
 
@@ -125,7 +125,7 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IDerivativeExcha
 
     public Task<string> GetTickerAsync(string symbol, string quoteSymbol)
     {
-        var request = new BinancePerpetualRequestTicker(symbol, quoteSymbol);
+        var request = new BinanceDerivativeRequestTicker(symbol, quoteSymbol);
         return SendAsync(request);
     }
 
@@ -141,14 +141,14 @@ public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IDerivativeExcha
 
     public Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
     {
-        var request = new BinancePerpetualRequestTrades(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
+        var request = new BinanceDerivativeRequestTrades(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
         return SendAsync(request);
     }
 
     public async Task<string> PostOrder(Order order, bool test = false)
     {
         var param = CreateParamObject(order);
-        var request = new BinancePerpetualRequestPostOrder(param, Options.Credentials, test: test);
+        var request = new BinanceDerivativeRequestPostOrder(param, Options.Credentials, test: test);
         if (!test)
         {
             var result = await SendAsync(request);

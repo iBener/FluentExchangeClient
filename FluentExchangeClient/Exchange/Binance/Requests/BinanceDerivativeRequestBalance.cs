@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance.Requests;
 
-class BinanceRequestPerpetualBalance : BinanceBasePerpetualRequest
+class BinanceDerivativeRequestBalance : BinanceBaseDerivativeRequest
 {
-    public BinanceRequestPerpetualBalance(long timestamp, ApiCredentials credentials) : base(new { timestamp }, credentials)
+    public BinanceDerivativeRequestBalance(long timestamp, ApiCredentials credentials) : base(new { timestamp }, credentials)
     {
         Method = HttpMethod.Get;
         RequestUri = new Uri(BaseAddress, "/fapi/v2/account" + QueryString);

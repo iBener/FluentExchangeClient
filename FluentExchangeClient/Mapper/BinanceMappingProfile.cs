@@ -25,7 +25,7 @@ class BinanceMappingProfile : Profile
             .ForMember(target => target.Amount, m => m.MapFrom(source => source.free + source.locked));
 
         // BinancePerpetualResponseAccountAssets -> Balance
-        CreateMap<BinancePerpetualResponseAccountAssets, Balance>()
+        CreateMap<BinanceDerivativeResponseAccountAssets, Balance>()
             .ForMember(target => target.Symbol, m => m.MapFrom(source => source.asset))
             .ForMember(target => target.Amount, m => m.MapFrom(source => source.walletBalance))
             .ForMember(target => target.Locked, m => m.MapFrom(source => source.walletBalance - source.availableBalance))

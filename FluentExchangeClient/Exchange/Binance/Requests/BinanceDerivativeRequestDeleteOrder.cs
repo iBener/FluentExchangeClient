@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance.Requests;
 
-class BinancePerpetualRequestDeleteOrder : BinanceBasePerpetualRequest
+class BinanceDerivativeRequestDeleteOrder : BinanceBaseDerivativeRequest
 {
-    public BinancePerpetualRequestDeleteOrder(object param, ApiCredentials credentials) : base(param, credentials)
+    public BinanceDerivativeRequestDeleteOrder(object param, ApiCredentials credentials) : base(param, credentials)
     {
         Method = HttpMethod.Delete;
         RequestUri = new Uri(BaseAddress, $"/fapi/v1/order{ QueryString }");

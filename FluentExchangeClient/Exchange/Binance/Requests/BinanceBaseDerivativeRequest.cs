@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance.Requests;
 
-class BinanceBasePerpetualRequest : BinanceBaseRequest
+class BinanceBaseDerivativeRequest : BinanceBaseRequest
 {
     public override Uri BaseAddress => new("https://fapi.binance.com");
 
-    public BinanceBasePerpetualRequest(object param, ApiCredentials credentials) : base(param, credentials)
+    public BinanceBaseDerivativeRequest(object param, ApiCredentials credentials) : base(param, credentials)
     {
     }
 }

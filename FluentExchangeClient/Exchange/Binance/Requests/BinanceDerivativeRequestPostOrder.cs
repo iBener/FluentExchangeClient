@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance.Requests;
 
-class BinancePerpetualRequestPostOrder : BinanceBasePerpetualRequest
+class BinanceDerivativeRequestPostOrder : BinanceBaseDerivativeRequest
 {
-    public BinancePerpetualRequestPostOrder(object param, ApiCredentials credentials, bool test = false) : base(param, credentials)
+    public BinanceDerivativeRequestPostOrder(object param, ApiCredentials credentials, bool test = false) : base(param, credentials)
     {
         string testOrder = test ? "/test" : "";
         Method = HttpMethod.Post;

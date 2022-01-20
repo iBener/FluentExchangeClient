@@ -37,7 +37,7 @@ class BinanceExchangeBuilder : IExchangeBuilder
 
     public IDerivativeExchange BuildDerivativeExchange()
     {
-        return new BinancePerpetualExchange(Options);
+        return new BinanceDerivativeExchange(Options);
     }
 
     public IExchangeRaw BuildRawExchange()
@@ -47,6 +47,6 @@ class BinanceExchangeBuilder : IExchangeBuilder
 
     public IDerivativeExchangeRaw BuildRawDerivativeExchange()
     {
-        return new BinancePerpetualExchangeRaw(Options);
+        return new BinanceDerivativeExchangeRaw(Options);
     }
 }

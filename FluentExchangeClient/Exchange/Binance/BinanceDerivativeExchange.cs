@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance;
 
-public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IDerivativeExchange
+public class BinanceDerivativeExchange : BinanceDerivativeExchangeRaw, IDerivativeExchange
 {
-    public BinancePerpetualExchange(ExchangeOptions options) : base(options)
+    public BinanceDerivativeExchange(ExchangeOptions options) : base(options)
     {
     }
 
@@ -38,17 +38,17 @@ public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IDerivative
     public new async Task<IEnumerable<Balance>> GetBalancesAsync()
     {
         var response = await base.GetBalancesAsync();
-        var account = JsonConvert.DeserializeObject<BinancePerpetualResponseAccount>(response);
+        var account = JsonConvert.DeserializeObject<BinanceDerivativeResponseAccount>(response);
         return Map<IEnumerable<Balance>>(account.assets.Where(x => x.marginBalance > 0));
     }
 
     public new async Task<IEnumerable<Candle>> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 500)
     {
-        var request = new BinanceRequestPerpetualCandle(symbol, quoteSymbol, interval, limit);
+        var request = new BinanceDerivativeRequestCandle(symbol, quoteSymbol, interval, limit);
         return await GetCandlesAsyncInternal(symbol, quoteSymbol, request);
     }
 
-    private async Task<IEnumerable<Candle>> GetCandlesAsyncInternal(string symbol, string quoteSymbol, BinanceBasePerpetualRequest request)
+    private async Task<IEnumerable<Candle>> GetCandlesAsyncInternal(string symbol, string quoteSymbol, BinanceBaseDerivativeRequest request)
     {
         var candles = await SendAsync<IEnumerable<BinanceCandleResponse>>(request);
         var result = Map<IEnumerable<Candle>>(candles);
@@ -116,7 +116,7 @@ public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IDerivative
 
     public new async Task<DateTimeOffset> GetServerTime()
     {
-        var request = new BinancePerpetualRequestServerTime();
+        var request = new BinanceDerivativeRequestServerTime();
         var response = await SendAsync<BinanceResponseServerTime>(request);
         return response.serverTime;
     }

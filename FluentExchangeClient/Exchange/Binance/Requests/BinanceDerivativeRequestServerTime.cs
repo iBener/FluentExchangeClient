@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance.Requests;
 
-class BinancePerpetualRequestServerTime : BinanceBasePerpetualRequest
+class BinanceDerivativeRequestServerTime : BinanceBaseDerivativeRequest
 {
-    public BinancePerpetualRequestServerTime() : base(null, null)
+    public BinanceDerivativeRequestServerTime() : base(null, null)
     {
         Method = HttpMethod.Get;
         RequestUri = new Uri(BaseAddress, "/fapi/v1/time");
