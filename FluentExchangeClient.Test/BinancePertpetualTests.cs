@@ -12,7 +12,7 @@ namespace FluentExchangeClient.Test;
 
 public class BinancePertpetualTests
 {
-    IExchange binancePerpetual;
+    IDerivativeExchange binancePerpetual;
 
     [SetUp]
     public void Setup()

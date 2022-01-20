@@ -7,8 +7,6 @@ namespace FluentExchangeClient;
 
 public interface IExchange : IExchangeRaw
 {
-    new string Name { get; }
-
     new Task<Market> GetMarketAsync(string symbol, string quoteSymbol);
 
     new Task<IEnumerable<Market>> GetMarketsAsync();

@@ -28,23 +28,18 @@ class BitfinexExchangeBuilder : IExchangeBuilder
         return new BitfinexExchange(Options);
     }
 
-    public IExchange BuildPerpetualExchange()
-    {
-        throw new NotImplementedException();
-    }
-
     public IExchangeRaw BuildRawExchange()
     {
         //return new BitfinexExchange(Options);
         throw new NotImplementedException();
     }
 
-    public IExchange BuildDerivativeExchange()
+    public IDerivativeExchange BuildDerivativeExchange()
     {
         throw new NotImplementedException();
     }
 
-    public IExchangeRaw BuildRawDerivativeExchange()
+    public IDerivativeExchangeRaw BuildRawDerivativeExchange()
     {
         throw new NotImplementedException();
     }

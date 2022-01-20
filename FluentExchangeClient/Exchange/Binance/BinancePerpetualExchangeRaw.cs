@@ -1,4 +1,5 @@
 ﻿using FluentExchangeClient.Builder;
+using FluentExchangeClient.Common;
 using FluentExchangeClient.Exchange.Binance.Requests;
 using FluentExchangeClient.Exchange.Binance.Responses;
 using FluentExchangeClient.Models;
@@ -12,10 +13,25 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance;
 
-public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IExchangeRaw
+public class BinancePerpetualExchangeRaw : BinanceExchangeBase, IDerivativeExchangeRaw
 {
     public BinancePerpetualExchangeRaw(ExchangeOptions options) : base(options)
     {
+    }
+
+    public Task<string> ChangeLeverage(string symbol, int leverage)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<string> ChangeMarginTypeAsync(string symbol, string marginType)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<string> ChangePositionMarginAsync(string symbol, decimal amount, ChangePositionMargin changePosition)
+    {
+        throw new NotImplementedException();
     }
 
     public Task<string> DeleteOrder(Order order)

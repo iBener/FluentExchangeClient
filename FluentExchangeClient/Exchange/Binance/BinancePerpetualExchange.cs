@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance;
 
-public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IExchange
+public class BinancePerpetualExchange : BinancePerpetualExchangeRaw, IDerivativeExchange
 {
     public BinancePerpetualExchange(ExchangeOptions options) : base(options)
     {

@@ -71,7 +71,7 @@ public class DerivativeExchangeBuilder
         this.builder = builder;
     }
 
-    public IExchange Build()
+    public IDerivativeExchange Build()
     {
         return builder.BuildDerivativeExchange();
     }
@@ -86,7 +86,7 @@ public class DerivativeRawExchangeBuilder
         this.builder = builder;
     }
 
-    public IExchangeRaw Build()
+    public IDerivativeExchangeRaw Build()
     {
         return builder.BuildRawDerivativeExchange();
     }
