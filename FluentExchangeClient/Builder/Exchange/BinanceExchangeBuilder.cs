@@ -1,15 +1,15 @@
 ﻿using FluentExchangeClient.Exchange;
 using FluentExchangeClient.Exchange.Binance;
 using FluentExchangeClient.Mapper;
+using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace FluentExchangeClient.Builder;
+namespace FluentExchangeClient.Builder.Exchange;
 
 class BinanceExchangeBuilder : IExchangeBuilder
 {
-
-    public ExchangeOptions Options { get; }
+    public ExchangeOptions Options { get; protected set; }
 
     public BinanceExchangeBuilder()
     {
@@ -35,7 +35,7 @@ class BinanceExchangeBuilder : IExchangeBuilder
         return new BinanceExchange(Options);
     }
 
-    public IExchange BuildPerpetualExchange()
+    public IExchange BuildDerivativeExchange()
     {
         return new BinancePerpetualExchange(Options);
     }
@@ -43,5 +43,10 @@ class BinanceExchangeBuilder : IExchangeBuilder
     public IExchangeRaw BuildRawExchange()
     {
         return new BinanceExchangeRaw(Options);
+    }
+
+    public IExchangeRaw BuildRawDerivativeExchange()
+    {
+        return new BinancePerpetualExchangeRaw(Options);
     }
 }

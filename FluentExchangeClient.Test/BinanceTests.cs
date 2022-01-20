@@ -30,7 +30,7 @@ public class BinanceTests
         exchange = ExchangeBuilder
             .UseBinance()
             .SetCredentials(apiKey, apiSecret)
-            .BuildExchange();
+            .Build();
     }
 
     [Test, Order(0)]

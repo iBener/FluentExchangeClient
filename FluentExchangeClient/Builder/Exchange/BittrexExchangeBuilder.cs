@@ -3,7 +3,7 @@ using FluentExchangeClient.Exchange.Bittrex;
 using FluentExchangeClient.Mapper;
 using System;
 
-namespace FluentExchangeClient.Builder;
+namespace FluentExchangeClient.Builder.Exchange;
 
 class BittrexExchangeBuilder : IExchangeBuilder
 {
@@ -37,6 +37,16 @@ class BittrexExchangeBuilder : IExchangeBuilder
     public IExchangeRaw BuildRawExchange()
     {
         //return new BittrexExchange(Options);
+        throw new NotImplementedException();
+    }
+
+    public IExchange BuildDerivativeExchange()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IExchangeRaw BuildRawDerivativeExchange()
+    {
         throw new NotImplementedException();
     }
 }

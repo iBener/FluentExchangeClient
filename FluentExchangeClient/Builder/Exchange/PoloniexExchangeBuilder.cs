@@ -3,7 +3,7 @@ using FluentExchangeClient.Exchange.Poloniex;
 using FluentExchangeClient.Mapper;
 using System;
 
-namespace FluentExchangeClient.Builder;
+namespace FluentExchangeClient.Builder.Exchange;
 
 class PoloniexExchangeBuilder : IExchangeBuilder
 {
@@ -37,6 +37,16 @@ class PoloniexExchangeBuilder : IExchangeBuilder
     public IExchangeRaw BuildRawExchange()
     {
         //return new PoloniexExchange(Options);
+        throw new NotImplementedException();
+    }
+
+    public IExchange BuildDerivativeExchange()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IExchangeRaw BuildRawDerivativeExchange()
+    {
         throw new NotImplementedException();
     }
 }

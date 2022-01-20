@@ -3,7 +3,7 @@ using FluentExchangeClient.Exchange.Cobinhood;
 using FluentExchangeClient.Mapper;
 using System;
 
-namespace FluentExchangeClient.Builder;
+namespace FluentExchangeClient.Builder.Exchange;
 
 class CobinhoodExchangeBuilder : IExchangeBuilder
 {
@@ -37,6 +37,16 @@ class CobinhoodExchangeBuilder : IExchangeBuilder
     public IExchangeRaw BuildRawExchange()
     {
         //return new CobinhoodExchange(Options);
+        throw new NotImplementedException();
+    }
+
+    public IExchange BuildDerivativeExchange()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IExchangeRaw BuildRawDerivativeExchange()
+    {
         throw new NotImplementedException();
     }
 }

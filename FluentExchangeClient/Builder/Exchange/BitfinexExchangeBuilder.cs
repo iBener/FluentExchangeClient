@@ -3,7 +3,7 @@ using FluentExchangeClient.Exchange.Bitfinex;
 using FluentExchangeClient.Mapper;
 using System;
 
-namespace FluentExchangeClient.Builder;
+namespace FluentExchangeClient.Builder.Exchange;
 
 class BitfinexExchangeBuilder : IExchangeBuilder
 {
@@ -25,8 +25,7 @@ class BitfinexExchangeBuilder : IExchangeBuilder
 
     public IExchange BuildExchange()
     {
-        //return new BitfinexExchange(Options);
-        throw new NotImplementedException();
+        return new BitfinexExchange(Options);
     }
 
     public IExchange BuildPerpetualExchange()
@@ -37,6 +36,16 @@ class BitfinexExchangeBuilder : IExchangeBuilder
     public IExchangeRaw BuildRawExchange()
     {
         //return new BitfinexExchange(Options);
+        throw new NotImplementedException();
+    }
+
+    public IExchange BuildDerivativeExchange()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IExchangeRaw BuildRawDerivativeExchange()
+    {
         throw new NotImplementedException();
     }
 }

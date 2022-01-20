@@ -1,5 +1,7 @@
 ﻿using FluentExchangeClient.Builder;
+using FluentExchangeClient.Builder.Exchange;
 using FluentExchangeClient.Exchange;
+using System;
 
 namespace FluentExchangeClient;
 
@@ -7,31 +9,45 @@ public class ExchangeBuilder
 {
     public static ExchangeBuilderWithOptions UseBinance()
     {
-        return new ExchangeBuilderWithOptions(ExchangeNames.Binance);
+        var builder = new BinanceExchangeBuilder();
+        return new ExchangeBuilderWithOptions(builder);
     }
 
     public static ExchangeBuilderWithOptions UseBitfinex()
     {
-        return new ExchangeBuilderWithOptions(ExchangeNames.Bitfinex);
+        var builder = new BitfinexExchangeBuilder();
+        return new ExchangeBuilderWithOptions(builder);
     }
 
     public static ExchangeBuilderWithOptions UseBittrex()
     {
-        return new ExchangeBuilderWithOptions(ExchangeNames.Bittrex);
+        var builder = new BittrexExchangeBuilder();
+        return new ExchangeBuilderWithOptions(builder);
     }
 
     public static ExchangeBuilderWithOptions UsePoloniex()
     {
-        return new ExchangeBuilderWithOptions(ExchangeNames.Poloniex);
+        var builder = new CobinhoodExchangeBuilder();
+        return new ExchangeBuilderWithOptions(builder);
     }
 
     public static ExchangeBuilderWithOptions UseCobinhood()
     {
-        return new ExchangeBuilderWithOptions(ExchangeNames.Cobinhood);
+        var builder = new PoloniexExchangeBuilder();
+        return new ExchangeBuilderWithOptions(builder);
     }
 
     public static ExchangeBuilderWithOptions UseExchange(string exchange)
     {
-        return new ExchangeBuilderWithOptions(exchange);
+        IExchangeBuilder builder = exchange switch
+        {
+            ExchangeNames.Binance => new BinanceExchangeBuilder(),
+            ExchangeNames.Bitfinex => new BitfinexExchangeBuilder(),
+            ExchangeNames.Bittrex => new BittrexExchangeBuilder(),
+            ExchangeNames.Cobinhood => new CobinhoodExchangeBuilder(),
+            ExchangeNames.Poloniex => new PoloniexExchangeBuilder(),
+            _ => throw new ExchangeClientException($"\"{exchange}\" is not supported. Supported exchanges:\n{ String.Join(", \n", ExchangeNames.List) }"),
+        };
+        return new ExchangeBuilderWithOptions(builder);
     }
 }

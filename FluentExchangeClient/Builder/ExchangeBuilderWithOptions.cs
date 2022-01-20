@@ -1,4 +1,5 @@
-﻿using FluentExchangeClient.Exchange;
+﻿using FluentExchangeClient.Builder.Exchange;
+using FluentExchangeClient.Exchange;
 using FluentExchangeClient.Models;
 using System;
 using System.Collections.Generic;
@@ -9,44 +10,26 @@ namespace FluentExchangeClient.Builder;
 
 public class ExchangeBuilderWithOptions
 {
-    IExchangeBuilder builder;
+    private readonly IExchangeBuilder builder;
 
-    public ExchangeBuilderWithOptions(string exchangeName)
+    internal ExchangeBuilderWithOptions(IExchangeBuilder builder)
     {
-        UseExchange(exchangeName);
+        this.builder = builder;
     }
 
-    public ExchangeBuilderWithOptions(string exchangeName, HttpClient http)
+    public DerivativeExchangeBuilder UseDerivativeExchange()
     {
-        UseExchange(exchangeName);
-        UseHttp(http);
+        return new DerivativeExchangeBuilder(builder);
     }
 
-    public ExchangeBuilderWithOptions(string exchangeName, string apiKey, string apiSecret)
+    public DerivativeRawExchangeBuilder UseRawDerivativeExchange()
     {
-        UseExchange(exchangeName);
-        SetCredentials(apiKey, apiSecret);
+        return new DerivativeRawExchangeBuilder(builder);
     }
 
-    public ExchangeBuilderWithOptions(string exchangeName, string apiKey, string apiSecret, HttpClient http)
+    public RawExchangeBuilder UseRawExchange()
     {
-        UseExchange(exchangeName);
-        SetCredentials(apiKey, apiSecret);
-        UseHttp(http);
-    }
-
-    internal ExchangeBuilderWithOptions UseExchange(string exchange)
-    {
-        builder = exchange switch
-        {
-            ExchangeNames.Binance => new BinanceExchangeBuilder(),
-            ExchangeNames.Bitfinex => new BitfinexExchangeBuilder(),
-            ExchangeNames.Bittrex => new BittrexExchangeBuilder(),
-            ExchangeNames.Cobinhood => new CobinhoodExchangeBuilder(),
-            ExchangeNames.Poloniex => new PoloniexExchangeBuilder(),
-            _ => throw new ExchangeClientException($"\"{exchange}\" is not supported. Supported exchanges:\n{ String.Join(", \n", ExchangeNames.List) }"),
-        };
-        return this;
+        return new RawExchangeBuilder(builder);
     }
 
     public ExchangeBuilderWithOptions UseHttp(HttpClient httpClient)
@@ -63,25 +46,62 @@ public class ExchangeBuilderWithOptions
 
     public ExchangeBuilderWithOptions UseNormalizedSymbols()
     {
-        throw new NotImplementedException("Normalized symbol option doesn't implemented yet");
+        builder.Options.Symbols = SymbolDefinition.NormalizedSymbols;
+        return this;
     }
 
     public ExchangeBuilderWithOptions UseExchangeSymbols()
     {
-        throw new NotImplementedException("Exchange symbol option doesn't implemented yet");
+        builder.Options.Symbols = SymbolDefinition.ExchangeSymbols;
+        return this;
     }
 
-    public IExchange BuildExchange()
+    public IExchange Build()
     {
         return builder.BuildExchange();
     }
+}
 
-    public IExchange BuildPerpetualExchange()
+public class DerivativeExchangeBuilder
+{
+    private readonly IExchangeBuilder builder;
+
+    internal DerivativeExchangeBuilder(IExchangeBuilder builder)
     {
-        return builder.BuildPerpetualExchange();
+        this.builder = builder;
     }
 
-    public IExchangeRaw BuildRawExchange()
+    public IExchange Build()
+    {
+        return builder.BuildDerivativeExchange();
+    }
+}
+
+public class DerivativeRawExchangeBuilder
+{
+    private readonly IExchangeBuilder builder;
+
+    internal DerivativeRawExchangeBuilder(IExchangeBuilder builder)
+    {
+        this.builder = builder;
+    }
+
+    public IExchangeRaw Build()
+    {
+        return builder.BuildRawDerivativeExchange();
+    }
+}
+
+public class RawExchangeBuilder
+{
+    private readonly IExchangeBuilder builder;
+
+    internal RawExchangeBuilder(IExchangeBuilder builder)
+    {
+        this.builder = builder;
+    }
+
+    public IExchangeRaw Build()
     {
         return builder.BuildRawExchange();
     }

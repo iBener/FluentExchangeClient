@@ -31,7 +31,8 @@ public class BinancePertpetualTests
         binancePerpetual = ExchangeBuilder
             .UseBinance()
             .SetCredentials(apiKey, apiSecret)
-            .BuildPerpetualExchange();
+            .UseDerivativeExchange()
+            .Build();
     }
 
     [Test]
