@@ -16,7 +16,7 @@ public class Trade
 
     public string Id { get; set; }
 
-    public int OrderId { get; set; }
+    public string OrderId { get; set; }
 
     public string Symbol { get; set; }
 

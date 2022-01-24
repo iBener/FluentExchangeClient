@@ -50,7 +50,9 @@ class BinanceMappingProfile : Profile
             .ForMember(target => target.Quantity, m => m.MapFrom(source => source.qty))
             .ForMember(target => target.QuoteQuantity, m => m.MapFrom(source => source.quoteQty))
             .ForMember(target => target.Time, m => m.MapFrom(source => source.time.DateTime))
-            .ForMember(target => target.Side, m => m.MapFrom(source => source.isBuyer ? "BUY" : "SELL"));
+            .ForMember(target => target.Side, m => m.MapFrom(source => 
+                !string.IsNullOrEmpty(source.side) ? 
+                    source.side : source.isBuyer ? "BUY" : "SELL"));
 
         // BinanceResponseOrderDelete -> Order
         CreateMap<BinanceResponseOrderDelete, Order>()
@@ -58,6 +60,14 @@ class BinanceMappingProfile : Profile
             .ForMember(target => target.Quantity, m => m.MapFrom(source => source.origQty))
             .ForMember(target => target.QuoteQuantity, m => m.MapFrom(source => source.cummulativeQuoteQty))
             .ForMember(target => target.ClientOrderId, m => m.MapFrom(source => source.origClientOrderId));
+
+        // BinanceResponseLeverage -> Leverage
+        CreateMap<BinanceResponseLeverage, Leverage>()
+            .ForMember(target => target.InitialLeverage, m => m.MapFrom(source => source.leverage));
+
+        // BinanceResponseObject -> Response
+        CreateMap<BinanceResponseObject, Response>()
+            .ForMember(target => target.Message, m => m.MapFrom(source => source.msg));
     }
 }
 

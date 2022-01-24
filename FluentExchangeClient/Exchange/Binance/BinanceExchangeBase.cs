@@ -42,7 +42,7 @@ public abstract class BinanceExchangeBase : ExchangeBase
     internal IEnumerable<Trade> GroupTrades(IEnumerable<BinanceResponseTrade> trades)
     {
         var result = new List<Trade>();
-        var orders = new Dictionary<int, Trade>();
+        var orders = new Dictionary<string, Trade>();
         foreach (var tradeResponse in trades)
         {
             var trade = Map<Trade>(tradeResponse);

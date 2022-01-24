@@ -21,17 +21,20 @@ public class BinanceDerivativeExchangeRaw : BinanceExchangeBase, IDerivativeExch
 
     public Task<string> ChangeLeverage(string symbol, int leverage)
     {
-        throw new NotImplementedException();
+        var request = new BinanceDerivativeRequestChangeLeverage(symbol, leverage, Timestamp, Options.Credentials);
+        return SendAsync(request);
     }
 
     public Task<string> ChangeMarginTypeAsync(string symbol, string marginType)
     {
-        throw new NotImplementedException();
+        var request = new BinanceDerivativeRequestChangeMargin(symbol, marginType, Timestamp, Options.Credentials);
+        return SendAsync(request);
     }
 
-    public Task<string> ChangePositionMarginAsync(string symbol, decimal amount, ChangePositionMargin changePosition)
+    public Task<string> ChangePositionMarginAsync(string symbol, decimal amount, ChangePositionMargin type)
     {
-        throw new NotImplementedException();
+        var request = new BinanceDerivativeRequestChangePositionMargin(symbol, amount, (int)type, Timestamp, Options.Credentials);
+        return SendAsync(request);
     }
 
     public Task<string> DeleteOrder(Order order)

@@ -13,5 +13,5 @@ public interface IDerivativeExchangeRaw : IExchangeRaw
 
     Task<string> ChangeMarginTypeAsync(string symbol, string marginType);
 
-    Task<string> ChangePositionMarginAsync(string symbol, decimal amount, ChangePositionMargin changePosition);
+    Task<string> ChangePositionMarginAsync(string symbol, decimal amount, ChangePositionMargin type);
 }

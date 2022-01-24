@@ -12,12 +12,42 @@ namespace FluentExchangeClient.Test;
 public class BuilderTests
 {
     [Test]
-    public void Test1_BinanceExchangeBuild()
+    public void Test1_BinanceExchangeBuildTest()
     {
         var exchange = ExchangeBuilder
             .UseBinance()
             .Build();
         Assert.IsAssignableFrom<BinanceExchange>(exchange);
+    }
+
+    [Test]
+    public void Test2_BinanceExchangeRawBuildTest()
+    {
+        var exchange = ExchangeBuilder
+            .UseBinance()
+            .UseRawExchange()
+            .Build();
+        Assert.IsAssignableFrom<BinanceExchangeRaw>(exchange);
+    }
+
+    [Test]
+    public void Test3_BinanceDerivativeExchangeTest()
+    {
+        var exchange = ExchangeBuilder
+            .UseBinance()
+            .UseDerivativeExchange()
+            .Build();
+        Assert.IsAssignableFrom<BinanceDerivativeExchange>(exchange);
+    }
+
+    [Test]
+    public void Test4_BinanceDerivativeExchangeRawTest()
+    {
+        var exchange = ExchangeBuilder
+            .UseBinance()
+            .UseRawDerivativeExchange()
+            .Build();
+        Assert.IsAssignableFrom<BinanceDerivativeExchangeRaw>(exchange);
     }
 
     [Test]

@@ -1,4 +1,5 @@
 ﻿using FluentExchangeClient.Builder;
+using FluentExchangeClient.Common;
 using FluentExchangeClient.Exchange.Binance.Requests;
 using FluentExchangeClient.Exchange.Binance.Responses;
 using FluentExchangeClient.Models;
@@ -150,5 +151,26 @@ public class BinanceDerivativeExchange : BinanceDerivativeExchangeRaw, IDerivati
         var newOrderJson = await base.PostOrder(order, test);
         var newOrder = JsonConvert.DeserializeObject<BinanceResponseOrder>(newOrderJson);
         return Map<Order>(newOrder);
+    }
+
+    public new async Task<Leverage> ChangeLeverage(string symbol, int leverage)
+    {
+        var leverageRaw = await base.ChangeLeverage(symbol, leverage);
+        var newLeverage = JsonConvert.DeserializeObject<BinanceResponseLeverage>(leverageRaw);
+        return Map<Leverage>(newLeverage);
+    }
+
+    public new async Task<Response> ChangeMarginTypeAsync(string symbol, string marginType)
+    {
+        var marginTypeRaw = await base.ChangeMarginTypeAsync(symbol, marginType);
+        var response = JsonConvert.DeserializeObject<BinanceResponseObject>(marginTypeRaw);
+        return Map<Response>(response);
+    }
+
+    public new async Task<Response> ChangePositionMarginAsync(string symbol, decimal amount, ChangePositionMargin type)
+    {
+        var positionMarginRaw = await base.ChangePositionMarginAsync(symbol, amount, type);
+        var response = JsonConvert.DeserializeObject<BinanceResponseObject>(positionMarginRaw);
+        return Map<Response>(response);
     }
 }

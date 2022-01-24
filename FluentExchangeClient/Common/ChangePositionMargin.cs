@@ -2,6 +2,6 @@
 
 public enum ChangePositionMargin
 {
-    AddMargin,
-    RemoveMargin,
+    AddMargin = 1,
+    ReduceMargin = 2,
 }
