@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance.Requests;
 
-class BinanceDerivativeRequestChangePositionMargin : BinanceBaseDerivativeRequest
+class BinanceFuturesRequestChangePositionMargin : BinanceBaseFuturesRequest
 {
-    public BinanceDerivativeRequestChangePositionMargin(string symbol, decimal amount, int type, long timestamp, ApiCredentials credentials)
+    public BinanceFuturesRequestChangePositionMargin(string symbol, decimal amount, int type, long timestamp, ApiCredentials credentials)
         : base(new { symbol, amount, type, timestamp }, credentials)
     {
         Method = HttpMethod.Post;

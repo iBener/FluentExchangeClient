@@ -12,7 +12,7 @@ namespace FluentExchangeClient.Test;
 
 public class BinancePertpetualTests
 {
-    IDerivativeExchange binancePerpetual;
+    IFuturesExchange binancePerpetual;
 
     [SetUp]
     public void Setup()
@@ -31,7 +31,7 @@ public class BinancePertpetualTests
         binancePerpetual = ExchangeBuilder
             .UseBinance()
             .SetCredentials(apiKey, apiSecret)
-            .UseDerivativeExchange()
+            .UseFuturesExchange()
             .Build();
     }
 

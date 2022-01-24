@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient;
 
-public interface IDerivativeExchange : IExchange, IDerivativeExchangeRaw
+public interface IFuturesExchange : IExchange, IFuturesExchangeRaw
 {
     new Task<Leverage> ChangeLeverage(string symbol, int leverage);
 

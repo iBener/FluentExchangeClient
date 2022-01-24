@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance.Requests;
 
-class BinanceDerivativeRequestOrders : BinanceBaseDerivativeRequest
+class BinanceFuturesRequestOrders : BinanceBaseFuturesRequest
 {
-    public BinanceDerivativeRequestOrders(string symbol, string quoteSymbol, DateTime startTime, DateTime endTime, long timeStamp, int limit, ApiCredentials credentials) :
+    public BinanceFuturesRequestOrders(string symbol, string quoteSymbol, DateTime startTime, DateTime endTime, long timeStamp, int limit, ApiCredentials credentials) :
         base(CreateParamObject(symbol, quoteSymbol, startTime, endTime, timeStamp, limit), credentials)
     {
         Method = HttpMethod.Get;

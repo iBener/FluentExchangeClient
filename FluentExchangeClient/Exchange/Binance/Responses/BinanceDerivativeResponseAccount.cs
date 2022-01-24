@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace FluentExchangeClient.Exchange.Binance.Responses;
 
-class BinanceDerivativeResponseAccount
+class BinanceFuturesResponseAccount
 {
     public decimal totalInitialMargin;
     public decimal totalMaintMargin;
@@ -22,11 +22,11 @@ class BinanceDerivativeResponseAccount
     public decimal maxWithdrawAmount;
     [JsonConverter(typeof(UnixMillisecondsTimeConverter))]
     public DateTimeOffset updateTime;
-    public List<BinanceDerivativeResponseAccountAssets> assets;
-    public List<BinanceDerivativeResponseAccountPositions> positions;
+    public List<BinanceFuturesResponseAccountAssets> assets;
+    public List<BinanceFuturesResponseAccountPositions> positions;
 }
 
-class BinanceDerivativeResponseAccountAssets
+class BinanceFuturesResponseAccountAssets
 {
     public string asset;
     public decimal walletBalance;
@@ -45,7 +45,7 @@ class BinanceDerivativeResponseAccountAssets
     public DateTimeOffset updateTime;
 }
 
-class BinanceDerivativeResponseAccountPositions
+class BinanceFuturesResponseAccountPositions
 {
     public string symbol;
     public decimal initialMargin;

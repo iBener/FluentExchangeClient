@@ -17,14 +17,14 @@ public class ExchangeBuilderWithOptions
         this.builder = builder;
     }
 
-    public DerivativeExchangeBuilder UseDerivativeExchange()
+    public FuturesExchangeBuilder UseFuturesExchange()
     {
-        return new DerivativeExchangeBuilder(builder);
+        return new FuturesExchangeBuilder(builder);
     }
 
-    public DerivativeRawExchangeBuilder UseRawDerivativeExchange()
+    public FuturesRawExchangeBuilder UseRawFuturesExchange()
     {
-        return new DerivativeRawExchangeBuilder(builder);
+        return new FuturesRawExchangeBuilder(builder);
     }
 
     public RawExchangeBuilder UseRawExchange()
@@ -62,33 +62,33 @@ public class ExchangeBuilderWithOptions
     }
 }
 
-public class DerivativeExchangeBuilder
+public class FuturesExchangeBuilder
 {
     private readonly IExchangeBuilder builder;
 
-    internal DerivativeExchangeBuilder(IExchangeBuilder builder)
+    internal FuturesExchangeBuilder(IExchangeBuilder builder)
     {
         this.builder = builder;
     }
 
-    public IDerivativeExchange Build()
+    public IFuturesExchange Build()
     {
-        return builder.BuildDerivativeExchange();
+        return builder.BuildFuturesExchange();
     }
 }
 
-public class DerivativeRawExchangeBuilder
+public class FuturesRawExchangeBuilder
 {
     private readonly IExchangeBuilder builder;
 
-    internal DerivativeRawExchangeBuilder(IExchangeBuilder builder)
+    internal FuturesRawExchangeBuilder(IExchangeBuilder builder)
     {
         this.builder = builder;
     }
 
-    public IDerivativeExchangeRaw Build()
+    public IFuturesExchangeRaw Build()
     {
-        return builder.BuildRawDerivativeExchange();
+        return builder.BuildRawFuturesExchange();
     }
 }
 

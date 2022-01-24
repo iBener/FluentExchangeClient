@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance.Requests;
 
-class BinanceDerivativeRequestGetOrder : BinanceBaseDerivativeRequest
+class BinanceFuturesRequestGetOrder : BinanceBaseFuturesRequest
 {
-    public BinanceDerivativeRequestGetOrder(object param, ApiCredentials credentials) : base(param, credentials)
+    public BinanceFuturesRequestGetOrder(object param, ApiCredentials credentials) : base(param, credentials)
     {
         Method = HttpMethod.Get;
         RequestUri = new Uri(BaseAddress, "/fapi/v1/order" + QueryString);

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance.Requests;
 
-class BinanceDerivativeRequestTicker : BinanceBaseDerivativeRequest
+class BinanceFuturesRequestTicker : BinanceBaseFuturesRequest
 {
-    public BinanceDerivativeRequestTicker(string symbol = null, string quoteSymbol = null) : base(new { symbol = symbol + quoteSymbol }, null)
+    public BinanceFuturesRequestTicker(string symbol = null, string quoteSymbol = null) : base(new { symbol = symbol + quoteSymbol }, null)
     {
         Method = HttpMethod.Get;
         RequestUri = new Uri(BaseAddress, "/fapi/v1/ticker/24hr" + QueryString);

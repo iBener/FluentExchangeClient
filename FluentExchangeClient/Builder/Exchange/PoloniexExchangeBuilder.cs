@@ -35,12 +35,12 @@ class PoloniexExchangeBuilder : IExchangeBuilder
         throw new NotImplementedException();
     }
 
-    public IDerivativeExchange BuildDerivativeExchange()
+    public IFuturesExchange BuildFuturesExchange()
     {
         throw new NotImplementedException();
     }
 
-    public IDerivativeExchangeRaw BuildRawDerivativeExchange()
+    public IFuturesExchangeRaw BuildRawFuturesExchange()
     {
         throw new NotImplementedException();
     }

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance.Requests;
 
-class BinanceDerivativeRequestChangeLeverage : BinanceBaseDerivativeRequest
+class BinanceFuturesRequestChangeLeverage : BinanceBaseFuturesRequest
 {
-    public BinanceDerivativeRequestChangeLeverage(string symbol, int leverage, long timestamp, ApiCredentials credentials) 
+    public BinanceFuturesRequestChangeLeverage(string symbol, int leverage, long timestamp, ApiCredentials credentials) 
         : base(new { symbol, leverage, timestamp }, credentials)
     {
         Method = HttpMethod.Post;

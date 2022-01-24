@@ -7,7 +7,7 @@ interface IExchangeBuilder
     ExchangeOptions Options { get; }
     void SetCredentials(string apiKey, string apiSecret);
     IExchange BuildExchange();
-    IDerivativeExchange BuildDerivativeExchange();
+    IFuturesExchange BuildFuturesExchange();
     IExchangeRaw BuildRawExchange();
-    IDerivativeExchangeRaw BuildRawDerivativeExchange();
+    IFuturesExchangeRaw BuildRawFuturesExchange();
 }

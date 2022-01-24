@@ -31,23 +31,23 @@ public class BuilderTests
     }
 
     [Test]
-    public void Test3_BinanceDerivativeExchangeTest()
+    public void Test3_BinanceFuturesExchangeTest()
     {
         var exchange = ExchangeBuilder
             .UseBinance()
-            .UseDerivativeExchange()
+            .UseFuturesExchange()
             .Build();
-        Assert.IsAssignableFrom<BinanceDerivativeExchange>(exchange);
+        Assert.IsAssignableFrom<BinanceFuturesExchange>(exchange);
     }
 
     [Test]
-    public void Test4_BinanceDerivativeExchangeRawTest()
+    public void Test4_BinanceFuturesExchangeRawTest()
     {
         var exchange = ExchangeBuilder
             .UseBinance()
-            .UseRawDerivativeExchange()
+            .UseRawFuturesExchange()
             .Build();
-        Assert.IsAssignableFrom<BinanceDerivativeExchangeRaw>(exchange);
+        Assert.IsAssignableFrom<BinanceFuturesExchangeRaw>(exchange);
     }
 
     [Test]
