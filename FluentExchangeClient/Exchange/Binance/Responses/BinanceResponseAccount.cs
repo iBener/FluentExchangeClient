@@ -6,7 +6,7 @@ namespace FluentExchangeClient.Exchange.Binance.Responses;
 
 class BinanceResponseAccount
 {
-    public List<BinanceResponseAccountBalanceInfo> balances;
+    public List<BinanceResponseAccountBalanceInfo> balances = new();
 }
 
 class BinanceResponseAccountBalanceInfo

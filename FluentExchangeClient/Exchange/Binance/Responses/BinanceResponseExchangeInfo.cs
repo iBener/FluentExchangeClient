@@ -6,7 +6,7 @@ namespace FluentExchangeClient.Exchange.Binance.Responses;
 
 class BinanceResponseExchangeInfo
 {
-    public List<BinanceResponseExchangeInfoSymbolInfo> symbols;
+    public List<BinanceResponseExchangeInfoSymbolInfo> symbols = new();
 }
 
 class BinanceResponseExchangeInfoSymbolInfo

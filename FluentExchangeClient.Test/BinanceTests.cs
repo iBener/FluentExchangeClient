@@ -49,6 +49,13 @@ public class BinanceTests
     }
 
     [Test, Order(2)]
+    public async Task GetMarketTest()
+    {
+        var market = await exchange.GetMarketAsync("BTC", "USDT");
+        Assert.IsNotNull(market);
+    }
+
+    [Test, Order(2)]
     public async Task GetMarketsTest()
     {
         var markets = await exchange.GetMarketsAsync();

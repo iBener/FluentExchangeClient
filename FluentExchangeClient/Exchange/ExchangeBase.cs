@@ -16,10 +16,6 @@ public abstract class ExchangeBase : IDisposable
     private readonly HttpClient http;
     private readonly IMapper mapper;
 
-    public ExchangeBase()
-    {
-    }
-
     internal ExchangeBase(ExchangeOptions options)
     {
         Options = options;
@@ -29,14 +25,19 @@ public abstract class ExchangeBase : IDisposable
 
     public ExchangeOptions Options { get; }
 
-    public string Name => Options?.ExchangeName;
+    public string Name => Options?.ExchangeName ?? String.Empty;
 
     public virtual long Timestamp { get; set; }
 
     protected async Task<T> SendAsync<T>(HttpRequestMessage request)
     {
         string json = await SendAsync(request);
-        return JsonConvert.DeserializeObject<T>(json);
+        var result = JsonConvert.DeserializeObject<T>(json);
+        if (result == null)
+        {
+            throw new ExchangeClientException($"Cannot convert response string to type {typeof(T).Name}");
+        }
+        return result;
     }
 
     protected async Task<string> SendAsync(HttpRequestMessage request)

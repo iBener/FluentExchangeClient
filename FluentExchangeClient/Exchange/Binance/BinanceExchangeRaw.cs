@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance;
@@ -74,10 +76,13 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
         var result = new Dictionary<string, string>();
         foreach (var market in markets)
         {
-            var symbol = market["baseAsset"].Value<string>();
-            var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
-            var candles = await SendAsync(request);
-            result[symbol + quoteSymbol] = candles;
+            string? symbol = market?["baseAsset"]?.Value<string>();
+            if (symbol != null)
+            {
+                var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
+                string? candles = await SendAsync(request);
+                result[symbol + quoteSymbol] = candles;
+            }
         }
         return result;
     }
@@ -96,7 +101,7 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> GetOpenOrders()
     {
-        return GetOpenOrders(null, null);
+        return GetOpenOrders(String.Empty, String.Empty);
     }
 
     public Task<string> GetOpenOrders(string symbol, string quoteSymbol)
@@ -116,7 +121,7 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
         return SendAsync(request);
     }
 
-    public Task<string> GetOrder(string symbol, string orderId = null, string clientOrderId = null)
+    public Task<string> GetOrder(string symbol, string? orderId = null, string? clientOrderId = null)
     {
         var param = new
         {

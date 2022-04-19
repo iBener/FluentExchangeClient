@@ -86,7 +86,7 @@ public class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRa
 
     public Task<string> GetOpenOrders()
     {
-        return GetOpenOrders(null, null);
+        return GetOpenOrders(String.Empty, String.Empty);
     }
 
     public Task<string> GetOpenOrders(string symbol, string quoteSymbol)
@@ -95,7 +95,7 @@ public class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRa
         return SendAsync(request);
     }
 
-    public Task<string> GetOrder(string symbol, string orderId = null, string clientOrderId = null)
+    public Task<string> GetOrder(string symbol, string? orderId = null, string? clientOrderId = null)
     {
         var param = new
         {
@@ -154,9 +154,9 @@ public class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRa
         var request = new BinanceFuturesRequestPostOrder(param, Options.Credentials, test: test);
         if (!test)
         {
-            var result = await SendAsync(request);
+            string? result = await SendAsync(request);
             var resultOrder = JsonConvert.DeserializeObject<BinanceResponseOrder>(result);
-            order.OrderId = resultOrder.orderId.ToString();
+            order.OrderId = resultOrder?.orderId.ToString() ?? String.Empty;
         }
         return await GetOrder(order.Symbol, order.OrderId, order.ClientOrderId);
     }

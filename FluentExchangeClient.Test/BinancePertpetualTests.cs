@@ -133,7 +133,7 @@ public class BinancePertpetualTests
     }
 
     [Test]
-    public async Task Test12_ChangeMargin()
+    public async Task Test12_ChangePositionMargin()
     {
         var response = await binancePerpetual.ChangePositionMarginAsync("BTCUSDT", 10m, Common.ChangePositionMargin.ReduceMargin);
         Assert.IsNotNull(response);

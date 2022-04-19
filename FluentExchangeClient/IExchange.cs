@@ -7,17 +7,17 @@ namespace FluentExchangeClient;
 
 public interface IExchange : IExchangeRaw
 {
-    new Task<Market> GetMarketAsync(string symbol, string quoteSymbol);
+    new Task<Market?> GetMarketAsync(string symbol, string quoteSymbol);
 
     new Task<IEnumerable<Market>> GetMarketsAsync();
 
-    new Task<Ticker> GetTickerAsync(string symbol, string quoteSymbol);
+    new Task<Ticker?> GetTickerAsync(string symbol, string quoteSymbol);
 
     new Task<IEnumerable<Ticker>> GetTickersAsync();
 
     new Task<IEnumerable<Balance>> GetBalancesAsync();
 
-    new Task<Balance> GetBalanceAsync(string symbol);
+    new Task<Balance?> GetBalanceAsync(string symbol);
 
     new Task<DateTimeOffset> GetServerTime();
 
@@ -25,7 +25,7 @@ public interface IExchange : IExchangeRaw
 
     new Task<IDictionary<string, IEnumerable<Candle>>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0);
 
-    new Task<Order> GetOrder(string symbol, string orderId = null, string clientOrderId = null);
+    new Task<Order?> GetOrder(string symbol, string? orderId = null, string? clientOrderId = null);
 
     new Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, int limit = 0);
 
@@ -39,7 +39,7 @@ public interface IExchange : IExchangeRaw
 
     new Task<IEnumerable<Trade>> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0);
 
-    new Task<Order> PostOrder(Order order, bool test = false);
+    new Task<Order?> PostOrder(Order order, bool test = false);
 
-    new Task<Order> DeleteOrder(Order order);
+    new Task<Order?> DeleteOrder(Order order);
 }

@@ -17,7 +17,7 @@ public class BinanceExchange : BinanceExchangeRaw, IExchange
     {
     }
 
-    public new async Task<Market> GetMarketAsync(string symbol, string quoteSymbol)
+    public new async Task<Market?> GetMarketAsync(string symbol, string quoteSymbol)
     {
         var markets = await GetMarketsAsync();
         return markets.FirstOrDefault(x => x.Base == symbol && x.Quote == quoteSymbol);
@@ -25,12 +25,12 @@ public class BinanceExchange : BinanceExchangeRaw, IExchange
 
     public new async Task<IEnumerable<Market>> GetMarketsAsync()
     {
-        var response = await base.GetMarketsAsync();
-        var markets = JsonConvert.DeserializeObject<BinanceResponseExchangeInfo>(response);
+        var request = new BinanceRequestExchangeInfo();
+        var markets = await SendAsync<BinanceResponseExchangeInfo>(request);
         return Map<IEnumerable<Market>>(markets.symbols);
     }
 
-    public new async Task<Ticker> GetTickerAsync(string symbol, string quoteSymbol)
+    public new async Task<Ticker?> GetTickerAsync(string symbol, string quoteSymbol)
     {
         var request = new BinanceRequestTicker(symbol, quoteSymbol);
         var response = await SendAsync<BinanceResponseTicker>(request);
@@ -46,15 +46,15 @@ public class BinanceExchange : BinanceExchangeRaw, IExchange
 
     public new async Task<IEnumerable<Balance>> GetBalancesAsync()
     {
-        var response = await base.GetBalancesAsync();
-        var account = JsonConvert.DeserializeObject<BinanceResponseAccount>(response);
+        var request = new BinanceRequestBalance(Timestamp, Options.Credentials);
+        var account = await SendAsync<BinanceResponseAccount>(request);
         return Map<IEnumerable<Balance>>(account.balances.Where(x => x.free + x.locked > 0));
     }
 
-    public new async Task<Balance> GetBalanceAsync(string symbol)
+    public new async Task<Balance?> GetBalanceAsync(string symbol)
     {
         var balances = await GetBalancesAsync();
-        return balances.FirstOrDefault(x => x.Symbol == symbol);
+        return balances?.FirstOrDefault(x => x.Symbol == symbol);
     }
 
     public new async Task<DateTimeOffset> GetServerTime()
@@ -89,17 +89,27 @@ public class BinanceExchange : BinanceExchangeRaw, IExchange
         var result = new Dictionary<string, IEnumerable<Candle>>();
         foreach (var market in markets)
         {
-            var symbol = market["baseAsset"].Value<string>();
-            var candles = await GetCandlesAsync(symbol, quoteSymbol, interval, limit);
-            result[symbol + quoteSymbol] = candles;
+            string? symbol = market?["baseAsset"]?.Value<string>();
+            if (!String.IsNullOrEmpty(symbol))
+            {
+                var candles = await GetCandlesAsync(symbol, quoteSymbol, interval, limit);
+                result[symbol + quoteSymbol] = candles;
+            }
         }
         return result;
     }
 
-    public new async Task<Order> GetOrder(string symbol, string orderId = null, string clientOrderId = null)
+    public new async Task<Order?> GetOrder(string symbol, string? orderId = null, string? clientOrderId = null)
     {
-        var orderRaw = await base.GetOrder(symbol, orderId, clientOrderId);
-        var order = JsonConvert.DeserializeObject<BinanceResponseOrder>(orderRaw);
+        var param = new
+        {
+            symbol,
+            orderId,
+            clientOrderId,
+            timestamp = Timestamp
+        };
+        var request = new BinanceRequestGetOrder(param, Options.Credentials);
+        var order = await SendAsync<BinanceResponseOrder>(request);
         return Map<Order>(order);
     }
 
@@ -110,20 +120,21 @@ public class BinanceExchange : BinanceExchangeRaw, IExchange
 
     public new async Task<IEnumerable<Order>> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit)
     {
-        var ordersRaw = await base.GetOrders(symbol, quoteSymbol, start, end, limit);
-        var orders = JsonConvert.DeserializeObject<IEnumerable<BinanceResponseOrder>>(ordersRaw);
+        limit = Math.Clamp(limit, 1, 1000);
+        var request = new BinanceRequestOrders(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
+        var orders = await SendAsync<IEnumerable<BinanceResponseOrder>>(request);
         return Map<IEnumerable<Order>>(orders);
     }
 
     public new Task<IEnumerable<Order>> GetOpenOrders()
     {
-        return GetOpenOrders(null, null);
+        return GetOpenOrders(String.Empty, String.Empty);
     }
 
     public new async Task<IEnumerable<Order>> GetOpenOrders(string symbol, string quoteSymbol)
     {
-        var ordersRaw = await base.GetOpenOrders(symbol, quoteSymbol);
-        var orders = JsonConvert.DeserializeObject<IEnumerable<BinanceResponseOrder>>(ordersRaw);
+        var request = new BinanceRequestOpenOrders(symbol, quoteSymbol, Timestamp, Options.Credentials);
+        var orders = await SendAsync<IEnumerable<BinanceResponseOrder>>(request);
         return Map<IEnumerable<Order>>(orders);
     }
 
@@ -139,17 +150,17 @@ public class BinanceExchange : BinanceExchangeRaw, IExchange
         return GroupTrades(trades);
     }
 
-    public new async Task<Order> PostOrder(Order order, bool test = false)
+    public new async Task<Order?> PostOrder(Order order, bool test = false)
     {
         var newOrderJson = await base.PostOrder(order, test);
         var newOrder = JsonConvert.DeserializeObject<BinanceResponseOrder>(newOrderJson);
-        return Map<Order>(newOrder);
+        return newOrder != null ? Map<Order>(newOrder) : null;
     }
 
-    public new async Task<Order> DeleteOrder(Order order)
+    public new async Task<Order?> DeleteOrder(Order order)
     {
         var canceledOrderJson = await base.DeleteOrder(order);
         var canceledOrder = JsonConvert.DeserializeObject<BinanceResponseOrderDelete>(canceledOrderJson);
-        return Map<Order>(canceledOrder);
+        return canceledOrder != null ? Map<Order>(canceledOrder) : null;
     }
 }

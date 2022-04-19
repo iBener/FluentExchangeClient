@@ -1,7 +1,4 @@
-﻿#pragma warning disable CS0649
-
-using System;
-using System.Collections.Generic;
+﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -22,7 +19,7 @@ class BinanceCandleResponse
 
 class BinanceCandleResponeJsonConverter : JsonConverter<BinanceCandleResponse>
 {
-    public override BinanceCandleResponse ReadJson(JsonReader reader, Type objectType, BinanceCandleResponse existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override BinanceCandleResponse ReadJson(JsonReader reader, Type objectType, BinanceCandleResponse? existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
         JArray array = JArray.Load(reader);
         return new BinanceCandleResponse
@@ -38,7 +35,7 @@ class BinanceCandleResponeJsonConverter : JsonConverter<BinanceCandleResponse>
         };
     }
 
-    public override void WriteJson(JsonWriter writer, BinanceCandleResponse value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, BinanceCandleResponse? value, JsonSerializer serializer)
     {
         throw new NotImplementedException("CanWrite is false");
     }

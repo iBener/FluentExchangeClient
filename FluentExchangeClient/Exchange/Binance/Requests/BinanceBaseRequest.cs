@@ -10,13 +10,17 @@ class BinanceBaseRequest : ExchangeRequestBase
 {
     public override Uri BaseAddress => new("https://api.binance.com");
 
-    public BinanceBaseRequest(object param, ApiCredentials credentials)
+    public BinanceBaseRequest(object? param, ApiCredentials? credentials)
     {
         if (param != null)
         {
             foreach (var property in param.GetType().GetProperties())
             {
-                Query.Add(property.Name, property.GetValue(param));
+                object? value = property.GetValue(param);
+                if (value != null)
+                {
+                    Query.Add(property.Name, value);
+                }
             }
         }
         if (credentials != null)
