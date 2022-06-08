@@ -10,7 +10,7 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceFuturesRequestBalance : BinanceBaseFuturesRequest
 {
-    public BinanceFuturesRequestBalance(long timestamp, ApiCredentials credentials) : base(new { timestamp }, credentials)
+    public BinanceFuturesRequestBalance(long timestamp, ApiCredentials? credentials) : base(new { timestamp }, credentials)
     {
         Method = HttpMethod.Get;
         RequestUri = new Uri(BaseAddress, "/fapi/v2/account" + QueryString);

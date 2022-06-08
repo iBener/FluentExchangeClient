@@ -27,18 +27,21 @@ public static class TypeHelper
         };
     }
 
-    public static bool IsNotDefault(object value)
+    public static bool IsNotDefault(object? value)
     {
-        Type type = value?.GetType();
-        if (type == typeof(string))
+        if (value != null)
         {
-            return !String.IsNullOrEmpty(value?.ToString());
+            Type? type = value.GetType();
+            if (type == typeof(string))
+            {
+                return !String.IsNullOrEmpty(value?.ToString());
+            }
+            if (type != null && type.IsValueType)
+            {
+                var defaultValue = Activator.CreateInstance(type);
+                return !value.Equals(defaultValue);
+            }
         }
-        if (type != null && type.IsValueType)
-        {
-            var defaultValue = Activator.CreateInstance(type);
-            return !value.Equals(defaultValue);
-        }
-        return value != null;
+        return false;
     }
 }

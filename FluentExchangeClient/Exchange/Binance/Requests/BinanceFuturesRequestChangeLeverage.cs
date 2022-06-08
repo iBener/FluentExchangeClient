@@ -10,7 +10,7 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceFuturesRequestChangeLeverage : BinanceBaseFuturesRequest
 {
-    public BinanceFuturesRequestChangeLeverage(string symbol, int leverage, long timestamp, ApiCredentials credentials) 
+    public BinanceFuturesRequestChangeLeverage(string symbol, int leverage, long timestamp, ApiCredentials? credentials) 
         : base(new { symbol, leverage, timestamp }, credentials)
     {
         Method = HttpMethod.Post;

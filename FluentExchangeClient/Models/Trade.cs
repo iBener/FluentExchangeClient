@@ -10,6 +10,10 @@ public class Trade
 {
     public Trade()
     {
+        Id = String.Empty;
+        OrderId = String.Empty;
+        Symbol = String.Empty;
+        Side = String.Empty;
         Commissions = new Dictionary<string, decimal>();
         Transactions = new List<TradeTransaction>();
     }

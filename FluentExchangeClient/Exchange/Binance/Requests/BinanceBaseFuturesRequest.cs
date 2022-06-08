@@ -11,7 +11,7 @@ class BinanceBaseFuturesRequest : BinanceBaseRequest
 {
     public override Uri BaseAddress => new("https://fapi.binance.com");
 
-    public BinanceBaseFuturesRequest(object param, ApiCredentials credentials) : base(param, credentials)
+    public BinanceBaseFuturesRequest(object? param = null, ApiCredentials? credentials = null) : base(param, credentials)
     {
     }
 }

@@ -10,7 +10,7 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceRequestPostOrder : BinanceBaseRequest
 {
-    public BinanceRequestPostOrder(object param, ApiCredentials credentials, bool test = false) : base(param, credentials)
+    public BinanceRequestPostOrder(object param, ApiCredentials? credentials, bool test = false) : base(param, credentials)
     {
         string testOrder = test ? "/test" : "";
         Method = HttpMethod.Post;

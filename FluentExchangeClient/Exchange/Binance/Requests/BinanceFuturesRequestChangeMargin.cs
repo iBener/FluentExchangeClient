@@ -10,7 +10,7 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceFuturesRequestChangeMargin : BinanceBaseFuturesRequest
 {
-    public BinanceFuturesRequestChangeMargin(string symbol, string marginType, long timestamp, ApiCredentials credentials)
+    public BinanceFuturesRequestChangeMargin(string symbol, string marginType, long timestamp, ApiCredentials? credentials)
         : base(new { symbol, marginType, timestamp }, credentials)
     {
         Method = HttpMethod.Post;

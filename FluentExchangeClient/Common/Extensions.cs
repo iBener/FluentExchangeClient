@@ -10,13 +10,13 @@ namespace FluentExchangeClient.Common;
 
 public static class Extensions
 {
-    public static void Add(this NameValueCollection query, string name, object value)
+    public static void Add(this NameValueCollection query, string name, object? value)
     {
-        if (TypeHelper.IsNotDefault(value))
+        if (value != null && TypeHelper.IsNotDefault(value))
         {
             if (TypeHelper.IsNumericType(value))
             {
-                string formattedValue = Convert.ToString(value, CultureInfo.InvariantCulture);
+                string? formattedValue = Convert.ToString(value, CultureInfo.InvariantCulture);
                 query.Add(name, formattedValue);
             }
             else

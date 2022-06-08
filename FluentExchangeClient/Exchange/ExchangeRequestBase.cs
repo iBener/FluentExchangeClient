@@ -14,7 +14,7 @@ abstract class ExchangeRequestBase : HttpRequestMessage
 
     public NameValueCollection Query { get; }
 
-    public string QueryString => Query.Count > 0 ? "?" + Query.ToString() : "";
+    public string QueryString => Query.Count > 0 ? $"?{Query}" : "";
 
     public ExchangeRequestBase()
     {
@@ -23,8 +23,13 @@ abstract class ExchangeRequestBase : HttpRequestMessage
 
     public string Sign(HMAC hmac)
     {
-        var messageBytes = Encoding.UTF8.GetBytes(Query.ToString());
-        var computedHash = hmac.ComputeHash(messageBytes);
-        return BitConverter.ToString(computedHash).Replace("-", "").ToLower();
+        string? query = Query.ToString();
+        if (!String.IsNullOrEmpty(query))
+        {
+            var messageBytes = Encoding.UTF8.GetBytes(query);
+            var computedHash = hmac.ComputeHash(messageBytes);
+            return BitConverter.ToString(computedHash).Replace("-", "").ToLower();
+        }
+        return String.Empty;
     }
 }

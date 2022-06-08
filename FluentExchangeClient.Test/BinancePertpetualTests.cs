@@ -40,6 +40,8 @@ public class BinancePertpetualTests
     {
         var market = await binancePerpetual.GetMarketAsync("BTC", "USDT");
         Assert.IsNotNull(market);
+        Assert.AreEqual("BTC", market.Base);
+        Assert.AreEqual("USDT", market.Quote);
     }
 
     [Test]
@@ -47,6 +49,16 @@ public class BinancePertpetualTests
     {
         var candles = await binancePerpetual.GetCandlesAsync("BTC", "USDT", "1d", 7);
         Assert.IsNotNull(candles);
+        Assert.AreEqual(7, candles.Count());
+        DateTimeOffset start = candles.First().Start;
+        foreach (var candle in candles)
+        {
+            Assert.AreEqual("BTC", candle.Base);
+            Assert.AreEqual("USDT", candle.Quote);
+            Assert.AreEqual(start, candle.Start);
+
+            start = start.AddHours(24);
+        }
     }
 
     [Test]
@@ -54,6 +66,8 @@ public class BinancePertpetualTests
     {
         var ticker = await binancePerpetual.GetTickerAsync("BTC", "USDT");
         Assert.IsNotNull(ticker);
+        Assert.AreEqual("BTCUSDT", ticker.Pair);
+        Assert.NotZero(ticker.Price);
     }
 
     [Test]
@@ -137,5 +151,12 @@ public class BinancePertpetualTests
     {
         var response = await binancePerpetual.ChangePositionMarginAsync("BTCUSDT", 10m, Common.ChangePositionMargin.ReduceMargin);
         Assert.IsNotNull(response);
+    }
+
+    [Test]
+    public async Task Test13_GetBalance()
+    {
+        var balance = await binancePerpetual.GetBalancesAsync();
+        Assert.IsNotNull(balance);
     }
 }

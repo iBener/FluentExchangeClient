@@ -1,4 +1,5 @@
 ﻿#pragma warning disable CS0649
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
 using FluentExchangeClient.Mapper;
 using Newtonsoft.Json;
@@ -22,6 +23,10 @@ class BinanceFuturesResponseAccount
     public decimal maxWithdrawAmount;
     [JsonConverter(typeof(UnixMillisecondsTimeConverter))]
     public DateTimeOffset updateTime;
+    public bool canTrade;
+    public bool canDeposit;
+    public bool canWithdraw;
+    public int feeTier;
     public List<BinanceFuturesResponseAccountAssets> assets;
     public List<BinanceFuturesResponseAccountPositions> positions;
 }

@@ -75,8 +75,8 @@ class BinanceSymbolInfoResolver : ITypeConverter<BinanceResponseExchangeInfoSymb
 {
     public Market Convert(BinanceResponseExchangeInfoSymbolInfo source, Market destination, ResolutionContext context)
     {
-        var (priceValue, pricePrecision) = GetFilterValue(source, "PRICE_FILTER", x => x.tickSize ?? 0);
-        var (orderValue, orderPrecision) = GetFilterValue(source, "LOT_SIZE", x => x.stepSize ?? 0);
+        var (priceValue, pricePrecision) = GetFilterValue(source, "PRICE_FILTER", x => x?.tickSize ?? 0);
+        var (orderValue, orderPrecision) = GetFilterValue(source, "LOT_SIZE", x => x?.stepSize ?? 0);
 
         return new Market
         {
@@ -90,9 +90,9 @@ class BinanceSymbolInfoResolver : ITypeConverter<BinanceResponseExchangeInfoSymb
         };
     }
 
-    static (decimal value, int precision) GetFilterValue(BinanceResponseExchangeInfoSymbolInfo source, string filterType, Func<BinanceResponseExchangeInfoSymbolInfoFilterInfo, decimal> func)
+    static (decimal value, int precision) GetFilterValue(BinanceResponseExchangeInfoSymbolInfo source, string filterType, Func<BinanceResponseExchangeInfoSymbolInfoFilterInfo?, decimal> func)
     {
-        var filterInfo = source.filters.FirstOrDefault(f => f.filterType == filterType);
+        var filterInfo = source.filters?.FirstOrDefault(f => f.filterType == filterType);
         var value = func(filterInfo);
         if (value >= 1)
         {
@@ -109,11 +109,11 @@ class BinanceSymbolInfoPrecisionResolver : IValueResolver<BinanceResponseExchang
 {
     public int Resolve(BinanceResponseExchangeInfoSymbolInfo source, Market destination, int destMember, ResolutionContext context)
     {
-        var tickSize = source.filters.FirstOrDefault(f => f.filterType == "PRICE_FILTER").tickSize ?? 0;
-        var parts = tickSize.ToString(CultureInfo.InvariantCulture).Split('.');
-        var result = parts[1][..parts[1].IndexOf('1')].Length + 1;
+        var tickSize = source.filters.FirstOrDefault(f => f.filterType == "PRICE_FILTER")?.tickSize;
+        var parts = tickSize?.ToString(CultureInfo.InvariantCulture).Split('.');
+        var result = parts?[1][..parts[1].IndexOf('1')].Length + 1;
 
-        return result;
+        return result ?? 0;
     }
 }
 
@@ -121,7 +121,7 @@ class BinanceSymbolInfoStepResolver : IValueResolver<BinanceResponseExchangeInfo
 {
     public decimal Resolve(BinanceResponseExchangeInfoSymbolInfo source, Market destination, decimal destMember, ResolutionContext context)
     {
-        var lotSize = source.filters.FirstOrDefault(f => f.filterType == "LOT_SIZE").stepSize ?? 0;
-        return lotSize;
+        var lotSize = source.filters.FirstOrDefault(f => f.filterType == "LOT_SIZE")?.stepSize;
+        return lotSize ?? 0;
     }
 }

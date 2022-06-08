@@ -9,7 +9,7 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceFuturesRequestServerTime : BinanceBaseFuturesRequest
 {
-    public BinanceFuturesRequestServerTime() : base(null, null)
+    public BinanceFuturesRequestServerTime() : base()
     {
         Method = HttpMethod.Get;
         RequestUri = new Uri(BaseAddress, "/fapi/v1/time");

@@ -8,6 +8,17 @@ namespace FluentExchangeClient.Models;
 
 public class Order
 {
+    public Order()
+    {
+        OrderId = String.Empty;
+        ClientOrderId = String.Empty;
+        Symbol = String.Empty;
+        Side = String.Empty;
+        Type = String.Empty;
+        Status = String.Empty;
+        TimeInForce = String.Empty;
+    }
+
     public string OrderId { get; set; }
 
     public string ClientOrderId { get; set; }

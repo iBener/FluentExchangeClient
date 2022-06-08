@@ -10,7 +10,7 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceRequestDeleteOrder : BinanceBaseRequest
 {
-    public BinanceRequestDeleteOrder(object param, ApiCredentials credentials) : base(param, credentials)
+    public BinanceRequestDeleteOrder(object param, ApiCredentials? credentials) : base(param, credentials)
     {
         Method = HttpMethod.Delete;
         RequestUri = new Uri(BaseAddress, $"/api/v3/order{ QueryString }");

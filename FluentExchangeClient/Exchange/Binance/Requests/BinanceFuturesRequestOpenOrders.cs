@@ -10,7 +10,7 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceFuturesRequestOpenOrders : BinanceBaseFuturesRequest
 {
-    public BinanceFuturesRequestOpenOrders(string symbol, string quoteSymbol, long timestamp, ApiCredentials credentials) :
+    public BinanceFuturesRequestOpenOrders(string symbol, string quoteSymbol, long timestamp, ApiCredentials? credentials) :
         base(new { symbol = symbol + quoteSymbol, timestamp }, credentials)
     {
         Method = HttpMethod.Get;

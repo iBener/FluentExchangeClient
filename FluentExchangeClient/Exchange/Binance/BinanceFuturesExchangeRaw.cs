@@ -49,9 +49,22 @@ public class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRa
         return SendAsync(request);
     }
 
-    public Task<IDictionary<string, string>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0)
+    public async Task<IDictionary<string, string>> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0)
     {
-        throw new NotImplementedException();
+        var marketsJson = await GetMarketsAsync();
+        var markets = JObject.Parse(marketsJson).SelectTokens($"$.symbols[?(@.quoteAsset == '{quoteSymbol}')]");
+        var result = new Dictionary<string, string>();
+        foreach (var market in markets)
+        {
+            string? symbol = market?["baseAsset"]?.Value<string>();
+            if (symbol != null)
+            {
+                var request = new BinanceFuturesRequestCandle(symbol, quoteSymbol, interval, limit);
+                string? candles = await SendAsync(request);
+                result[symbol + quoteSymbol] = candles;
+            }
+        }
+        return result;
     }
 
     public async Task<string> GetBalanceAsync(string symbol)
@@ -73,9 +86,11 @@ public class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRa
         return SendAsync(request);
     }
 
-    public Task<string> GetMarketAsync(string symbol, string quoteSymbol)
+    public async Task<string> GetMarketAsync(string symbol, string quoteSymbol)
     {
-        throw new NotImplementedException();
+        var response = await GetMarketsAsync();
+        var market = JObject.Parse(response).SelectToken($"$.symbols[?(@.symbol == '{symbol + quoteSymbol}')]");
+        return JsonConvert.SerializeObject(market);
     }
 
     public Task<string> GetMarketsAsync()
@@ -134,7 +149,8 @@ public class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRa
 
     public Task<string> GetTickersAsync()
     {
-        throw new NotImplementedException();
+        var request = new BinanceFuturesRequestTicker();
+        return SendAsync(request);
     }
 
     public Task<string> GetTrades(string symbol, string quoteSymbol, int limit = 0)

@@ -10,9 +10,9 @@ namespace FluentExchangeClient;
 
 public interface IFuturesExchange : IExchange, IFuturesExchangeRaw
 {
-    new Task<Leverage> ChangeLeverage(string symbol, int leverage);
+    new Task<Leverage?> ChangeLeverage(string symbol, int leverage);
 
-    new Task<Response> ChangeMarginTypeAsync(string symbol, string marginType);
+    new Task<Response?> ChangeMarginTypeAsync(string symbol, string marginType);
 
-    new Task<Response> ChangePositionMarginAsync(string symbol, decimal amount, ChangePositionMargin type);
+    new Task<Response?> ChangePositionMarginAsync(string symbol, decimal amount, ChangePositionMargin type);
 }

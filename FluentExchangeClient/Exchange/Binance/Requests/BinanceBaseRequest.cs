@@ -23,10 +23,10 @@ class BinanceBaseRequest : ExchangeRequestBase
                 }
             }
         }
-        if (credentials != null)
+        if (credentials?.Hash != null && !String.IsNullOrEmpty(credentials?.ApiKey))
         {
-            Headers.Add("X-MBX-APIKEY", credentials.ApiKey);
             Query.Add("signature", Sign(credentials.Hash));
+            Headers.Add("X-MBX-APIKEY", credentials.ApiKey);
         }
     }
 }

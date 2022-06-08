@@ -42,45 +42,47 @@ public abstract class BinanceExchangeBase : ExchangeBase
         }
     }
 
-    internal IEnumerable<Trade> GroupTrades(IEnumerable<BinanceResponseTrade>? trades)
+    internal IEnumerable<Trade>? GroupTrades(IEnumerable<BinanceResponseTrade>? trades)
     {
+        if (trades == null)
+        {
+            return null;
+        }
+
         var result = new List<Trade>();
         var orders = new Dictionary<string, Trade>();
-        if (trades != null)
+        foreach (var tradeResponse in trades)
         {
-            foreach (var tradeResponse in trades)
+            var trade = Map<Trade>(tradeResponse);
+            if (trade == null)
             {
-                var trade = Map<Trade>(tradeResponse);
-                if (trade == null)
+                continue;
+            }
+            if (!orders.ContainsKey(trade.OrderId))
+            {
+                trade.Commissions.Add(tradeResponse.commissionAsset, tradeResponse.commission);
+                ((List<TradeTransaction>)trade.Transactions)
+                    .Add(new TradeTransaction { Quantity = trade.Quantity, QuoteQuantity = trade.QuoteQuantity, Time = trade.Time });
+                result.Add(trade);
+                orders.Add(trade.OrderId, trade);
+            }
+            else
+            {
+                var mainTrade = orders[trade.OrderId];
+                if (!mainTrade.Commissions.ContainsKey(tradeResponse.commissionAsset))
                 {
-                    continue;
-                }
-                if (!orders.ContainsKey(trade.OrderId))
-                {
-                    trade.Commissions.Add(tradeResponse.commissionAsset, tradeResponse.commission);
-                    ((List<TradeTransaction>)trade.Transactions)
-                        .Add(new TradeTransaction { Quantity = trade.Quantity, QuoteQuantity = trade.QuoteQuantity, Time = trade.Time });
-                    result.Add(trade);
-                    orders.Add(trade.OrderId, trade);
+                    mainTrade.Commissions.Add(tradeResponse.commissionAsset, tradeResponse.commission);
                 }
                 else
                 {
-                    var mainTrade = orders[trade.OrderId];
-                    if (!mainTrade.Commissions.ContainsKey(tradeResponse.commissionAsset))
-                    {
-                        mainTrade.Commissions.Add(tradeResponse.commissionAsset, tradeResponse.commission);
-                    }
-                    else
-                    {
-                        mainTrade.Time = trade.Time;
-                        mainTrade.Quantity += trade.Quantity;
-                        mainTrade.QuoteQuantity += trade.QuoteQuantity;
-                        mainTrade.Commissions[tradeResponse.commissionAsset] += tradeResponse.commission;
-                        ((List<TradeTransaction>)mainTrade.Transactions)
-                            .Add(new TradeTransaction { Quantity = trade.Quantity, QuoteQuantity = trade.QuoteQuantity, Time = trade.Time });
-                    }
+                    mainTrade.Time = trade.Time;
+                    mainTrade.Quantity += trade.Quantity;
+                    mainTrade.QuoteQuantity += trade.QuoteQuantity;
+                    mainTrade.Commissions[tradeResponse.commissionAsset] += tradeResponse.commission;
+                    ((List<TradeTransaction>)mainTrade.Transactions)
+                        .Add(new TradeTransaction { Quantity = trade.Quantity, QuoteQuantity = trade.QuoteQuantity, Time = trade.Time });
                 }
-            } 
+            }
         }
         return result;
     }
