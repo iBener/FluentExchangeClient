@@ -14,6 +14,8 @@ public class BinancePertpetualTests
 {
     IFuturesExchange binancePerpetual;
 
+    string clientOrderId;
+
     [SetUp]
     public void Setup()
     {
@@ -80,10 +82,10 @@ public class BinancePertpetualTests
     [Test]
     public async Task Test05_PostOrder()
     {
-        var newId = Guid.NewGuid().ToString();
+        clientOrderId = Guid.NewGuid().ToString();
         var order = new Order
         {
-            ClientOrderId = newId,
+            ClientOrderId = clientOrderId,
             Symbol = "BTCUSDT",
             Side = "BUY",
             Type = "LIMIT",
@@ -95,8 +97,9 @@ public class BinancePertpetualTests
         Assert.IsNotNull(newOrder);
         if (newOrder != null)
         {
-            Assert.AreEqual(order.ClientOrderId, newId);
+            Assert.AreEqual(order.ClientOrderId, clientOrderId);
         }
+        Console.WriteLine($"clientOrderId: {clientOrderId}");
     }
 
     [Test]
@@ -109,9 +112,13 @@ public class BinancePertpetualTests
     [Test]
     public async Task Test07_DeleteOrder()
     {
+        if (String.IsNullOrEmpty(clientOrderId))
+        {
+            Assert.Warn("There is no posted TEST order");
+        }
         //await Test5_PostOrder();
         var orders = await binancePerpetual.GetOpenOrders();
-        foreach (var order in orders)
+        foreach (var order in orders.Where(x => x.ClientOrderId == clientOrderId))
         {
             var deleted = await binancePerpetual.DeleteOrder(order);
             Assert.AreEqual(deleted.Status, "CANCELED");
@@ -140,16 +147,16 @@ public class BinancePertpetualTests
     }
 
     [Test]
-    public async Task Test11_ChangeMargin()
+    public async Task Test11_ChangeMarginType()
     {
-        var response = await binancePerpetual.ChangeMarginTypeAsync("BTCUSDT", "ISOLATED");
+        var response = await binancePerpetual.ChangeMarginTypeAsync("BTCUSDT", "ISOLATED"); // ISOLATED - CROSSED
         Assert.IsNotNull(response);
     }
 
     [Test]
     public async Task Test12_ChangePositionMargin()
     {
-        var response = await binancePerpetual.ChangePositionMarginAsync("BTCUSDT", 10m, Common.ChangePositionMargin.ReduceMargin);
+        var response = await binancePerpetual.ChangePositionMarginAsync("BTCUSDT", 1m, Common.ChangePositionMargin.AddMargin);
         Assert.IsNotNull(response);
     }
 
