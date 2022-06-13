@@ -56,8 +56,12 @@ public abstract class ExchangeBase : IDisposable
 
     public abstract Task<string> GetServerTime();
 
-    internal T Map<T>(object source)
+    internal T? Map<T>(object? source)
     {
+        if (source == null)
+        {
+            return default;
+        }
         return mapper.Map<T>(source);
     }
 
