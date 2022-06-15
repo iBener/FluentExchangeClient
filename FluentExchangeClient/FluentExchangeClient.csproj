@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Version>0.0.2-alpha1</Version>
+    <Version>0.1.0-preview</Version>
     <Authors>İbrahim Bener</Authors>
     <RepositoryUrl>https://github.com/iBener/FluentExchangeClient</RepositoryUrl>
     <PackageTags>exchange;exchange client;bitcoin;crypto;cryptocurrency;fluent;binance</PackageTags>
