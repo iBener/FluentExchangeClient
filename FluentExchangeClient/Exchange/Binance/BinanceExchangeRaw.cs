@@ -157,6 +157,7 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
             timeInForce = order.TimeInForce,
             newClientOrderId = order.ClientOrderId,
             timestamp = Timestamp,
+            closePosition = order.ClosePosition
         };
     }
 
@@ -170,5 +171,16 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
             timestamp = Timestamp
         }, Options.Credentials);
         return SendAsync(request);
+    }
+
+    public Task<string> ClosePosition(string symbol)
+    {
+
+        throw new NotImplementedException();
+    }
+
+    public Task<string> OrderBook(string symbol, string quoteSymbol, int limit = 0)
+    {
+        throw new NotImplementedException();
     }
 }

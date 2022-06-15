@@ -192,4 +192,14 @@ public class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRa
             timestamp = Timestamp,
         };
     }
+
+    public Task<string> ClosePosition(string symbol)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<string> OrderBook(string symbol, string quoteSymbol, int limit = 0)
+    {
+        throw new NotImplementedException();
+    }
 }

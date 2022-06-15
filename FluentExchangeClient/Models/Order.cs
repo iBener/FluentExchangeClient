@@ -42,4 +42,6 @@ public class Order
     public DateTime TransactionTime { get; set; }
 
     public string TimeInForce { get; set; }
+
+    public bool ClosePosition { get; set; }
 }

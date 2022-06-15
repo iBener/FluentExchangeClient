@@ -44,4 +44,8 @@ public interface IExchangeRaw
     Task<string> PostOrder(Order order, bool test = false);
 
     Task<string> DeleteOrder(Order order);
+
+    Task<string> ClosePosition(string symbol);
+
+    Task<string> OrderBook(string symbol, string quoteSymbol, int limit = 0);
 }
