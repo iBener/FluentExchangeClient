@@ -8,11 +8,13 @@ using System.Web;
 
 namespace FluentExchangeClient.Exchange;
 
-abstract class ExchangeRequestBase : HttpRequestMessage
+public abstract class ExchangeRequestBase : HttpRequestMessage
 {
     public abstract Uri BaseAddress { get; }
 
     public NameValueCollection Query { get; }
+
+    public virtual int Weight { get; } = 1;
 
     public string QueryString => Query.Count > 0 ? $"?{Query}" : "";
 

@@ -97,7 +97,7 @@ public class BinancePertpetualTests
         Assert.IsNotNull(newOrder);
         if (newOrder != null)
         {
-            Assert.AreEqual(order.ClientOrderId, clientOrderId);
+            Assert.AreEqual(clientOrderId, newOrder.ClientOrderId);
         }
         Console.WriteLine($"clientOrderId: {clientOrderId}");
     }
@@ -121,7 +121,7 @@ public class BinancePertpetualTests
         foreach (var order in orders.Where(x => x.ClientOrderId == clientOrderId))
         {
             var deleted = await binancePerpetual.DeleteOrder(order);
-            Assert.AreEqual(deleted.Status, "CANCELED");
+            Assert.AreEqual("CANCELED", deleted.Status);
         }
     }
 

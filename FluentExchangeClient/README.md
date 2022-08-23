@@ -1,2 +1,2 @@
 ﻿#### TODO:
-* Could be cashing mechanism (consider GetMarketsAsync method)
+* Could be caching mechanism (IMemoryCache)
