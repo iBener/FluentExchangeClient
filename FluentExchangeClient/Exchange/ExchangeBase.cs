@@ -15,14 +15,12 @@ public abstract class ExchangeBase : IDisposable
 {
     private readonly HttpClient http;
     private readonly IMapper mapper;
-    private readonly RequestLimiter limiter;
 
     internal ExchangeBase(ExchangeOptions options)
     {
         Options = options;
         http = Options.Http ?? new HttpClient();
         mapper = Options.Mapper ?? throw new ArgumentNullException(nameof(Options.Mapper), "Mapper cannot be null");
-        limiter = new(1200);
     }
 
     public ExchangeOptions Options { get; }
@@ -30,6 +28,8 @@ public abstract class ExchangeBase : IDisposable
     public string Name => Options?.ExchangeName ?? String.Empty;
 
     public virtual long Timestamp { get; set; }
+
+    protected virtual IRequestLimiter? Limiter { get; }
 
     protected async Task<T> SendAsync<T>(ExchangeRequestBase request)
     {
@@ -46,7 +46,10 @@ public abstract class ExchangeBase : IDisposable
     {
         using (request)
         {
-            await limiter.CheckRequestLimit(request.Weight);
+            if (Limiter is not null)
+            {
+                await Limiter.WaitRequestLimit(request.Weight);
+            }
             using var response = await http.SendAsync(request);
             string json = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)

@@ -14,7 +14,10 @@ public abstract class BinanceExchangeBase : ExchangeBase
 {
     internal BinanceExchangeBase(ExchangeOptions options) : base(options)
     {
+        Limiter = new BinanceRequestLimiter(1200);
     }
+
+    protected override IRequestLimiter? Limiter { get; }
 
     private static double? serverTimeDiff = null;
 
