@@ -102,7 +102,7 @@ public class BinanceFuturesExchange : BinanceFuturesExchangeRaw, IFuturesExchang
     {
         var response = await base.GetMarketsAsync();
         var markets = JsonConvert.DeserializeObject<BinanceResponseExchangeInfo>(response);
-        return Map<IEnumerable<Market>>(markets?.symbols);
+        return Map<IEnumerable<Market>>(markets?.symbols.Where(x => x.symbol.Equals(x.pair)));
     }
 
     public new Task<IEnumerable<Order>?> GetOpenOrders()

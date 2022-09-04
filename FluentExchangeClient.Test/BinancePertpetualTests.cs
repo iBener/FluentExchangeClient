@@ -40,10 +40,12 @@ public class BinancePertpetualTests
     [Test]
     public async Task Test01_GetPerpetualMarkets()
     {
-        var market = await binancePerpetual.GetMarketAsync("BTC", "USDT");
-        Assert.IsNotNull(market);
-        Assert.AreEqual("BTC", market.Base);
-        Assert.AreEqual("USDT", market.Quote);
+        //var market = await binancePerpetual.GetMarketAsync("BTC", "USDT");
+        //Assert.IsNotNull(market);
+        //Assert.AreEqual("BTC", market.Base);
+        //Assert.AreEqual("USDT", market.Quote);
+        var markets = await binancePerpetual.GetMarketsAsync();
+        Assert.IsNotNull(markets);
     }
 
     [Test]

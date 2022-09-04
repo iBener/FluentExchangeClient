@@ -14,6 +14,7 @@ class BinanceResponseExchangeInfo
 class BinanceResponseExchangeInfoSymbolInfo
 {
     public string symbol;
+    public string pair;
     public string baseAsset;
     public string quoteAsset;
     public List<BinanceResponseExchangeInfoSymbolInfoFilterInfo> filters;
