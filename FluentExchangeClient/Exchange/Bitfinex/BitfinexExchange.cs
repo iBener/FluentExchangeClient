@@ -58,7 +58,7 @@ public class BitfinexExchange : BitfinexExchangeRaw, IExchange
         throw new NotImplementedException();
     }
 
-    public new Task<Order?> GetOrder(string symbol, string? orderId = null, string? clientOrderId = null)
+    public new Task<Order?> GetOrder(string symbol, string quaoteSymbol, string? orderId = null, string? clientOrderId = null)
     {
         throw new NotImplementedException();
     }

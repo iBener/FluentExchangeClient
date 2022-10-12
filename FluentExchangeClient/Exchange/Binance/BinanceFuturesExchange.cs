@@ -117,9 +117,9 @@ public class BinanceFuturesExchange : BinanceFuturesExchangeRaw, IFuturesExchang
         return Map<IEnumerable<Order>>(orders);
     }
 
-    public new async Task<Order?> GetOrder(string symbol, string? orderId = null, string? clientOrderId = null)
+    public new async Task<Order?> GetOrder(string symbol, string quoteSymbol, string? orderId = null, string? clientOrderId = null)
     {
-        var orderRaw = await base.GetOrder(symbol, orderId, clientOrderId);
+        var orderRaw = await base.GetOrder(symbol, quoteSymbol, orderId, clientOrderId);
         var order = JsonConvert.DeserializeObject<BinanceResponseOrder>(orderRaw);
         return Map<Order>(order);
     }

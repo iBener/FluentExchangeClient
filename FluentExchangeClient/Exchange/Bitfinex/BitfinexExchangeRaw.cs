@@ -59,7 +59,7 @@ namespace FluentExchangeClient.Exchange.Bitfinex
             throw new NotImplementedException();
         }
 
-        public Task<string> GetOrder(string symbol, string? orderId = null, string? clientOrderId = null)
+        public Task<string> GetOrder(string symbol, string quaoteSymbol, string? orderId = null, string? clientOrderId = null)
         {
             throw new NotImplementedException();
         }

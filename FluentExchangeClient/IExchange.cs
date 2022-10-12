@@ -25,7 +25,7 @@ public interface IExchange : IExchangeRaw
 
     new Task<IDictionary<string, IEnumerable<Candle>>?> GetAllCandlesAsync(string quoteSymbol, string interval, int limit = 0);
 
-    new Task<Order?> GetOrder(string symbol, string? orderId = null, string? clientOrderId = null);
+    new Task<Order?> GetOrder(string symbol, string quoteSymbol, string? orderId = null, string? clientOrderId = null);
 
     new Task<IEnumerable<Order>?> GetOrders(string symbol, string quoteSymbol, int limit = 0);
 

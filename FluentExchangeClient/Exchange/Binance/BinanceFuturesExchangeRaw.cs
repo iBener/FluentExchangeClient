@@ -110,11 +110,11 @@ public class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRa
         return SendAsync(request);
     }
 
-    public Task<string> GetOrder(string symbol, string? orderId = null, string? clientOrderId = null)
+    public Task<string> GetOrder(string symbol, string quoteSymbol, string? orderId = null, string? clientOrderId = null)
     {
         var param = new
         {
-            symbol,
+            symbol = $"{symbol}{quoteSymbol}",
             orderId,
             clientOrderId,
             timestamp = Timestamp

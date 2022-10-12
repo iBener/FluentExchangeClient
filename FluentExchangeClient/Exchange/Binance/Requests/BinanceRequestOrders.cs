@@ -21,7 +21,7 @@ class BinanceRequestOrders : BinanceBaseRequest
     {
         return new
         {
-            symbol = symbol + quoteSymbol,
+            symbol = $"{symbol}{quoteSymbol}",
             startTime,
             endTime,
             limit,

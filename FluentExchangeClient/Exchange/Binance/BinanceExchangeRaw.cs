@@ -22,7 +22,7 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
     public async Task<string> GetMarketAsync(string symbol, string quoteSymbol)
     {
         var response = await GetMarketsAsync();
-        var market = JObject.Parse(response).SelectToken($"$.symbols[?(@.symbol == '{symbol + quoteSymbol}')]");
+        var market = JObject.Parse(response).SelectToken($"$.symbols[?(@.symbol == '{symbol}{quoteSymbol}')]");
         return JsonConvert.SerializeObject(market);
     }
 
@@ -81,7 +81,7 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
             {
                 var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
                 string? candles = await SendAsync(request);
-                result[symbol + quoteSymbol] = candles;
+                result[$"{symbol}{quoteSymbol}"] = candles;
             }
         }
         return result;
@@ -121,11 +121,11 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
         return SendAsync(request);
     }
 
-    public Task<string> GetOrder(string symbol, string? orderId = null, string? clientOrderId = null)
+    public Task<string> GetOrder(string symbol, string quoteSymbol, string? orderId = null, string? clientOrderId = null)
     {
         var param = new
         {
-            symbol,
+            symbol = $"{symbol}{quoteSymbol}",
             orderId,
             clientOrderId,
             timestamp = Timestamp
