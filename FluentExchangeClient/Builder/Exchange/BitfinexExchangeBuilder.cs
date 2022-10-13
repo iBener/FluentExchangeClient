@@ -30,12 +30,13 @@ class BitfinexExchangeBuilder : IExchangeBuilder
 
     public IExchange BuildExchange()
     {
-        return new BitfinexExchange(Options);
+        //return new BitfinexExchange(Options);
+        throw new NotImplementedException();
     }
 
     public IExchangeRaw BuildRawExchange()
     {
-        //return new BitfinexExchange(Options);
+        //return new BitfinexExchangeRaw(Options);
         throw new NotImplementedException();
     }
 

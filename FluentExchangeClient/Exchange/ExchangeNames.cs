@@ -16,12 +16,21 @@ public static class ExchangeNames
 
     public const string Poloniex = "Poloniex";
 
+    public const string FTX = "FTX";
+
+    public const string Kraken = "Kraken";
+
+    public const string KuCoin = "KuCoin";
+
     public static string[] List => new[]
     {
         Binance,
         Bitfinex,
         Bittrex,
         Cobinhood,
-        Poloniex
+        Poloniex,
+        FTX,
+        Kraken,
+        KuCoin,
     };
 }
