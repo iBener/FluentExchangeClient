@@ -7,7 +7,7 @@ using FluentExchangeClient.Models;
 
 namespace FluentExchangeClient.Exchange.Bittrex;
 
-class BittrexExchange : ExchangeBase, IExchange
+class BittrexExchange : ExchangeBase //, IExchange
 {
     public BittrexExchange(ExchangeOptions options) : base(options)
     {

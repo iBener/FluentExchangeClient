@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace FluentExchangeClient.Exchange.Binance;
 
-public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
+class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
 {
     public BinanceExchangeRaw(ExchangeOptions options) : base(options)
     {
