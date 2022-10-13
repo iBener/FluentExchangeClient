@@ -12,8 +12,8 @@ class BinanceFuturesRequestCandle : BinanceBaseFuturesRequest
 {
     private readonly int limit;
 
-    public BinanceFuturesRequestCandle(string symbol, string quoteSymbol, string interval, int limit = 500)
-    : base(new { symbol = symbol + quoteSymbol, interval, limit }, null)
+    public BinanceFuturesRequestCandle(string symbol, string quoteSymbol, string interval, int limit, ExchangeOptions options)
+        : base(new { symbol = symbol + quoteSymbol, interval, limit }, options)
     {
         Method = HttpMethod.Get;
         RequestUri = new Uri(BaseAddress, "/fapi/v1/klines" + QueryString);

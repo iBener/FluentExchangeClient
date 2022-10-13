@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,10 +30,17 @@ public class BinancePertpetualTests
         }
         var apiKey = obj["Key"].ToString();
         var apiSecret = obj["Secret"].ToString();
+        var httpClient = new HttpClient();
 
+        // TODO: bu şekilde build edince (örn. changeleverage metodu) patlıyor. kommentli kısımla yapınca çalışıyor (!?)
         binancePerpetual = ExchangeBuilder
-            .UseBinance()
-            .SetCredentials(apiKey, apiSecret)
+            //.UseBinance()
+            //.SetCredentials(apiKey, apiSecret)
+            //.UseFuturesExchange()
+            //.Build();
+            .UseExchange("Binance")
+            .SetCredentials(apiKey ?? String.Empty, apiKey ?? String.Empty)
+            .UseHttp(httpClient)
             .UseFuturesExchange()
             .Build();
     }

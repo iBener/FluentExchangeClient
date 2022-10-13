@@ -1,4 +1,5 @@
 ﻿using FluentExchangeClient.Builder;
+using FluentExchangeClient.Exchange.Binance.Requests;
 using FluentExchangeClient.Exchange.Binance.Responses;
 using FluentExchangeClient.Models;
 using Newtonsoft.Json;
@@ -14,6 +15,7 @@ public abstract class BinanceExchangeBase : ExchangeBase
 {
     internal BinanceExchangeBase(ExchangeOptions options) : base(options)
     {
+        options.Timestamp = Timestamp;
         Limiter = new BinanceRequestLimiter(1200);
     }
 

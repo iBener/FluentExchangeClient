@@ -10,10 +10,9 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceFuturesRequestPostOrder : BinanceBaseFuturesRequest
 {
-    public BinanceFuturesRequestPostOrder(object param, ApiCredentials? credentials, bool test = false) : base(param, credentials)
+    public BinanceFuturesRequestPostOrder(object param, ExchangeOptions options) : base(param, options)
     {
-        string testOrder = test ? "/test" : "";
         Method = HttpMethod.Post;
-        RequestUri = new Uri(BaseAddress, $"/fapi/v1/order{ testOrder }{ QueryString }");
+        RequestUri = new Uri(BaseAddress, $"/fapi/v1/order{ QueryString }");
     }
 }

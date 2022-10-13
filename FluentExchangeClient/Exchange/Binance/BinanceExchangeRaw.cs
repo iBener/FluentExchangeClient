@@ -28,25 +28,25 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> GetMarketsAsync()
     {
-        var request = new BinanceRequestExchangeInfo();
+        var request = new BinanceRequestExchangeInfo(Options);
         return SendAsync(request);
     }
 
     public Task<string> GetTickerAsync(string symbol, string quoteSymbol)
     {
-        var request = new BinanceRequestTicker(symbol, quoteSymbol);
+        var request = new BinanceRequestTicker(symbol, quoteSymbol, Options);
         return SendAsync(request);
     }
 
     public Task<string> GetTickersAsync()
     {
-        var request = new BinanceRequestTicker();
+        var request = new BinanceRequestTicker(Options);
         return SendAsync(request);
     }
 
     public Task<string> GetBalancesAsync()
     {
-        var request = new BinanceRequestBalance(Timestamp, Options.Credentials);
+        var request = new BinanceRequestBalance(Options);
         return SendAsync(request);
     }
 
@@ -59,13 +59,13 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public override Task<string> GetServerTime()
     {
-        var request = new BinanceRequestServerTime();
+        var request = new BinanceRequestServerTime(Options);
         return SendAsync(request);
     }
 
     public Task<string> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0)
     {
-        var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
+        var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit, Options);
         return SendAsync(request);
     }
 
@@ -79,7 +79,7 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
             string? symbol = market?["baseAsset"]?.Value<string>();
             if (symbol != null)
             {
-                var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit);
+                var request = new BinanceRequestCandle(symbol, quoteSymbol, interval, limit, Options);
                 string? candles = await SendAsync(request);
                 result[$"{symbol}{quoteSymbol}"] = candles;
             }
@@ -89,13 +89,13 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> GetOrders(string symbol, string quoteSymbol, int limit = 500)
     {
-        return GetOrders(symbol, quoteSymbol, default, default, limit);
+        return GetOrders(symbol, quoteSymbol, default, default, limit: limit);
     }
 
     public Task<string> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 500)
     {
         limit = Math.Clamp(limit, 1, 1000);
-        var request = new BinanceRequestOrders(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
+        var request = new BinanceRequestOrders(symbol, quoteSymbol, start, end, Timestamp, limit, Options);
         return SendAsync(request);
     }
 
@@ -106,18 +106,18 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> GetOpenOrders(string symbol, string quoteSymbol)
     {
-        var request = new BinanceRequestOpenOrders(symbol, quoteSymbol, Timestamp, Options.Credentials);
+        var request = new BinanceRequestOpenOrders(symbol, quoteSymbol, Options);
         return SendAsync(request);
     }
 
     public Task<string> GetTrades(string symbol, string quoteSymbol, int limit = 500)
     {
-        return GetTrades(symbol, quoteSymbol, default, default, limit);
+        return GetTrades(symbol, quoteSymbol, default, default, limit: limit);
     }
 
     public Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 500)
     {
-        var request = new BinanceRequestTrades(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
+        var request = new BinanceRequestTrades(symbol, quoteSymbol, start, end, Timestamp, limit, Options);
         return SendAsync(request);
     }
 
@@ -130,17 +130,14 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
             clientOrderId,
             timestamp = Timestamp
         };
-        return SendAsync(new BinanceRequestGetOrder(param, Options.Credentials));
+        return SendAsync(new BinanceRequestGetOrder(param, Options));
     }
 
-    public async Task<string> PostOrder(Order order, bool test = false)
+    public async Task<string> PostOrder(Order order)
     {
         var param = CreateParamObject(order);
-        var request = new BinanceRequestPostOrder(param, Options.Credentials, test: test);
-        if (!test)
-        {
-            await SendAsync(request);
-        }
+        var request = new BinanceRequestPostOrder(param, Options);
+        await SendAsync(request);
         return await GetOrder(order.Symbol, order.OrderId, order.ClientOrderId);
     }
 
@@ -163,13 +160,7 @@ public class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> DeleteOrder(Order order)
     {
-        var request = new BinanceRequestDeleteOrder(new
-        {
-            symbol = order.Symbol,
-            orderId = order.OrderId,
-            origClientOrderId = order.ClientOrderId,
-            timestamp = Timestamp
-        }, Options.Credentials);
+        var request = new BinanceRequestDeleteOrder(order.Symbol, order.OrderId, order.ClientOrderId, Options);
         return SendAsync(request);
     }
 

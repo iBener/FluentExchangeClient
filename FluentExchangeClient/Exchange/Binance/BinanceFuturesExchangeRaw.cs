@@ -21,31 +21,25 @@ public class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRa
 
     public Task<string> ChangeLeverage(string symbol, int leverage)
     {
-        var request = new BinanceFuturesRequestChangeLeverage(symbol, leverage, Timestamp, Options.Credentials);
+        var request = new BinanceFuturesRequestChangeLeverage(symbol, leverage, Options);
         return SendAsync(request);
     }
 
     public Task<string> ChangeMarginTypeAsync(string symbol, string marginType)
     {
-        var request = new BinanceFuturesRequestChangeMargin(symbol, marginType, Timestamp, Options.Credentials);
+        var request = new BinanceFuturesRequestChangeMargin(symbol, marginType, Options);
         return SendAsync(request);
     }
 
     public Task<string> ChangePositionMarginAsync(string symbol, decimal amount, ChangePositionMargin type)
     {
-        var request = new BinanceFuturesRequestChangePositionMargin(symbol, amount, (int)type, Timestamp, Options.Credentials);
+        var request = new BinanceFuturesRequestChangePositionMargin(symbol, amount, (int)type, Options);
         return SendAsync(request);
     }
 
     public Task<string> DeleteOrder(Order order)
     {
-        var request = new BinanceFuturesRequestDeleteOrder(new
-        {
-            symbol = order.Symbol,
-            orderId = order.OrderId,
-            origClientOrderId = order.ClientOrderId,
-            timestamp = Timestamp
-        }, Options.Credentials);
+        var request = new BinanceFuturesRequestDeleteOrder(order.Symbol, order.OrderId, order.ClientOrderId, Options);
         return SendAsync(request);
     }
 
@@ -59,7 +53,7 @@ public class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRa
             string? symbol = market?["baseAsset"]?.Value<string>();
             if (symbol != null)
             {
-                var request = new BinanceFuturesRequestCandle(symbol, quoteSymbol, interval, limit);
+                var request = new BinanceFuturesRequestCandle(symbol, quoteSymbol, interval, limit, Options);
                 string? candles = await SendAsync(request);
                 result[symbol + quoteSymbol] = candles;
             }
@@ -76,13 +70,13 @@ public class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRa
 
     public Task<string> GetBalancesAsync()
     {
-        var request = new BinanceFuturesRequestBalance(Timestamp, Options.Credentials);
+        var request = new BinanceFuturesRequestBalance(Options);
         return SendAsync(request);
     }
 
     public Task<string> GetCandlesAsync(string symbol, string quoteSymbol, string interval, int limit = 0)
     {
-        var request = new BinanceFuturesRequestCandle(symbol, quoteSymbol, interval, limit);
+        var request = new BinanceFuturesRequestCandle(symbol, quoteSymbol, interval, limit, Options);
         return SendAsync(request);
     }
 
@@ -95,7 +89,7 @@ public class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRa
 
     public Task<string> GetMarketsAsync()
     {
-        var request = new BinanceFuturesRequestExchangeInfo();
+        var request = new BinanceFuturesRequestExchangeInfo(Options);
         return SendAsync(request);
     }
 
@@ -106,74 +100,63 @@ public class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRa
 
     public Task<string> GetOpenOrders(string symbol, string quoteSymbol)
     {
-        var request = new BinanceFuturesRequestOpenOrders(symbol, quoteSymbol, Timestamp, Options.Credentials);
+        var request = new BinanceFuturesRequestOpenOrders(symbol, quoteSymbol, Options);
         return SendAsync(request);
     }
 
     public Task<string> GetOrder(string symbol, string quoteSymbol, string? orderId = null, string? clientOrderId = null)
     {
-        var param = new
-        {
-            symbol = $"{symbol}{quoteSymbol}",
-            orderId,
-            clientOrderId,
-            timestamp = Timestamp
-        };
-        var request = new BinanceFuturesRequestGetOrder(param, Options.Credentials);
+        var request = new BinanceFuturesRequestGetOrder(symbol, quoteSymbol, orderId, clientOrderId, Options);
         return SendAsync(request);
     }
 
     public Task<string> GetOrders(string symbol, string quoteSymbol, int limit = 0)
     {
-        return GetOrders(symbol, quoteSymbol, default, default, limit);
+        return GetOrders(symbol, quoteSymbol, default, default, limit: limit);
     }
 
     public Task<string> GetOrders(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
     {
-        limit = Math.Clamp(limit, 1, 1000);
-        var request = new BinanceFuturesRequestOrders(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
+        var request = new BinanceFuturesRequestOrders(symbol, quoteSymbol, start, end, limit, Options);
         return SendAsync(request);
     }
 
     public override Task<string> GetServerTime()
     {
-        var request = new BinanceRequestServerTime();
+        var request = new BinanceRequestServerTime(Options);
         return SendAsync(request);
     }
 
     public Task<string> GetTickerAsync(string symbol, string quoteSymbol)
     {
-        var request = new BinanceFuturesRequestTicker(symbol, quoteSymbol);
+        var request = new BinanceFuturesRequestTicker(symbol, quoteSymbol, Options);
         return SendAsync(request);
     }
 
     public Task<string> GetTickersAsync()
     {
-        var request = new BinanceFuturesRequestTicker();
+        var request = new BinanceFuturesRequestTicker(Options);
         return SendAsync(request);
     }
 
     public Task<string> GetTrades(string symbol, string quoteSymbol, int limit = 0)
     {
-        return GetTrades(symbol, quoteSymbol, default, default, limit);
+        return GetTrades(symbol, quoteSymbol, default, default, limit: limit);
     }
 
     public Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
     {
-        var request = new BinanceFuturesRequestTrades(symbol, quoteSymbol, start, end, Timestamp, limit, Options.Credentials);
+        var request = new BinanceFuturesRequestTrades(symbol, quoteSymbol, start, end, limit, Options);
         return SendAsync(request);
     }
 
-    public async Task<string> PostOrder(Order order, bool test = false)
+    public async Task<string> PostOrder(Order order)
     {
         var param = CreateParamObject(order);
-        var request = new BinanceFuturesRequestPostOrder(param, Options.Credentials, test: test);
-        if (!test)
-        {
-            string? result = await SendAsync(request);
-            var resultOrder = JsonConvert.DeserializeObject<BinanceResponseOrder>(result);
-            order.OrderId = resultOrder?.orderId.ToString() ?? String.Empty;
-        }
+        var request = new BinanceFuturesRequestPostOrder(param, Options);
+        string? result = await SendAsync(request);
+        var resultOrder = JsonConvert.DeserializeObject<BinanceResponseOrder>(result);
+        order.OrderId = resultOrder?.orderId.ToString() ?? String.Empty;
         return await GetOrder(order.Symbol, order.OrderId, order.ClientOrderId);
     }
 

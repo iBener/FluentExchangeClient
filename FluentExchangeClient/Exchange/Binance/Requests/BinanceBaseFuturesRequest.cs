@@ -9,9 +9,17 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceBaseFuturesRequest : BinanceBaseRequest
 {
-    public override Uri BaseAddress => new("https://fapi.binance.com");
+    public override Uri BaseAddress { get; }
 
-    public BinanceBaseFuturesRequest(object? param = null, ApiCredentials? credentials = null) : base(param, credentials)
+    public BinanceBaseFuturesRequest(object? param, ExchangeOptions options) : base(param, options)
     {
+        if (options.UseTestServer)
+        {
+            BaseAddress = new("https://testnet.binancefuture.com");
+        }
+        else
+        {
+            BaseAddress = new("https://fapi.binance.com");
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceRequestGetOrder : BinanceBaseRequest
 {
-    public BinanceRequestGetOrder(object param, ApiCredentials? credentials) : base(param, credentials)
+    public BinanceRequestGetOrder(object param, ExchangeOptions options) : base(param, options)
     {
         Method = HttpMethod.Get;
         RequestUri = new Uri(BaseAddress, "/api/v3/order" + QueryString);

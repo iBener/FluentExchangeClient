@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentExchangeClient.Builder;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -9,14 +10,17 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceFuturesRequestTicker : BinanceBaseFuturesRequest
 {
-    private readonly string? _symbol;
 
-    public BinanceFuturesRequestTicker(string? symbol = null, string? quoteSymbol = null) : base(new { symbol = symbol + quoteSymbol }, null)
+    public BinanceFuturesRequestTicker(ExchangeOptions options) : this(String.Empty, String.Empty, options)
+    {
+    }
+
+    public BinanceFuturesRequestTicker(string symbol, string quoteSymbol, ExchangeOptions options) : base(new { symbol = $"{symbol}{quoteSymbol}" }, options)
     {
         Method = HttpMethod.Get;
         RequestUri = new Uri(BaseAddress, "/fapi/v1/ticker/24hr" + QueryString);
-        _symbol = $"{symbol}{quoteSymbol}";
+        Weight = String.IsNullOrEmpty($"{symbol}{quoteSymbol}") ? 40 : 1;
     }
 
-    public override int Weight => String.IsNullOrEmpty(_symbol) ? 40 : 1;
+    public override int Weight { get; }
 }

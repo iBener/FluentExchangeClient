@@ -23,6 +23,11 @@ class PoloniexExchangeBuilder : IExchangeBuilder
         throw new NotImplementedException();
     }
 
+    public void UseTestExchange()
+    {
+        Options.UseTestServer = true;
+    }
+
     public IExchange BuildExchange()
     {
         //return new PoloniexExchange(Options);

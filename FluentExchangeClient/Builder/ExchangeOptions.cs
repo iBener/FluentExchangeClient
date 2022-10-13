@@ -15,6 +15,12 @@ public class ExchangeOptions
     public HttpClient? Http { get; internal set; }
 
     public IMapper? Mapper { get; internal set; }
+
     public bool UseNormalizedSymbols { get; internal set; }
+
     internal SymbolDefinition Symbols { get; set; }
+
+    public bool UseTestServer { get; set; }
+
+    internal long Timestamp { get; set; }
 }

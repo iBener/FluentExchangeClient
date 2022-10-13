@@ -6,6 +6,7 @@ interface IExchangeBuilder
 {
     ExchangeOptions Options { get; }
     void SetCredentials(string apiKey, string apiSecret);
+    void UseTestExchange();
     IExchange BuildExchange();
     IFuturesExchange BuildFuturesExchange();
     IExchangeRaw BuildRawExchange();

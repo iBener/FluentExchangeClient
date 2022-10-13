@@ -23,6 +23,11 @@ class BitfinexExchangeBuilder : IExchangeBuilder
         throw new NotImplementedException();
     }
 
+    public void UseTestExchange()
+    {
+        Options.UseTestServer = true;
+    }
+
     public IExchange BuildExchange()
     {
         return new BitfinexExchange(Options);

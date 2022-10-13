@@ -164,14 +164,14 @@ public class BinanceFuturesExchange : BinanceFuturesExchangeRaw, IFuturesExchang
 
     public new async Task<IEnumerable<Trade>?> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0)
     {
-        var response = await base.GetTrades(symbol, quoteSymbol, start, end, limit);
+        var response = await base.GetTrades(symbol, quoteSymbol, start, end, limit: limit);
         var trades = JsonConvert.DeserializeObject<IEnumerable<BinanceResponseTrade>>(response);
         return GroupTrades(trades);
     }
 
-    public new async Task<Order?> PostOrder(Order order, bool test = false)
+    public new async Task<Order?> PostOrder(Order order)
     {
-        var newOrderJson = await base.PostOrder(order, test);
+        var newOrderJson = await base.PostOrder(order);
         var newOrder = JsonConvert.DeserializeObject<BinanceResponseOrder>(newOrderJson);
         return Map<Order>(newOrder);
     }

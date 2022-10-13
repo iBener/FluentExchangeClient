@@ -10,8 +10,8 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceFuturesRequestChangeMargin : BinanceBaseFuturesRequest
 {
-    public BinanceFuturesRequestChangeMargin(string symbol, string marginType, long timestamp, ApiCredentials? credentials)
-        : base(new { symbol, marginType, timestamp }, credentials)
+    public BinanceFuturesRequestChangeMargin(string symbol, string marginType, ExchangeOptions options)
+        : base(new { symbol, marginType, options.Timestamp }, options)
     {
         Method = HttpMethod.Post;
         RequestUri = new Uri(BaseAddress, "/fapi/v1/marginType" + QueryString);

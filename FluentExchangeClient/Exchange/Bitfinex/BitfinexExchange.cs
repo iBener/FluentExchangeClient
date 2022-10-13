@@ -98,7 +98,7 @@ public class BitfinexExchange : BitfinexExchangeRaw, IExchange
         throw new NotImplementedException();
     }
 
-    public new Task<Order?> PostOrder(Order order, bool test = false)
+    public new Task<Order?> PostOrder(Order order)
     {
         throw new NotImplementedException();
     }

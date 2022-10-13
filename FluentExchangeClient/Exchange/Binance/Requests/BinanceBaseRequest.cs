@@ -8,10 +8,18 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceBaseRequest : ExchangeRequestBase
 {
-    public override Uri BaseAddress => new("https://api.binance.com");
+    public override Uri BaseAddress { get; }
 
-    public BinanceBaseRequest(object? param, ApiCredentials? credentials)
+    public BinanceBaseRequest(object? param, ExchangeOptions options)
     {
+        if (options.UseTestServer)
+        {
+            BaseAddress = new("https://testnet.binance.vision/api");
+        }
+        else
+        {
+            BaseAddress = new("https://api.binance.com");
+        }
         if (param != null)
         {
             foreach (var property in param.GetType().GetProperties())
@@ -23,10 +31,10 @@ class BinanceBaseRequest : ExchangeRequestBase
                 }
             }
         }
-        if (credentials?.Hash != null && !String.IsNullOrEmpty(credentials?.ApiKey))
+        if (options.Credentials?.Hash != null && !String.IsNullOrEmpty(options.Credentials?.ApiKey))
         {
-            Query.Add("signature", Sign(credentials.Hash));
-            Headers.Add("X-MBX-APIKEY", credentials.ApiKey);
+            Query.Add("signature", Sign(options.Credentials.Hash));
+            Headers.Add("X-MBX-APIKEY", options.Credentials.ApiKey);
         }
     }
 }

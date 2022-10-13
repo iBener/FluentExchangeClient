@@ -94,7 +94,7 @@ namespace FluentExchangeClient.Exchange.Bitfinex
             throw new NotImplementedException();
         }
 
-        public Task<string> PostOrder(Order order, bool test = false)
+        public Task<string> PostOrder(Order order)
         {
             throw new NotImplementedException();
         }

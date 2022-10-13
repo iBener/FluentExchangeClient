@@ -10,8 +10,8 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceFuturesRequestOpenOrders : BinanceBaseFuturesRequest
 {
-    public BinanceFuturesRequestOpenOrders(string symbol, string quoteSymbol, long timestamp, ApiCredentials? credentials) :
-        base(new { symbol = symbol + quoteSymbol, timestamp }, credentials)
+    public BinanceFuturesRequestOpenOrders(string symbol, string quoteSymbol, ExchangeOptions options) :
+        base(new { symbol = symbol + quoteSymbol, options.Timestamp }, options)
     {
         Method = HttpMethod.Get;
         RequestUri = new Uri(BaseAddress, "/fapi/v1/openOrders" + QueryString);

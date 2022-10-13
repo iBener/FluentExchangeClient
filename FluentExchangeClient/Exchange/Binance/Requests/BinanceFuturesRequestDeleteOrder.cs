@@ -10,9 +10,21 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceFuturesRequestDeleteOrder : BinanceBaseFuturesRequest
 {
-    public BinanceFuturesRequestDeleteOrder(object param, ApiCredentials? credentials) : base(param, credentials)
+    public BinanceFuturesRequestDeleteOrder(string symbol, string orderId, string origClientOrderId, ExchangeOptions options) :
+        base(CreateParamObject(symbol, orderId, origClientOrderId, options.Timestamp), options)
     {
         Method = HttpMethod.Delete;
         RequestUri = new Uri(BaseAddress, $"/fapi/v1/order{ QueryString }");
+    }
+
+    private static object CreateParamObject(string symbol, string orderId, string origClientOrderId, long timeStamp)
+    {
+        return new
+        {
+            symbol,
+            orderId,
+            origClientOrderId,
+            timeStamp
+        };
     }
 }

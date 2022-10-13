@@ -56,6 +56,12 @@ public class ExchangeBuilderWithOptions
         return this;
     }
 
+    public ExchangeBuilderWithOptions UseTestExchange()
+    {
+        builder.UseTestExchange();
+        return this;
+    }
+
     public IExchange Build()
     {
         return builder.BuildExchange();

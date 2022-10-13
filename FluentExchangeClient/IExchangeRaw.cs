@@ -41,7 +41,7 @@ public interface IExchangeRaw
 
     Task<string> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0);
 
-    Task<string> PostOrder(Order order, bool test = false);
+    Task<string> PostOrder(Order order);
 
     Task<string> DeleteOrder(Order order);
 

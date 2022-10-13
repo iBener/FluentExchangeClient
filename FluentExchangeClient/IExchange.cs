@@ -39,7 +39,7 @@ public interface IExchange : IExchangeRaw
 
     new Task<IEnumerable<Trade>?> GetTrades(string symbol, string quoteSymbol, DateTime start, DateTime end, int limit = 0);
 
-    new Task<Order?> PostOrder(Order order, bool test = false);
+    new Task<Order?> PostOrder(Order order);
 
     new Task<Order?> DeleteOrder(Order order);
 }

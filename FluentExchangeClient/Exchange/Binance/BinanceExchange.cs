@@ -143,9 +143,9 @@ public class BinanceExchange : BinanceExchangeRaw, IExchange
         return GroupTrades(trades);
     }
 
-    public new async Task<Order?> PostOrder(Order order, bool test = false)
+    public new async Task<Order?> PostOrder(Order order)
     {
-        var newOrderJson = await base.PostOrder(order, test);
+        var newOrderJson = await base.PostOrder(order);
         var newOrder = JsonConvert.DeserializeObject<BinanceResponseOrder>(newOrderJson);
         return Map<Order>(newOrder);
     }

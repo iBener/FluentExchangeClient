@@ -30,6 +30,11 @@ class BinanceExchangeBuilder : IExchangeBuilder
         };
     }
 
+    public void UseTestExchange()
+    {
+        Options.UseTestServer = true;
+    }
+
     public IExchange BuildExchange()
     {
         return new BinanceExchange(Options);
