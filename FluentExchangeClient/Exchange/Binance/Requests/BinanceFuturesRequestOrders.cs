@@ -10,8 +10,8 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceFuturesRequestOrders : BinanceBaseFuturesRequest
 {
-    public BinanceFuturesRequestOrders(string symbol, string quoteSymbol, DateTime startTime, DateTime endTime, int limit, ExchangeOptions options) :
-        base(CreateParamObject(symbol, quoteSymbol, startTime, endTime, options.Timestamp, limit), options)
+    public BinanceFuturesRequestOrders(string symbol, string quoteSymbol, DateTime startTime, DateTime endTime, int limit, long timestamp, ExchangeOptions options) :
+        base(CreateParamObject(symbol, quoteSymbol, startTime, endTime, timestamp, limit), options)
     {
         Method = HttpMethod.Get;
         RequestUri = new Uri(BaseAddress, "/fapi/v1/allOrders" + QueryString);
@@ -21,7 +21,7 @@ class BinanceFuturesRequestOrders : BinanceBaseFuturesRequest
     {
         return new
         {
-            symbol = symbol + quoteSymbol,
+            symbol = $"{symbol}{quoteSymbol}",
             startTime,
             endTime,
             limit,

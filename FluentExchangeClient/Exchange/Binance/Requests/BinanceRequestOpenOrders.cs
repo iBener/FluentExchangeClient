@@ -10,8 +10,8 @@ namespace FluentExchangeClient.Exchange.Binance.Requests;
 
 class BinanceRequestOpenOrders : BinanceBaseRequest
 {
-    public BinanceRequestOpenOrders(string? symbol, string? quoteSymbol, ExchangeOptions options) :
-        base(new { symbol = symbol + quoteSymbol, options.Timestamp }, options)
+    public BinanceRequestOpenOrders(string? symbol, string? quoteSymbol, long timestamp, ExchangeOptions options) :
+        base(new { symbol = symbol + quoteSymbol, timestamp }, options)
     {
         Method = HttpMethod.Get;
         RequestUri = new Uri(BaseAddress, "/api/v3/openOrders" + QueryString);

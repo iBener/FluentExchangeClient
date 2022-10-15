@@ -172,8 +172,14 @@ class BinanceFuturesExchange : BinanceFuturesExchangeRaw, IFuturesExchange
     public new async Task<Order?> PostOrder(Order order)
     {
         var newOrderJson = await base.PostOrder(order);
-        var newOrder = JsonConvert.DeserializeObject<BinanceResponseOrder>(newOrderJson);
-        return Map<Order>(newOrder);
+        var orderResponse = JsonConvert.DeserializeObject<BinanceResponseOrder>(newOrderJson);
+        var newOrder = Map<Order>(orderResponse);
+        if (newOrder is not null)
+        {
+            newOrder.Symbol = order.Symbol;
+            newOrder.QuoteSymbol = order.QuoteSymbol;
+        }
+        return newOrder;
     }
 
     public new async Task<Order?> DeleteOrder(Order order)

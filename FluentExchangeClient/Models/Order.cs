@@ -13,6 +13,7 @@ public class Order
         OrderId = String.Empty;
         ClientOrderId = String.Empty;
         Symbol = String.Empty;
+        QuoteSymbol = String.Empty;
         Side = String.Empty;
         Type = String.Empty;
         Status = String.Empty;
@@ -24,6 +25,8 @@ public class Order
     public string ClientOrderId { get; set; }
 
     public string Symbol { get; set; }
+
+    public string QuoteSymbol { get; set; }
 
     public string Side { get; set; }
 

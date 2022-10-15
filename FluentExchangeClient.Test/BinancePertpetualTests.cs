@@ -31,16 +31,22 @@ public class BinancePertpetualTests
         var apiKey = obj["Key"].ToString();
         var apiSecret = obj["Secret"].ToString();
         var httpClient = new HttpClient();
+        var useTestNet = obj["useTestNet"].Value<bool?>();
 
         // TODO: bu şekilde build edince (örn. changeleverage metodu) patlıyor. kommentli kısımla yapınca çalışıyor (!?)
-        binancePerpetual = ExchangeBuilder
+        var builder = ExchangeBuilder
             //.UseBinance()
             //.SetCredentials(apiKey, apiSecret)
             //.UseFuturesExchange()
             //.Build();
             .UseExchange("Binance")
-            .SetCredentials(apiKey ?? String.Empty, apiKey ?? String.Empty)
-            .UseHttp(httpClient)
+            .SetCredentials(apiKey ?? String.Empty, apiSecret ?? String.Empty)
+            .UseHttp(httpClient);
+        if (useTestNet == true)
+        {
+            builder.UseTestExchange();
+        }
+        binancePerpetual = builder
             .UseFuturesExchange()
             .Build();
     }
@@ -96,11 +102,12 @@ public class BinancePertpetualTests
         var order = new Order
         {
             ClientOrderId = clientOrderId,
-            Symbol = "BTCUSDT",
+            Symbol = "BTC",
+            QuoteSymbol = "USDT",
             Side = "BUY",
             Type = "LIMIT",
-            Price = 15000,
-            Quantity = 0.001M,
+            Price = 20000,
+            Quantity = 0.1M,
             TimeInForce = "GTC",
         };
         var newOrder = await binancePerpetual.PostOrder(order);
@@ -159,7 +166,7 @@ public class BinancePertpetualTests
     [Test]
     public async Task Test11_ChangeMarginType()
     {
-        var response = await binancePerpetual.ChangeMarginTypeAsync("BTCUSDT", "ISOLATED"); // ISOLATED - CROSSED
+        var response = await binancePerpetual.ChangeMarginTypeAsync("BTCUSDT", "CROSSED"); // ISOLATED - CROSSED
         Assert.IsNotNull(response);
     }
 

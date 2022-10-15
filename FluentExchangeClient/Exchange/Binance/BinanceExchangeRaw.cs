@@ -46,7 +46,7 @@ class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> GetBalancesAsync()
     {
-        var request = new BinanceRequestBalance(Options);
+        var request = new BinanceRequestBalance(Timestamp, Options);
         return SendAsync(request);
     }
 
@@ -59,7 +59,8 @@ class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public override Task<string> GetServerTime()
     {
-        var request = new BinanceRequestServerTime(Options);
+        var options = new ExchangeOptions { UseTestServer = Options.UseTestServer };
+        var request = new BinanceRequestServerTime(options);
         return SendAsync(request);
     }
 
@@ -106,7 +107,7 @@ class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> GetOpenOrders(string symbol, string quoteSymbol)
     {
-        var request = new BinanceRequestOpenOrders(symbol, quoteSymbol, Options);
+        var request = new BinanceRequestOpenOrders(symbol, quoteSymbol, Timestamp, Options);
         return SendAsync(request);
     }
 
@@ -138,14 +139,14 @@ class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
         var param = CreateParamObject(order);
         var request = new BinanceRequestPostOrder(param, Options);
         await SendAsync(request);
-        return await GetOrder(order.Symbol, order.OrderId, order.ClientOrderId);
+        return await GetOrder(order.Symbol, order.QuoteSymbol, order.OrderId, order.ClientOrderId);
     }
 
     private object CreateParamObject(Order order)
     {
         return new
         {
-            symbol = order.Symbol,
+            symbol = $"{order.Symbol}{order.QuoteSymbol}",
             side = order.Side,
             type = order.Type,
             quantity = order.Quantity,
@@ -160,7 +161,7 @@ class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> DeleteOrder(Order order)
     {
-        var request = new BinanceRequestDeleteOrder(order.Symbol, order.OrderId, order.ClientOrderId, Options);
+        var request = new BinanceRequestDeleteOrder(order.Symbol, order.QuoteSymbol, order.OrderId, order.ClientOrderId, Timestamp, Options);
         return SendAsync(request);
     }
 

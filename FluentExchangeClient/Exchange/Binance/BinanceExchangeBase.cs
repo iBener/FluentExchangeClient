@@ -15,7 +15,6 @@ abstract class BinanceExchangeBase : ExchangeBase
 {
     internal BinanceExchangeBase(ExchangeOptions options) : base(options)
     {
-        options.Timestamp = Timestamp;
         Limiter = new BinanceRequestLimiter(1200);
     }
 

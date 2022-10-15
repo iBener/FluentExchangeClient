@@ -21,6 +21,4 @@ public class ExchangeOptions
     internal SymbolDefinition Symbols { get; set; }
 
     public bool UseTestServer { get; set; }
-
-    internal long Timestamp { get; set; }
 }
