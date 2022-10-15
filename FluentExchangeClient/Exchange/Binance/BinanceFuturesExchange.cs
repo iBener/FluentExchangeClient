@@ -176,8 +176,8 @@ class BinanceFuturesExchange : BinanceFuturesExchangeRaw, IFuturesExchange
         var newOrder = Map<Order>(orderResponse);
         if (newOrder is not null)
         {
-            newOrder.Symbol = order.Symbol;
-            newOrder.QuoteSymbol = order.QuoteSymbol;
+            newOrder.Base = order.Base;
+            newOrder.Quote = order.Quote;
         }
         return newOrder;
     }

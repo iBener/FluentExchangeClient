@@ -14,7 +14,9 @@ class BinanceResponseOrder
     public string symbol;
     public string side;
     public decimal price;
+    public decimal avgPrice;
     public decimal origQty;
+    public decimal cumQuote;
     public decimal executedQty;
     public string type;
     public string status;

@@ -102,8 +102,8 @@ public class BinancePertpetualTests
         var order = new Order
         {
             ClientOrderId = clientOrderId,
-            Symbol = "BTC",
-            QuoteSymbol = "USDT",
+            Base = "BTC",
+            Quote = "USDT",
             Side = "BUY",
             Type = "LIMIT",
             Price = 20000,

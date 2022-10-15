@@ -139,14 +139,14 @@ class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
         var param = CreateParamObject(order);
         var request = new BinanceRequestPostOrder(param, Options);
         await SendAsync(request);
-        return await GetOrder(order.Symbol, order.QuoteSymbol, order.OrderId, order.ClientOrderId);
+        return await GetOrder(order.Base, order.Quote, order.OrderId, order.ClientOrderId);
     }
 
     private object CreateParamObject(Order order)
     {
         return new
         {
-            symbol = $"{order.Symbol}{order.QuoteSymbol}",
+            symbol = $"{order.Base}{order.Quote}",
             side = order.Side,
             type = order.Type,
             quantity = order.Quantity,
@@ -161,7 +161,7 @@ class BinanceExchangeRaw : BinanceExchangeBase, IExchangeRaw
 
     public Task<string> DeleteOrder(Order order)
     {
-        var request = new BinanceRequestDeleteOrder(order.Symbol, order.QuoteSymbol, order.OrderId, order.ClientOrderId, Timestamp, Options);
+        var request = new BinanceRequestDeleteOrder(order.Base, order.Quote, order.OrderId, order.ClientOrderId, Timestamp, Options);
         return SendAsync(request);
     }
 

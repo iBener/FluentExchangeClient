@@ -39,7 +39,7 @@ class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRaw
 
     public Task<string> DeleteOrder(Order order)
     {
-        var request = new BinanceFuturesRequestDeleteOrder(order.Symbol, order.QuoteSymbol, order.OrderId, order.ClientOrderId, Timestamp, Options);
+        var request = new BinanceFuturesRequestDeleteOrder(order.Base, order.Quote, order.OrderId, order.ClientOrderId, Timestamp, Options);
         return SendAsync(request);
     }
 
@@ -158,14 +158,14 @@ class BinanceFuturesExchangeRaw : BinanceExchangeBase, IFuturesExchangeRaw
         string? result = await SendAsync(request);
         var resultOrder = JsonConvert.DeserializeObject<BinanceResponseOrder>(result);
         order.OrderId = resultOrder?.orderId.ToString() ?? String.Empty;
-        return await GetOrder(order.Symbol, order.QuoteSymbol, orderId: order.OrderId, clientOrderId: order.ClientOrderId);
+        return await GetOrder(order.Base, order.Quote, orderId: order.OrderId, clientOrderId: order.ClientOrderId);
     }
 
     private object CreateParamObject(Order order)
     {
         return new
         {
-            symbol = $"{order.Symbol}{order.QuoteSymbol}",
+            symbol = $"{order.Base}{order.Quote}",
             side = order.Side,
             type = order.Type,
             quantity = order.Quantity,

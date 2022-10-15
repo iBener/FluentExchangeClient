@@ -105,7 +105,7 @@ public class BinanceTests
         var order = new Order
         {
             ClientOrderId = newId,
-            Symbol = "BTCUSDT",
+            Base = "BTCUSDT",
             Side = "BUY",
             Type = "LIMIT",
             Price = 35000,
